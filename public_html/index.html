@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EAT UX Challenge</title>
+    <link href="css/css.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper"><a href="#!" class="brand-logo">Logo</a>
+            <ul class="right hide-on-med-and-down">
+              <li><span>Sass</span></li>
+              <li><a href="badges.html">Components</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div id="welcome" class="panel">
+        <h4>Welcome!</h4>
+        <div class="center-align">
+          <p>The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.</p><a id="GetStartButton" class="waves-effect btn">Get Started</a>
+        </div>
+      </div>
+      <div id="general_info" class="panel">
+        <h4>General Information</h4>
+        <div class="center-align">
+          <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.</p><a class="waves-effect btn center nextButton">Got It!           </a>
+        </div>
+      </div>
+      <div id="parent_info" class="panel">
+        <h4>Parent Information</h4>
+        <p>This information will help us reach you quickly if we need to contact you.</p>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="first_name_parent" type="text" class="validate">
+                <label for="first_name_parent">First Name</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="last_name_parent" type="text" class="validate">
+                <label for="last_name_parent">Last Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate">
+                <label for="email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="phone_number" type="tel" class="validate">
+                <label for="phone_number">Phone Number</label>
+              </div>
+            </div>
+            <div class="row">
+              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
+                <input id="street_address" type="text" class="validate">
+                <label for="street_address">Street Address</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="city_address" type="text" class="validate">
+                <label for="city_address">City</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <select>
+                  <option value="" disabled="" selected="">Choose Your State</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="DC">District of Columbia</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="HI">Hawaii</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+                <label>State</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="zip_code" type="text" class="validate">
+                <label for="zip_code">Zip Code</label>
+              </div>
+            </div>
+          </form>
+        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
+      </div>
+      <div id="children_info" class="panel">
+        <h4>Children</h4>
+        <p>Tell us how many infants, children, and school students live in your household. They do NOT have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.</p>
+        <div class="section"><a class="right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
+          <h5>Child 1</h5>
+          <div data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="row has-definition">
+            <div class="input-field col s5">
+              <input id="first_name_c1" type="text" class="validate">
+              <label for="first_name_c1">First Name</label>
+            </div>
+            <div class="input-field col s1">
+              <input id="middle_name_c1" type="text" class="validate">
+              <label for="middle_name_c1">M. I.</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="last_name_c1" type="text" class="validate">
+              <label for="last_name_c1">Last Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s1">&nbsp;</div>
+            <div data-definition="A student is anyone (of any age) attending grades K-12 at any school." class="col s2 has-definition">
+              <input id="student" type="checkbox">
+              <label for="student">Student</label>
+            </div>
+            <div data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application." class="col s2 has-definition">
+              <input id="foster" type="checkbox">
+              <label for="foster">Foster</label>
+            </div>
+            <div data-definition="A child identified by the Local Education Agency (LEA) homeless liaison or by an official of a homeless shelter as lacking a fixed, regular, and adequate nighttime residence." class="col s2 has-definition">
+              <input id="homeless" type="checkbox">
+              <label for="homeless">Homeless</label>
+            </div>
+            <div data-definition="A child identified as a migrant by the State or local Migrant Education Program coordinator or the local educational liaison, or other individual identified by FNS." class="col s2 has-definition">
+              <input id="migrant" type="checkbox">
+              <label for="migrant">Migrant</label>
+            </div>
+            <div data-definition="A child identified as a runaway receiving assistance under a program under the Runaway and Homeless Youth Act, by the local educational liaison, or other individual in accordance with guidance issued by FNS." class="col s2 has-definition">
+              <input id="runaway" type="checkbox">
+              <label for="runaway">Runaway</label>
+            </div>
+            <div class="col s1">&nbsp;</div>
+          </div>
+        </div>
+        <div class="section"><a class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
+          <h5>Add Another Child</h5>
+        </div>
+        <div class="section"><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a></div>
+      </div>
+      <div id="household_info" class="panel">
+        <h4>Household Information</h4>
+        <p>
+          <input id="programs" type="checkbox">
+          <label for="programs">I participate in one of the following programs:<ul class='list'><li>Student Nutrition Assitance Program (SNAP)</li><li>Temporary Assistance for Needy Families (TANF)</li><li>Food Distribution Program on Indian Reservations (FDPIR)</li></label>
+        </p>
+        <p>Please provide a case number for one of these programs, even if you participate in multiple.</p>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="case_number" type="text" class="validate">
+            <label for="case_number">Case Number    </label>
+          </div>
+        </div>
+        <h5>Child Income</h5>
+        <h5>Adult Income</h5><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
+      </div>
+      <div id="panel6" class="panel">
+        <h4>Household Information</h4>
+      </div>
+      <div id="status-card" class="card-panel teal lighten-1"><span class="white-text"></span></div>
+    </main>
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Footer Content</h5>
+            <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

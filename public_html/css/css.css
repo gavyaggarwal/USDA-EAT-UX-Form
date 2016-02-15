@@ -1,0 +1,55 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  background: #EEEEEE;
+}
+
+main {
+  flex: 1 0 auto;
+  white-space: nowrap;
+  overflow-x: hidden;
+  padding: 0px calc(50% - 360px);
+}
+
+footer {
+
+}
+
+.panel {
+    display: none;
+    margin: 10px;
+    padding: 10px;
+    width: 700px;
+    vertical-align: text-top;
+    opacity: 0;
+    white-space: normal;
+    z-index: 5;
+}
+
+.panel:nth-of-type(1) {
+    display:inline-block;
+    opacity: 1;
+}
+
+#status-card {
+    width: 300px;
+    white-space: normal;
+    position: fixed;
+    right: 20px;
+    top: 80px;
+    opacity: 0;
+    z-index: 100;
+}
+
+ul.list {
+    list-style-type: disc;
+    margin-top: 1em;
+    margin-left: 1em;
+}
+
+ul.list li {
+    list-style-type: disc;
+    display: list-item;
+}

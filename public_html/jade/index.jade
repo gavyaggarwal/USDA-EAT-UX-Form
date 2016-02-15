@@ -1,0 +1,195 @@
+doctype html
+html(lang="en")
+  head
+    title EAT UX Challenge
+    link(href='css/css.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(href='css/materialize.css', rel='stylesheet')
+    script(src='js/jquery.min.js')
+    script(src='js/materialize.min.js')
+    script(src='js/main.js')
+  body
+    header
+        .navbar-fixed
+            nav
+                .nav-wrapper
+                    a.brand-logo(href='#!') Logo
+                    ul.right.hide-on-med-and-down
+                        li
+                            span Sass
+                        li
+                            a(href='badges.html') Components
+    main
+        .panel#welcome
+            h4 Welcome!
+            .center-align
+                p The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.
+                a.waves-effect.btn#GetStartButton Get Started
+        .panel#general_info
+            h4 General Information
+            .center-align
+                p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.
+                a.waves-effect.btn.center.nextButton Got It!           
+        .panel#parent_info
+            h4 Parent Information
+            p This information will help us reach you quickly if we need to contact you.
+            .row
+              form.col.s12
+                .row
+                  .input-field.col.s6
+                    input#first_name_parent.validate(type='text')
+                    label(for='first_name_parent') First Name
+                  .input-field.col.s6
+                    input#last_name_parent.validate(type='text')
+                    label(for='last_name_parent') Last Name
+                .row
+                  .input-field.col.s12
+                    input#email.validate(type='email')
+                    label(for='email') Email
+                .row
+                  .input-field.col.s12
+                    input#phone_number.validate(type='tel')
+                    label(for='phone_number') Phone Number
+                .row
+                  .input-field.col.s6.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
+                    input#street_address.validate(type='text')
+                    label(for='street_address') Street Address
+                  .input-field.col.s6
+                    input#city_address.validate(type='text')
+                    label(for='city_address') City
+                .row
+                  .input-field.col.s6
+                    select
+                      option(value='', disabled='', selected='') Choose Your State
+                      option(value='AL') Alabama
+                      option(value='AK') Alaska
+                      option(value='AZ') Arizona
+                      option(value='AR') Arkansas
+                      option(value='CA') California
+                      option(value='CO') Colorado
+                      option(value='CT') Connecticut
+                      option(value='DE') Delaware
+                      option(value='DC') District of Columbia
+                      option(value='FL') Florida
+                      option(value='GA') Georgia
+                      option(value='HI') Hawaii
+                      option(value='ID') Idaho
+                      option(value='IL') Illinois
+                      option(value='IN') Indiana
+                      option(value='IA') Iowa
+                      option(value='KS') Kansas
+                      option(value='KY') Kentucky
+                      option(value='LA') Louisiana
+                      option(value='ME') Maine
+                      option(value='MD') Maryland
+                      option(value='MA') Massachusetts
+                      option(value='MI') Michigan
+                      option(value='MN') Minnesota
+                      option(value='MS') Mississippi
+                      option(value='MO') Missouri
+                      option(value='MT') Montana
+                      option(value='NE') Nebraska
+                      option(value='NV') Nevada
+                      option(value='NH') New Hampshire
+                      option(value='NJ') New Jersey
+                      option(value='NM') New Mexico
+                      option(value='NY') New York
+                      option(value='NC') North Carolina
+                      option(value='ND') North Dakota
+                      option(value='OH') Ohio
+                      option(value='OK') Oklahoma
+                      option(value='OR') Oregon
+                      option(value='PA') Pennsylvania
+                      option(value='RI') Rhode Island
+                      option(value='SC') South Carolina
+                      option(value='SD') South Dakota
+                      option(value='TN') Tennessee
+                      option(value='TX') Texas
+                      option(value='UT') Utah
+                      option(value='VT') Vermont
+                      option(value='VA') Virginia
+                      option(value='WA') Washington
+                      option(value='WV') West Virginia
+                      option(value='WI') Wisconsin
+                      option(value='WY') Wyoming
+                    label State
+                  .input-field.col.s6
+                    input#zip_code.validate(type='text')
+                    label(for='zip_code') Zip Code
+
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right.nextButton Next
+        .panel#children_info
+            h4 Children
+            p Tell us how many infants, children, and school students live in your household. They do NOT have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
+            .section
+                a.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
+                    i.material-icons remove
+                h5 Child 1
+                .row.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>")
+                  .input-field.col.s5
+                    input#first_name_c1.validate(type='text')
+                    label(for='first_name_c1') First Name
+                  .input-field.col.s1
+                    input#middle_name_c1.validate(type='text')
+                    label(for='middle_name_c1') M. I.
+                  .input-field.col.s6
+                    input#last_name_c1.validate(type='text')
+                    label(for='last_name_c1') Last Name
+                .row
+                    .col.s1 &nbsp;
+                    .col.s2.has-definition(data-definition="A student is anyone (of any age) attending grades K-12 at any school.")
+                      input#student(type='checkbox')
+                      label(for='student') Student
+                    .col.s2.has-definition(data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application.")
+                      input#foster(type='checkbox')
+                      label(for='foster') Foster
+                    .col.s2.has-definition(data-definition="A child identified by the Local Education Agency (LEA) homeless liaison or by an official of a homeless shelter as lacking a fixed, regular, and adequate nighttime residence.")
+                      input#homeless(type='checkbox')
+                      label(for='homeless') Homeless
+                    .col.s2.has-definition(data-definition="A child identified as a migrant by the State or local Migrant Education Program coordinator or the local educational liaison, or other individual identified by FNS.")
+                      input#migrant(type='checkbox')
+                      label(for='migrant') Migrant
+                    .col.s2.has-definition(data-definition="A child identified as a runaway receiving assistance under a program under the Runaway and Homeless Youth Act, by the local educational liaison, or other individual in accordance with guidance issued by FNS.")
+                      input#runaway(type='checkbox')
+                      label(for='runaway') Runaway
+                    .col.s1 &nbsp;
+            .section
+                a.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
+                    i.material-icons add
+                h5 Add Another Child
+            .section
+                a.waves-effect.btn.left.backButton Back
+                a.waves-effect.btn.right.nextButton Next
+        .panel#household_info
+            h4 Household Information
+            p 
+                input#programs(type='checkbox')
+                label(for='programs') I participate in one of the following programs:<ul class='list'><li>Student Nutrition Assitance Program (SNAP)</li><li>Temporary Assistance for Needy Families (TANF)</li><li>Food Distribution Program on Indian Reservations (FDPIR)</li>
+            
+            p Please provide a case number for one of these programs, even if you participate in multiple.
+            .row
+              .input-field.col.s12
+                input#case_number.validate(type='text')
+                label(for='case_number') Case Number    
+                
+            h5 Child Income
+            h5 Adult Income
+
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right.nextButton Next
+        .panel#panel6
+            h4 Household Information
+            
+        #status-card.card-panel.teal.lighten-1
+          span.white-text
+    footer.page-footer
+      .container
+        .row
+          .col.l6.s12
+            h5.white-text Footer Content
+            p.grey-text.text-lighten-4 You can use rows and columns here to organize your footer content.
+          .col.l4.offset-l2.s12
+            h5.white-text Links
+            ul
+              li
