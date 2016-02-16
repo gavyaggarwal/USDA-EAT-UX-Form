@@ -7,7 +7,7 @@ ftpd = require('ftpd');
 moment = require('moment')
 
 # Ports to use for web and ftp servers
-webPort = 3000
+webPort = process.env.PORT | 3000
 ftpPort = 2100
 
 # Default username and password for FTP access to PDFs of form submissions
@@ -124,5 +124,11 @@ ftpServer.on 'client:connected', (connection) ->
 # Start Web and FTP Server
 webServer.listen webPort
 ftpServer.listen ftpPort
-console.log 'Web Server Listening on port ' + webPort
-console.log 'FTP Server Listening on port ' + ftpPort
+try
+    console.log 'Web Server Listening on port ' + webPort
+catch error
+    console.log 'Unable to Run Web Server'
+try
+    console.log 'FTP Server Listening on port ' + ftpPort
+catch error
+      console.log 'Unable to Run FTP Server'
