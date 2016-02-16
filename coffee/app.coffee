@@ -122,13 +122,13 @@ ftpServer.on 'client:connected', (connection) ->
             failure()
 
 # Start Web and FTP Server
-webServer.listen webPort
-ftpServer.listen ftpPort
 try
+    webServer.listen webPort
     console.log 'Web Server Listening on port ' + webPort
 catch error
     console.log 'Unable to Run Web Server'
 try
+    ftpServer.listen ftpPort
     console.log 'FTP Server Listening on port ' + ftpPort
 catch error
       console.log 'Unable to Run FTP Server'

@@ -145,11 +145,8 @@ ftpServer.on('client:connected', function(connection) {
   });
 });
 
-webServer.listen(webPort);
-
-ftpServer.listen(ftpPort);
-
 try {
+  webServer.listen(webPort);
   console.log('Web Server Listening on port ' + webPort);
 } catch (_error) {
   error = _error;
@@ -157,6 +154,7 @@ try {
 }
 
 try {
+  ftpServer.listen(ftpPort);
   console.log('FTP Server Listening on port ' + ftpPort);
 } catch (_error) {
   error = _error;
