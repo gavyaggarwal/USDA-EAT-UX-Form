@@ -126,9 +126,9 @@ try
     webServer.listen webPort
     console.log 'Web Server Listening on port ' + webPort
 catch error
-    console.log 'Unable to Run Web Server'
+    console.log 'Unable to Run Web Server: ' + error
 try
-    ftpServer.listen ftpPort
+    #ftpServer.listen ftpPort
     console.log 'FTP Server Listening on port ' + ftpPort
 catch error
-      console.log 'Unable to Run FTP Server'
+      console.log 'Unable to Run FTP Server: ' + error
