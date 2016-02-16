@@ -7,7 +7,7 @@ ftpd = require('ftpd');
 moment = require('moment')
 
 # Ports to use for web and ftp servers
-webPort = process.env.PORT | 3000
+webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
 ftpPort = 2100
 
 # Default username and password for FTP access to PDFs of form submissions

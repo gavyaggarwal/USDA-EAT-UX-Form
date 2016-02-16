@@ -13,7 +13,7 @@ ftpd = require('ftpd');
 
 moment = require('moment');
 
-webPort = process.env.PORT | 3000;
+webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 ftpPort = 2100;
 
