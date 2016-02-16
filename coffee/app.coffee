@@ -129,7 +129,7 @@ try
 catch error
     console.log 'Unable to Run Web Server: ' + error
 try
-    #ftpServer.listen ftpPort
+    ftpServer.listen ftpPort, webIp
     console.log 'FTP Server Listening on port ' + ftpPort
 catch error
-      console.log 'Unable to Run FTP Server: ' + error
+    console.log 'Unable to Run FTP Server: ' + error
