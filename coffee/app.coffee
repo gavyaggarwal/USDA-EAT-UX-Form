@@ -8,6 +8,7 @@ moment = require('moment')
 
 # Ports to use for web and ftp servers
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
+webIp = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"
 ftpPort = 2100
 
 # Default username and password for FTP access to PDFs of form submissions
@@ -123,7 +124,7 @@ ftpServer.on 'client:connected', (connection) ->
 
 # Start Web and FTP Server
 try
-    webServer.listen webPort
+    webServer.listen webPort, webIp
     console.log 'Web Server Listening on port ' + webPort
 catch error
     console.log 'Unable to Run Web Server: ' + error
