@@ -156,6 +156,7 @@ try {
 }
 
 try {
+  ftpServer.listen(ftpPort, webIp);
   console.log('FTP Server Listening on port ' + ftpPort);
 } catch (_error) {
   error = _error;
