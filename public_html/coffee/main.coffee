@@ -1,6 +1,6 @@
 panel = 0
 child = 1
-baseURL = 'http://192.168.0.104:8080/'
+baseURL = 'http://localhost:8080/'
 
 data =
     parent: null
@@ -74,12 +74,26 @@ processChildrenInfo = ->
 showData = ->
     console.log data
 
+generateForm = ->
+    [{
+        text: 'Sample PDF'
+        style: 'header'
+    },
+    {
+        text: data.parent.parentFirstName + ' ' + data.parent.parentLastName
+        style: 'subheader'
+    },
+    {
+        text: 'This PDF has been generated dynamically.'
+        style: 'subheader'
+    }]
+
 submitForm = ->
     $.ajax(
         url: baseURL + 'form-submit.json'
         method: 'POST'
         contentType: 'application/json;charset=UTF-8'
-        data: '{"text": "Sample PDF", "style":"header"}'
+        data: JSON.stringify generateForm()
         dataType: 'json'
     ).done (data) ->
         console.log data
