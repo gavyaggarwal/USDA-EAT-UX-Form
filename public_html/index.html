@@ -137,7 +137,7 @@
               </div>
             </div>
           </form>
-        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
+        </div><a class="waves-effect btn left backButton">Back</a><a id="parentInfoButton" class="waves-effect btn right">Next</a>
       </div>
       <div id="children_info" class="panel">
         <h4>Children</h4>
@@ -146,7 +146,7 @@
           <h5>New Child</h5>
           <div class="row">
             <div class="input-field col s5">
-              <input id="child-num-FirstName" type="text" name="child-num-FirstName">
+              <input id="child-num-FirstName" type="text" name="child-num-FirstName" required>
               <label for="child-num-FirstName">First Name</label>
             </div>
             <div class="input-field col s1">
@@ -154,7 +154,7 @@
               <label for="child-num-MiddleName">M. I.</label>
             </div>
             <div class="input-field col s6">
-              <input id="child-num-LastName" type="text" name="child-num-LastName">
+              <input id="child-num-LastName" type="text" name="child-num-LastName" required>
               <label for="child-num-LastName">Last Name</label>
             </div>
           </div>
@@ -185,7 +185,7 @@
         </form>
         <div id="addChildSection" class="section"><a id="addChild" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
           <h5>Add Another Child</h5>
-        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
+        </div><a class="waves-effect btn left backButton">Back</a><a id="childrenInfoButton" class="waves-effect btn right">Next</a>
       </div>
       <div id="household_info" class="panel">
         <h4>Household Information</h4>

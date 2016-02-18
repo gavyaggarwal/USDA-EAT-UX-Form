@@ -2,6 +2,10 @@ panel = 0
 child = 1
 baseURL = 'http://192.168.0.104:8080/'
 
+data =
+    parent: null
+    children: null
+
 currentPanel = ->
     $('main').children().eq(panel)
 
@@ -24,6 +28,51 @@ showNextPanel = ->
         $(this).scrollLeft(0)
     $(nextPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
 
+objectForFields = (arr) ->
+    obj = {}
+    for field in arr
+        val = $('#' + field).val()
+        if val == null || val == "" || val == undefined
+            obj[field] = null
+        else
+            obj[field] = val
+    return obj
+
+processParentInfo = ->
+    $('#parent_info').find('form').submit()
+    if $('#parent_info').find('form').valid()
+        data.parent = objectForFields ['parentFirstName', 'parentLastName', 'email', 'phone', 'address', 'city', 'state', 'zipCode']
+        do showNextPanel
+    else
+        data.parent = null
+
+processChildrenInfo = ->
+    allValid = true
+    $('#children_info').find('form').each ->
+        $(this).submit()
+        if !($(this).valid())
+            allValid = false
+    if allValid
+        res = []
+        for i in [1...child]
+            if document.getElementById('child' + i + 'Form')
+                obj = {}
+                for field in ['FirstName', 'MiddleName', 'LastName']
+                    val = $('#child' + i + field).val()
+                    if val == null || val == "" || val == undefined
+                        obj[field] = null
+                    else
+                        obj[field] = val
+                for field in ['student', 'foster', 'homeless', 'migrant', 'runaway']
+                    obj[field] = document.getElementById('child' + i + field).checked
+                res.push obj
+        data.children = res
+        do showNextPanel
+    else
+        data.children = null
+
+showData = ->
+    console.log data
 
 submitForm = ->
     $.ajax(
@@ -47,9 +96,11 @@ setUpButtons = ->
     $('.nextButton').click ->
         do showNextPanel
 
-    $('.skipButton').click ->
-        do showNextPanel
-        do showNextPanel
+    $('#parentInfoButton').click ->
+        do processParentInfo
+
+    $('#childrenInfoButton').click ->
+        do processChildrenInfo
 
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
@@ -70,9 +121,10 @@ setUpValidation = (parent) ->
         errorClass: 'invalid'
         validClass: 'valid'
         errorPlacement: (error, element) ->
-            $(element).closest('form').find('label[for=\'' + element.attr('id') + '\']').attr 'data-error', error.text()
+            # Do nothing with the error
+            #$(element).closest('form').find('label[for=\'' + element.attr('id') + '\']').attr 'data-error', error.text()
         submitHandler: (form) ->
-            console.log 'form ok'
+            # Don't need to actually submit
         rules:
             parentFirstName: 'required'
             parentLastName: 'required'
