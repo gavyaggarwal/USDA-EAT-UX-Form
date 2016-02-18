@@ -27,15 +27,18 @@ fonts = Roboto:
 
 # Formatting Rules for PDF generation
 styles =
-  header:
-    marginTop: 24
-    fontSize: 24
-    italics: true
-  normal: lineHeight: 1.15
-  subheader:
-    marginTop: 16
-    fontSize: 16
-    italics: true
+    header:
+        marginTop: 12
+        fontSize: 24
+        italics: true
+    subheader:
+        marginTop: 9
+        fontSize: 18
+        italics: true
+    normal:
+        marginTop: 6
+        fontSize: 12
+        lineHeight: 1.2
 
 # PDF Generator Engine
 printer = new pdf(fonts)
@@ -86,7 +89,7 @@ webServer.post '/form-submit.json', (req, res) ->
     try
         file = printer.createPdfKitDocument
             content: contents
-            style: styles
+            styles: styles
 
         filename = moment().format 'YYYYMMDD-hhmmss'
         count = 0

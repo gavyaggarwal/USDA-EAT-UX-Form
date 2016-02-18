@@ -36,17 +36,19 @@ fonts = {
 
 styles = {
   header: {
-    marginTop: 24,
+    marginTop: 12,
     fontSize: 24,
     italics: true
   },
-  normal: {
-    lineHeight: 1.15
-  },
   subheader: {
-    marginTop: 16,
-    fontSize: 16,
+    marginTop: 9,
+    fontSize: 18,
     italics: true
+  },
+  normal: {
+    marginTop: 6,
+    fontSize: 12,
+    lineHeight: 1.2
   }
 };
 
@@ -103,7 +105,7 @@ webServer.post('/form-submit.json', function(req, res) {
   try {
     file = printer.createPdfKitDocument({
       content: contents,
-      style: styles
+      styles: styles
     });
     filename = moment().format('YYYYMMDD-hhmmss');
     count = 0;

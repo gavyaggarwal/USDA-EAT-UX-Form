@@ -1,14 +1,18 @@
+# State Variables
 panel = 0
 child = 1
 baseURL = 'http://localhost:8080/'
 
+# Data Model that stores form data
 data =
     parent: null
     children: null
 
+# Returns current panel
 currentPanel = ->
     $('main').children().eq(panel)
 
+# Transitions to the previous panel
 showPreviousPanel = ->
     currPanel = do currentPanel
     panel--
@@ -18,6 +22,7 @@ showPreviousPanel = ->
     $(currPanel).animate { opacity: 0 }, 1000, "swing", ->
         $(this).css("display", "none")
 
+# Transitions to the next panel
 showNextPanel = ->
     currPanel = do currentPanel
     panel++
@@ -28,6 +33,7 @@ showNextPanel = ->
         $(this).scrollLeft(0)
     $(nextPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
 
+# Returns an object holding the form values for fields with the given id
 objectForFields = (arr) ->
     obj = {}
     for field in arr
@@ -38,6 +44,7 @@ objectForFields = (arr) ->
             obj[field] = val
     return obj
 
+# Processes parent information and continues to next panel if valid
 processParentInfo = ->
     $('#parent_info').find('form').submit()
     if $('#parent_info').find('form').valid()
@@ -46,6 +53,7 @@ processParentInfo = ->
     else
         data.parent = null
 
+# Processes children information and continues to next panel if valid
 processChildrenInfo = ->
     allValid = true
     $('#children_info').find('form').each ->
@@ -71,10 +79,12 @@ processChildrenInfo = ->
     else
         data.children = null
 
+# Prints current form data to console
 showData = ->
     console.log data
 
-generateForm = ->
+# Generates array that represents contents of PDF with formatting
+generatePDF = ->
     [{
         text: 'Sample PDF'
         style: 'header'
@@ -85,21 +95,23 @@ generateForm = ->
     },
     {
         text: 'This PDF has been generated dynamically.'
-        style: 'subheader'
+        style: 'normal'
     }]
 
+# Sends data to server
 submitForm = ->
     $.ajax(
         url: baseURL + 'form-submit.json'
         method: 'POST'
         contentType: 'application/json;charset=UTF-8'
-        data: JSON.stringify generateForm()
+        data: JSON.stringify generatePDF()
         dataType: 'json'
     ).done (data) ->
         console.log data
     .error (xhr, error) ->
         console.log 'Error Occurred: ' + error
 
+# Configure actions of buttons
 setUpButtons = ->
     $('#GetStartButton').click ->
         do showNextPanel
@@ -116,6 +128,7 @@ setUpButtons = ->
     $('#childrenInfoButton').click ->
         do processChildrenInfo
 
+# Configure helper tooltips
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
     $(parent).find('.has-definition').on 'focusin mouseenter', ->
@@ -125,6 +138,7 @@ setUpDefinitions = (parent) ->
         $('#status-card').animate { opacity: 0 }, 400, "swing", ->
             $(this).css('display', 'none')
 
+# Configure form validation
 setUpValidation = (parent) ->
     $.validator.addMethod 'phoneUS', ((phone_number, element) ->
         phone_number = phone_number.replace(/\s+/g, '')
@@ -151,6 +165,7 @@ setUpValidation = (parent) ->
     $('form').each ->
         $(this).validate {}
 
+# Configure child panel so that children can be dynamically added and removed
 setUpChildPanel = ->
     template = $('#child-num-Form')
     templateHTML = $(template)[0].outerHTML
@@ -182,6 +197,7 @@ setUpChildPanel = ->
 
     do addChild
 
+# Begin configuration when page is ready
 $ ->
     do setUpButtons
     do setUpDefinitions
