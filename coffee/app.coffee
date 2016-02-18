@@ -1,19 +1,22 @@
 # Required Modules (all under MIT license)
 express = require('express')
-parser = require('body-parser')
+bodyParser = require('body-parser')
+cookieParser = require('cookie-parser')
 pdf = require('pdfmake')
 fs = require('fs')
-ftpd = require('ftpd');
 moment = require('moment')
+serveIndex = require('serve-index')
 
-# Ports to use for web and ftp servers
+# Base URL
+baseURL = 'http://localhost:8080/'
+
+# Ports to use for web server
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
-webIp = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"
-ftpPort = 2100
+webIP = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"
 
-# Default username and password for FTP access to PDFs of form submissions
-ftpUser = 'USDA'
-ftpPass = 'Demo'
+# Default username and password for access to PDFs of form submissions
+pdfUser = 'USDA'
+pdfPass = 'Demo'
 
 # Fonts used in PDF generation
 fonts = Roboto:
@@ -40,9 +43,40 @@ printer = new pdf(fonts)
 # Web Server
 webServer = express()
 
-# Set up web server to serve static content
+
+
+# Express middleware that handles private, school-facing portion of website
+schoolHandler = (req, res, next) ->
+    c = req.cookies
+    if !c || c.user != pdfUser || c.pass != pdfPass
+        b = req.body
+        if b && b.user == pdfUser && b.pass == pdfPass
+            res.cookie 'user', b.user
+            res.cookie 'pass', b.pass
+        else
+            res.redirect 307, baseURL + 'login.html'
+            return
+    if req.url == '/'
+        index = serveIndex('./pdfs', 'icons': true)
+        index req, res, res.send
+    else
+        path = 'pdfs' + req.url
+        fs.access path, fs.F_OK, (err) ->
+            if !err
+                options =
+                    root: process.cwd()
+                res.sendFile path, options
+            else
+                res.status(404).end()
+
+
+
+# Set up web server that servers static content and a private area for schools
 webServer.use express.static('./public_html/')
-webServer.use parser.json()
+webServer.use bodyParser.json()
+webServer.use '/schools', bodyParser.urlencoded(extended:false), cookieParser(), schoolHandler
+
+
 
 # Set up web server to dynamically handle form submissions
 webServer.post '/form-submit.json', (req, res) ->
@@ -75,61 +109,11 @@ webServer.post '/form-submit.json', (req, res) ->
     res.setHeader 'Content-Type', 'application/json'
     res.json {success:true}
 
-# FTP Server
-ftpServer = new (ftpd.FtpServer)('localhost',
-    getInitialCwd: ->
-        '/'
-    getRoot: ->
-        process.cwd() + '/pdfs/'
-    pasvPortRangeStart: 1025
-    pasvPortRangeEnd: 1050
-    allowUnauthorizedTls: true
-    useWriteFile: true
-    useReadFile: false)
 
-fsFunctions =
-    unlink: fs.unlink
-    readdir: fs.readdir
-    mkdir: fs.mkdir
-    open: fs.open
-    close: fs.close
-    rmdir: fs.rmdir
-    stat: fs.stat
-    createReadStream: fs.createReadStream
-    writeFile: (file, data, options, callback) ->
-        if callback
-            callback()
-        else
-            options()
 
-# FTP Server Error Handler
-ftpServer.on 'error', (error) ->
-  console.log 'FTP Server Error:', error
-
-# FTP Server Client Connected Handler
-ftpServer.on 'client:connected', (connection) ->
-    connection.on 'command:user', (user, success, failure) ->
-        if user && user == ftpUser
-            success()
-        else
-            # FTP Client Authentication Failed (Wrong Username)
-            failure()
-    connection.on 'command:pass', (pass, success, failure) ->
-        if pass && pass == ftpPass
-            console.log 'FTP Client Connected'
-            success ftpUser, fsFunctions
-        else
-            # FTP Client Authentication Failed (Wrong Password)
-            failure()
-
-# Start Web and FTP Server
+# Start Web Server
 try
-    webServer.listen webPort, webIp
+    webServer.listen webPort, webIP
     console.log 'Web Server Listening on port ' + webPort
 catch error
     console.log 'Unable to Run Web Server: ' + error
-try
-    ftpServer.listen ftpPort, webIp
-    console.log 'FTP Server Listening on port ' + ftpPort
-catch error
-    console.log 'Unable to Run FTP Server: ' + error
