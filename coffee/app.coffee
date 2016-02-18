@@ -1,14 +1,14 @@
 # Required Modules (all under MIT license)
-express = require('express')
 bodyParser = require('body-parser')
 cookieParser = require('cookie-parser')
-pdf = require('pdfmake')
+express = require('express')
 fs = require('fs')
 moment = require('moment')
+pdf = require('pdfmake')
 serveIndex = require('serve-index')
 
 # Base URL
-baseURL = 'http://localhost:8080/'
+baseURL = 'http://192.168.0.104:8080/'
 
 # Ports to use for web server
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
@@ -113,7 +113,7 @@ webServer.post '/form-submit.json', (req, res) ->
 
 # Start Web Server
 try
-    webServer.listen webPort, webIP
-    console.log 'Web Server Listening on port ' + webPort
+    webServer.listen webPort, webIP, ->
+        console.log 'Web Server Listening on port ' + webPort
 catch error
     console.log 'Unable to Run Web Server: ' + error

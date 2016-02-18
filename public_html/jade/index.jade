@@ -7,6 +7,7 @@ html(lang="en")
     link(href='css/materialize.css', rel='stylesheet')
     script(src='js/jquery.min.js')
     script(src='js/materialize.min.js')
+    script(src='js/jquery.validate.min.js')
     script(src='js/main.js')
   body
     header
@@ -29,37 +30,37 @@ html(lang="en")
             h4 General Information
             .center-align
                 p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.
-                a.waves-effect.btn.center.nextButton Got It!           
+                a.waves-effect.btn.center.nextButton Got It!    
         .panel#parent_info
             h4 Parent Information
             p This information will help us reach you quickly if we need to contact you.
-            .row
+            .section
               form.col.s12
                 .row
                   .input-field.col.s6
-                    input#first_name_parent.validate(type='text')
-                    label(for='first_name_parent') First Name
+                    input#parentFirstName(type='text', name='parentFirstName')
+                    label(for='parentFirstName') First Name
                   .input-field.col.s6
-                    input#last_name_parent.validate(type='text')
-                    label(for='last_name_parent') Last Name
+                    input#parentLastName(type='text', name='parentLastName')
+                    label(for='parentLastName') Last Name
                 .row
                   .input-field.col.s12
-                    input#email.validate(type='email')
+                    input#email(type='email', name='email')
                     label(for='email') Email
                 .row
                   .input-field.col.s12
-                    input#phone_number.validate(type='tel')
-                    label(for='phone_number') Phone Number
+                    input#phone(type='text', name='phone')
+                    label(for='phone') Phone Number
                 .row
                   .input-field.col.s6.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
-                    input#street_address.validate(type='text')
-                    label(for='street_address') Street Address
+                    input#address(type='text', name='address')
+                    label(for='address') Street Address
                   .input-field.col.s6
-                    input#city_address.validate(type='text')
-                    label(for='city_address') City
+                    input#city(type='text', name='city')
+                    label(for='city') City
                 .row
                   .input-field.col.s6
-                    select
+                    select#state(name='state')
                       option(value='', disabled='', selected='') Choose Your State
                       option(value='AL') Alabama
                       option(value='AK') Alaska
@@ -112,30 +113,30 @@ html(lang="en")
                       option(value='WV') West Virginia
                       option(value='WI') Wisconsin
                       option(value='WY') Wyoming
-                    label State
+                    label(for='state') State
                   .input-field.col.s6
-                    input#zip_code.validate(type='text')
-                    label(for='zip_code') Zip Code
+                    input#zipCode(type='text', name='zipCode')
+                    label(for='zipCode') Zip Code
 
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right.nextButton Next
         .panel#children_info
             h4 Children
-            p Tell us how many infants, children, and school students live in your household. They do NOT have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
-            .section
-                a.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
+            p Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
+            form.section#childTemplate
+                a.removeChild.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
                     i.material-icons remove
                 h5 Child 1
                 .row.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>")
                   .input-field.col.s5
-                    input#first_name_c1.validate(type='text')
-                    label(for='first_name_c1') First Name
+                    input(type='text', name="childFirstName")
+                    label(for='childFirstName') First Name
                   .input-field.col.s1
-                    input#middle_name_c1.validate(type='text')
-                    label(for='middle_name_c1') M. I.
+                    input(type='text', name="childMiddleName")
+                    label(for='childMiddleName') M. I.
                   .input-field.col.s6
-                    input#last_name_c1.validate(type='text')
-                    label(for='last_name_c1') Last Name
+                    input(type='text', name="childLastName")
+                    label(for='childLastName') Last Name
                 .row
                     .col.s1 &nbsp;
                     .col.s2.has-definition(data-definition="A student is anyone (of any age) attending grades K-12 at any school.")
@@ -155,12 +156,11 @@ html(lang="en")
                       label(for='runaway') Runaway
                     .col.s1 &nbsp;
             .section
-                a.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
+                a#addChild.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
                     i.material-icons add
                 h5 Add Another Child
-            .section
-                a.waves-effect.btn.left.backButton Back
-                a.waves-effect.btn.right.nextButton Next
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right.nextButton Next
         .panel#household_info
             h4 Household Information
             p 

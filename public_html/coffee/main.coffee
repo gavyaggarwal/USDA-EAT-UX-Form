@@ -1,5 +1,5 @@
 panel = 0
-baseURL = "http://192.168.0.101:3000/"
+baseURL = 'http://192.168.0.104:8080/'
 
 currentPanel = ->
     $('main').children().eq(panel)
@@ -58,7 +58,40 @@ setUpDefinitions = ->
         $('#status-card').animate { opacity: 0 }, 400, "swing", ->
             $(this).css('display', 'none')
 
+setUpValidation = ->
+    jQuery.validator.addMethod 'phoneUS', ((phone_number, element) ->
+        phone_number = phone_number.replace(/\s+/g, '')
+        @optional(element) or phone_number.length > 9 and phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/)), 'Please enter a valid phone number.'
+
+    $.validator.setDefaults
+        debug: true
+        errorClass: 'invalid'
+        validClass: 'valid'
+        errorPlacement: (error, element) ->
+            $(element).closest('form').find('label[for=\'' + element.attr('id') + '\']').attr 'data-error', error.text()
+        submitHandler: (form) ->
+            console.log 'form ok'
+        rules:
+            parentFirstName: 'required'
+            parentLastName: 'required'
+            email: 'email'
+            phone: 'phoneUS'
+            zip: 'digits'
+            childFirstName: 'required'
+            childLastName: 'required'
+
+    $('form').each ->
+        $(this).validate {}
+
+setUpChildPanel = ->
+    $('.removeChild').click ->
+        console.log 'Remove Child'
+    $('#addChild').click ->
+        console.log 'Add Child'
+
 $ ->
     do setUpButtons
     do setUpDefinitions
+    do setUpValidation
+    do setUpChildPanel
     $('select').material_select()

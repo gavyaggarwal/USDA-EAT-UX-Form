@@ -53,3 +53,11 @@ ul.list li {
     list-style-type: disc;
     display: list-item;
 }
+
+
+
+
+/* form fix */
+label {
+   width: 100%;
+}

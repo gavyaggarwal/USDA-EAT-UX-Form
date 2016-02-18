@@ -7,6 +7,7 @@
     <link href="css/materialize.css" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
     <script src="js/materialize.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
     <script src="js/main.js"></script>
   </head>
   <body>
@@ -32,49 +33,49 @@
       <div id="general_info" class="panel">
         <h4>General Information</h4>
         <div class="center-align">
-          <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.</p><a class="waves-effect btn center nextButton">Got It!           </a>
+          <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.</p><a class="waves-effect btn center nextButton">Got It!    </a>
         </div>
       </div>
       <div id="parent_info" class="panel">
         <h4>Parent Information</h4>
         <p>This information will help us reach you quickly if we need to contact you.</p>
-        <div class="row">
+        <div class="section">
           <form class="col s12">
             <div class="row">
               <div class="input-field col s6">
-                <input id="first_name_parent" type="text" class="validate">
-                <label for="first_name_parent">First Name</label>
+                <input id="parentFirstName" type="text" name="parentFirstName">
+                <label for="parentFirstName">First Name</label>
               </div>
               <div class="input-field col s6">
-                <input id="last_name_parent" type="text" class="validate">
-                <label for="last_name_parent">Last Name</label>
+                <input id="parentLastName" type="text" name="parentLastName">
+                <label for="parentLastName">Last Name</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="email" type="email" class="validate">
+                <input id="email" type="email" name="email">
                 <label for="email">Email</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="phone_number" type="tel" class="validate">
-                <label for="phone_number">Phone Number</label>
+                <input id="phone" type="text" name="phone">
+                <label for="phone">Phone Number</label>
               </div>
             </div>
             <div class="row">
               <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
-                <input id="street_address" type="text" class="validate">
-                <label for="street_address">Street Address</label>
+                <input id="address" type="text" name="address">
+                <label for="address">Street Address</label>
               </div>
               <div class="input-field col s6">
-                <input id="city_address" type="text" class="validate">
-                <label for="city_address">City</label>
+                <input id="city" type="text" name="city">
+                <label for="city">City</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s6">
-                <select>
+                <select id="state" name="state">
                   <option value="" disabled="" selected="">Choose Your State</option>
                   <option value="AL">Alabama</option>
                   <option value="AK">Alaska</option>
@@ -128,11 +129,11 @@
                   <option value="WI">Wisconsin</option>
                   <option value="WY">Wyoming</option>
                 </select>
-                <label>State</label>
+                <label for="state">State</label>
               </div>
               <div class="input-field col s6">
-                <input id="zip_code" type="text" class="validate">
-                <label for="zip_code">Zip Code</label>
+                <input id="zipCode" type="text" name="zipCode">
+                <label for="zipCode">Zip Code</label>
               </div>
             </div>
           </form>
@@ -140,21 +141,21 @@
       </div>
       <div id="children_info" class="panel">
         <h4>Children</h4>
-        <p>Tell us how many infants, children, and school students live in your household. They do NOT have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.</p>
-        <div class="section"><a class="right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
+        <p>Tell us how many infants, children, and school students live in your household. They do <b>not</b> have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.</p>
+        <form id="childTemplate" class="section"><a class="removeChild right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
           <h5>Child 1</h5>
           <div data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="row has-definition">
             <div class="input-field col s5">
-              <input id="first_name_c1" type="text" class="validate">
-              <label for="first_name_c1">First Name</label>
+              <input type="text" name="childFirstName">
+              <label for="childFirstName">First Name</label>
             </div>
             <div class="input-field col s1">
-              <input id="middle_name_c1" type="text" class="validate">
-              <label for="middle_name_c1">M. I.</label>
+              <input type="text" name="childMiddleName">
+              <label for="childMiddleName">M. I.</label>
             </div>
             <div class="input-field col s6">
-              <input id="last_name_c1" type="text" class="validate">
-              <label for="last_name_c1">Last Name</label>
+              <input type="text" name="childLastName">
+              <label for="childLastName">Last Name</label>
             </div>
           </div>
           <div class="row">
@@ -181,11 +182,10 @@
             </div>
             <div class="col s1">&nbsp;</div>
           </div>
-        </div>
-        <div class="section"><a class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
+        </form>
+        <div class="section"><a id="addChild" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
           <h5>Add Another Child</h5>
-        </div>
-        <div class="section"><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a></div>
+        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
       </div>
       <div id="household_info" class="panel">
         <h4>Household Information</h4>
