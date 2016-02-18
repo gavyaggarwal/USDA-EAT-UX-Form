@@ -141,49 +141,49 @@
       </div>
       <div id="children_info" class="panel">
         <h4>Children</h4>
-        <p>Tell us how many infants, children, and school students live in your household. They do <b>not</b> have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.</p>
-        <form id="childTemplate" class="section"><a class="removeChild right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
-          <h5>Child 1</h5>
-          <div data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="row has-definition">
+        <p data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="has-definition">Tell us how many infants, children, and school students live in your household. They do <b>not</b> have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.</p>
+        <form id="child-num-Form" class="section childForm"><a class="removeChild right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
+          <h5>New Child</h5>
+          <div class="row">
             <div class="input-field col s5">
-              <input type="text" name="childFirstName">
-              <label for="childFirstName">First Name</label>
+              <input id="child-num-FirstName" type="text" name="child-num-FirstName">
+              <label for="child-num-FirstName">First Name</label>
             </div>
             <div class="input-field col s1">
-              <input type="text" name="childMiddleName">
-              <label for="childMiddleName">M. I.</label>
+              <input id="child-num-MiddleName" type="text" name="child-num-MiddleName">
+              <label for="child-num-MiddleName">M. I.</label>
             </div>
             <div class="input-field col s6">
-              <input type="text" name="childLastName">
-              <label for="childLastName">Last Name</label>
+              <input id="child-num-LastName" type="text" name="child-num-LastName">
+              <label for="child-num-LastName">Last Name</label>
             </div>
           </div>
           <div class="row">
             <div class="col s1">&nbsp;</div>
             <div data-definition="A student is anyone (of any age) attending grades K-12 at any school." class="col s2 has-definition">
-              <input id="student" type="checkbox">
-              <label for="student">Student</label>
+              <input id="child-num-student" type="checkbox" name="child-num-student">
+              <label for="child-num-student">Student</label>
             </div>
             <div data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application." class="col s2 has-definition">
-              <input id="foster" type="checkbox">
-              <label for="foster">Foster</label>
+              <input id="child-num-foster" type="checkbox" name="child-num-foster">
+              <label for="child-num-foster">Foster</label>
             </div>
             <div data-definition="A child identified by the Local Education Agency (LEA) homeless liaison or by an official of a homeless shelter as lacking a fixed, regular, and adequate nighttime residence." class="col s2 has-definition">
-              <input id="homeless" type="checkbox">
-              <label for="homeless">Homeless</label>
+              <input id="child-num-homeless" type="checkbox" name="child-num-homeless">
+              <label for="child-num-homeless">Homeless</label>
             </div>
             <div data-definition="A child identified as a migrant by the State or local Migrant Education Program coordinator or the local educational liaison, or other individual identified by FNS." class="col s2 has-definition">
-              <input id="migrant" type="checkbox">
-              <label for="migrant">Migrant</label>
+              <input id="child-num-migrant" type="checkbox" name="child-num-migrant">
+              <label for="child-num-migrant">Migrant</label>
             </div>
             <div data-definition="A child identified as a runaway receiving assistance under a program under the Runaway and Homeless Youth Act, by the local educational liaison, or other individual in accordance with guidance issued by FNS." class="col s2 has-definition">
-              <input id="runaway" type="checkbox">
-              <label for="runaway">Runaway</label>
+              <input id="child-num-runaway" type="checkbox" name="child-num-runaway">
+              <label for="child-num-runaway">Runaway</label>
             </div>
             <div class="col s1">&nbsp;</div>
           </div>
         </form>
-        <div class="section"><a id="addChild" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
+        <div id="addChildSection" class="section"><a id="addChild" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
           <h5>Add Another Child</h5>
         </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
       </div>

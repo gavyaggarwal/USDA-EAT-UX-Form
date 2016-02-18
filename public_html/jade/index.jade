@@ -122,40 +122,40 @@ html(lang="en")
             a.waves-effect.btn.right.nextButton Next
         .panel#children_info
             h4 Children
-            p Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
-            form.section#childTemplate
+            p.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>") Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
+            form.section#child-num-Form.childForm
                 a.removeChild.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
                     i.material-icons remove
-                h5 Child 1
-                .row.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>")
+                h5 New Child
+                .row
                   .input-field.col.s5
-                    input(type='text', name="childFirstName")
-                    label(for='childFirstName') First Name
+                    input#child-num-FirstName(type='text', name="child-num-FirstName")
+                    label(for='child-num-FirstName') First Name
                   .input-field.col.s1
-                    input(type='text', name="childMiddleName")
-                    label(for='childMiddleName') M. I.
+                    input#child-num-MiddleName(type='text', name="child-num-MiddleName")
+                    label(for='child-num-MiddleName') M. I.
                   .input-field.col.s6
-                    input(type='text', name="childLastName")
-                    label(for='childLastName') Last Name
+                    input#child-num-LastName(type='text', name="child-num-LastName")
+                    label(for='child-num-LastName') Last Name
                 .row
                     .col.s1 &nbsp;
                     .col.s2.has-definition(data-definition="A student is anyone (of any age) attending grades K-12 at any school.")
-                      input#student(type='checkbox')
-                      label(for='student') Student
+                      input#child-num-student(type='checkbox', name='child-num-student')
+                      label(for='child-num-student') Student
                     .col.s2.has-definition(data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application.")
-                      input#foster(type='checkbox')
-                      label(for='foster') Foster
+                      input#child-num-foster(type='checkbox', name='child-num-foster')
+                      label(for='child-num-foster') Foster
                     .col.s2.has-definition(data-definition="A child identified by the Local Education Agency (LEA) homeless liaison or by an official of a homeless shelter as lacking a fixed, regular, and adequate nighttime residence.")
-                      input#homeless(type='checkbox')
-                      label(for='homeless') Homeless
+                      input#child-num-homeless(type='checkbox', name='child-num-homeless')
+                      label(for='child-num-homeless') Homeless
                     .col.s2.has-definition(data-definition="A child identified as a migrant by the State or local Migrant Education Program coordinator or the local educational liaison, or other individual identified by FNS.")
-                      input#migrant(type='checkbox')
-                      label(for='migrant') Migrant
+                      input#child-num-migrant(type='checkbox', name='child-num-migrant')
+                      label(for='child-num-migrant') Migrant
                     .col.s2.has-definition(data-definition="A child identified as a runaway receiving assistance under a program under the Runaway and Homeless Youth Act, by the local educational liaison, or other individual in accordance with guidance issued by FNS.")
-                      input#runaway(type='checkbox')
-                      label(for='runaway') Runaway
+                      input#child-num-runaway(type='checkbox', name='child-num-runaway')
+                      label(for='child-num-runaway') Runaway
                     .col.s1 &nbsp;
-            .section
+            .section#addChildSection
                 a#addChild.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
                     i.material-icons add
                 h5 Add Another Child

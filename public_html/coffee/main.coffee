@@ -1,4 +1,5 @@
 panel = 0
+child = 1
 baseURL = 'http://192.168.0.104:8080/'
 
 currentPanel = ->
@@ -50,16 +51,17 @@ setUpButtons = ->
         do showNextPanel
         do showNextPanel
 
-setUpDefinitions = ->
-    $('.has-definition').on 'focusin mouseenter', ->
+setUpDefinitions = (parent) ->
+    parent = parent || 'body'
+    $(parent).find('.has-definition').on 'focusin mouseenter', ->
         $('#status-card span').html $(this).attr("data-definition")
         $('#status-card').css('display', 'block').animate { opacity: 1 }
-    $('.has-definition').on 'focusout mouseleave', ->
+    $(parent).find('.has-definition').on 'focusout mouseleave', ->
         $('#status-card').animate { opacity: 0 }, 400, "swing", ->
             $(this).css('display', 'none')
 
-setUpValidation = ->
-    jQuery.validator.addMethod 'phoneUS', ((phone_number, element) ->
+setUpValidation = (parent) ->
+    $.validator.addMethod 'phoneUS', ((phone_number, element) ->
         phone_number = phone_number.replace(/\s+/g, '')
         @optional(element) or phone_number.length > 9 and phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/)), 'Please enter a valid phone number.'
 
@@ -84,10 +86,35 @@ setUpValidation = ->
         $(this).validate {}
 
 setUpChildPanel = ->
-    $('.removeChild').click ->
-        console.log 'Remove Child'
+    template = $('#child-num-Form')
+    templateHTML = $(template)[0].outerHTML
+    $(template).remove()
+
+    addChild = ->
+        newHTML = templateHTML.replace /-num-/g, child.toString()
+        newElement = $.parseHTML(newHTML)
+        setUpDefinitions newElement
+        $(newElement).validate {}
+        $('#addChildSection').before newElement
+
+        $('#child' + child + 'FirstName').on 'change keyup input', ->
+            val = $(this).val()
+            if val
+                $(this).closest('form').find('h5').html $(this).val()
+            else
+                $(this).closest('form').find('h5').html 'New Child'
+        child++
+
+        $(newElement).find('.removeChild').click ->
+            if $('.childForm').size() == 1
+                Materialize.toast 'You must have at least one child.', 4000
+            else
+                $(this).closest('form').remove()
+
     $('#addChild').click ->
-        console.log 'Add Child'
+        do addChild
+
+    do addChild
 
 $ ->
     do setUpButtons
