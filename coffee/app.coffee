@@ -8,7 +8,7 @@ pdf = require('pdfmake')
 serveIndex = require('serve-index')
 
 # Base URL
-baseURL = 'http://192.168.0.104:8080/'
+baseURL = 'http://localhost:8080/'
 
 # Ports to use for web server
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
@@ -112,11 +112,9 @@ webServer.post '/form-submit.json', (req, res) ->
     res.setHeader 'Content-Type', 'application/json'
     res.json {success:true}
 
-
-
 # Start Web Server
 try
-    webServer.listen webPort, webIP, ->
-        console.log 'Web Server Listening on port ' + webPort
+    webServer.listen webPort, webIP
+    console.log 'Web Server Listening on port ' + webPort
 catch error
     console.log 'Unable to Run Web Server: ' + error

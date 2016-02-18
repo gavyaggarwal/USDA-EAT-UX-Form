@@ -15,7 +15,7 @@ pdf = require('pdfmake');
 
 serveIndex = require('serve-index');
 
-baseURL = 'http://192.168.0.104:8080/';
+baseURL = 'http://localhost:8080/';
 
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
@@ -136,9 +136,8 @@ webServer.post('/form-submit.json', function(req, res) {
 });
 
 try {
-  webServer.listen(webPort, webIP, function() {
-    return console.log('Web Server Listening on port ' + webPort);
-  });
+  webServer.listen(webPort, webIP);
+  console.log('Web Server Listening on port ' + webPort);
 } catch (_error) {
   error = _error;
   console.log('Unable to Run Web Server: ' + error);
