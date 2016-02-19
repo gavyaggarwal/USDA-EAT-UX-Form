@@ -31,7 +31,10 @@ showNextPanel = ->
         $(this).css("display", "none")
     $('main').animate { scrollLeft: 720 }, 1000, "swing", ->
         $(this).scrollLeft(0)
+        $('body').animate
+            scrollTop: 0
     $(nextPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
+
 
 # Returns an object holding the form values for fields with the given id
 objectForFields = (arr) ->
@@ -204,3 +207,8 @@ $ ->
     do setUpValidation
     do setUpChildPanel
     $('select').material_select()
+
+    do showNextPanel
+    do showNextPanel
+    do showNextPanel
+    do showNextPanel

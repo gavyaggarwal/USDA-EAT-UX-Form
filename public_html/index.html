@@ -189,20 +189,143 @@
       </div>
       <div id="household_info" class="panel">
         <h4>Household Information</h4>
-        <p>
-          <input id="programs" type="checkbox">
-          <label for="programs">I participate in one of the following programs:<ul class='list'><li>Student Nutrition Assitance Program (SNAP)</li><li>Temporary Assistance for Needy Families (TANF)</li><li>Food Distribution Program on Indian Reservations (FDPIR)</li></label>
-        </p>
+        <p>Please select one of the following:</p>
+        <form action="#">
+          <p>
+            <input id="programParticipant" name="programParticipation" type="radio">
+            <label for="programParticipant">I participate in one of the following programs: Student Nutrition Assistance Program (SNAP), Temporary Assistance for Needy Families (TANF), and/or Food Distribution Program on Indian Reservations (FDPIR).</label>
+          </p>
+          <p>
+            <input id="notProgramParticipant" name="programParticipation" type="radio">
+            <label for="notProgramParticipant">I do not participate in any of those assistance programs.</label>
+          </p>
+        </form>
+        <div id="caseNumberSection" class="section"></div>
         <p>Please provide a case number for one of these programs, even if you participate in multiple.</p>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="case_number" type="text" class="validate">
-            <label for="case_number">Case Number    </label>
+        <form>
+          <div class="input-field">
+            <input id="caseNumber" type="text" name="caseNumber" class="validate">
+            <label for="caseNumber">Case Number    </label>
           </div>
-        </div>
-        <h5>Additional Children Information</h5>
-        <h5>Household Members</h5>
-        <p></p><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
+        </form>
+        <div id="incomeInfoSection" class="section">   </div>
+        <h4>Additional Children Information</h4>
+        <p>Please provide information about your children's income. </p>
+        <form>
+          <div id="child-num-incomeForm" class="section row s12">
+            <h5>Gavy Aggarwal</h5>
+            <div class="col s4 input-field">
+              <select multiple="">
+                <option value="" disabled="" selected="">No Income</option>
+                <option value="1">Paying Job</option>
+                <option value="2">Social Security Benefits</option>
+                <option value="3">Parental Social Security Benefits</option>
+                <option value="4">Relative/Friend Outside Household</option>
+                <option value="5">Social Security Benefits</option>
+                <option value="6">Private Pension Fund/Annuity/Trust</option>
+              </select>
+              <label>Income Source</label>
+            </div>
+            <div class="col s4 input-field"><i class="mdi-editor-attach-money prefix"></i>
+              <input id="child-num-income" type="text" name="child-num-income" active class="validate">
+              <label for="child-num-income">Child Income  </label>
+            </div>
+            <div class="col s4 input-field">
+              <select>
+                <option value="" disabled="" selected="">How often?</option>
+                <option value="weekly">Weekly`</option>
+                <option value="biweekly">Every Two Weeks</option>
+                <option value="semimonthly">Twice a Month</option>
+                <option value="monthly">Monthly</option>
+                <option value="annually">Annually </option>
+              </select>
+              <label>Frequency</label>
+            </div>
+          </div>
+        </form>
+        <h4>Household Members</h4>
+        <p>Please provide information about the rest of the people living in your household. This does not include the children you listed before or those who live in your household but are not supported by or contribute to your household's income.</p>
+        <form>
+          <div id="adult-num-Form" class="section adultForm"><a class="removeAdult right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
+            <h5>New Adult</h5>
+            <div class="row">
+              <div class="input-field col s5">
+                <input id="adult-num-FirstName" type="text" name="adult-num-FirstName" required>
+                <label for="adult-num-FirstName">First Name</label>
+              </div>
+              <div class="input-field col s1">
+                <input id="adult-num-MiddleName" type="text" name="adult-num-MiddleName">
+                <label for="adult-num-MiddleName">M. I.</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="adult-num-LastName" type="text" name="adult-num-LastName" required>
+                <label for="adult-num-LastName">Last Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s4 input-field">
+                <select multiple="" style="width:500px;">
+                  <option value="" disabled="" selected="">No Income</option>
+                  <option value="1">Paying Job</option>
+                  <option value="2">Public Assitance</option>
+                  <option value="3">Child Support/Alimony</option>
+                  <option value="4">Pensions/Retirement</option>
+                  <option value="5">Other</option>
+                </select>
+                <label>Income Source</label>
+              </div>
+              <div class="col s4 input-field"><i class="mdi-editor-attach-money prefix"></i>
+                <input id="adult-num-income" type="text" name="adult-num-income" active class="validate">
+                <label for="adult-num-income">Adult Income  </label>
+              </div>
+              <div class="col s4 input-field">
+                <select>
+                  <option value="" disabled="" selected="">How often?</option>
+                  <option value="weekly">Weekly`</option>
+                  <option value="biweekly">Every Two Weeks</option>
+                  <option value="semimonthly">Twice a Month</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="annually">Annually </option>
+                </select>
+                <label>Frequency</label>
+              </div>
+            </div>
+          </div>
+          <div id="addAdultSection" class="section"><a id="addAdult" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
+            <h5>Add Another Adult</h5>
+          </div>
+        </form>
+        <div id="primaryEarner" class="section">
+          <h4>Primary Wage Earner</h4>
+          <p>Does at least one adult member of your household possess a social security number (SSN)?</p>
+          <form action="#">
+            <p>
+              <input id="availableSSN" name="socialSecurity" type="radio">
+              <label for="availableSSN">Yes</label>
+            </p>
+            <p>
+              <input id="unavailableSSN" name="socialSecurity" type="radio">
+              <label for="unavailableSSN">No.</label>
+            </p>
+          </form>
+          <p>Choose the household's primary wage earner or another household member and list the last four digits of their SSN.</p>
+          <form>
+            <div class="input-field col s6">
+              <select>
+                <option value="weekly">Weekly`</option>
+                <option value="biweekly">Every Two Weeks</option>
+                <option value="semimonthly">Twice a Month</option>
+                <option value="monthly">Monthly</option>
+                <option value="annually">Annually </option>
+              </select>
+              <label>Primary Wage Earner</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="disabled" disabled="" value="XXX - XX" type="text" class="validate">
+              <label for="disabled">SSN</label>
+            </div>
+          </form>
+        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
       </div>
       <div id="panel6" class="panel">
         <h4>Household Information</h4>

@@ -19,7 +19,7 @@ baseURL = 'http://localhost:8080/';
 
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
-webIP = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.104";
 
 pdfUser = 'USDA';
 

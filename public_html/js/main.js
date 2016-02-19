@@ -47,7 +47,10 @@ showNextPanel = function() {
   $('main').animate({
     scrollLeft: 720
   }, 1000, "swing", function() {
-    return $(this).scrollLeft(0);
+    $(this).scrollLeft(0);
+    return $('body').animate({
+      scrollTop: 0
+    });
   });
   return $(nextPanel).css("display", "inline-block").animate({
     opacity: 1
@@ -253,5 +256,9 @@ $(function() {
   setUpDefinitions();
   setUpValidation();
   setUpChildPanel();
-  return $('select').material_select();
+  $('select').material_select();
+  showNextPanel();
+  showNextPanel();
+  showNextPanel();
+  return showNextPanel();
 });
