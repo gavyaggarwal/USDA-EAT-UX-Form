@@ -1,7 +1,12 @@
+# Constants
+baseURL = 'http://localhost:8080/'
+
 # State Variables
 panel = 0
 child = 1
-baseURL = 'http://localhost:8080/'
+
+# Data Variables
+childIncomeTemplate = null
 
 # Data Model that stores form data
 data =
@@ -12,6 +17,13 @@ data =
 currentPanel = ->
     $('main').children().eq(panel)
 
+# Update progress bar based on current panel
+updateProgressBar = ->
+    progress = (panel + 1) / ($('.panel').length + 1)
+    progressStr = progress * 100 + '%'
+    $('#progressBar').animate
+        width: progressStr
+
 # Transitions to the previous panel
 showPreviousPanel = ->
     currPanel = do currentPanel
@@ -21,6 +33,7 @@ showPreviousPanel = ->
     $('main').scrollLeft(720).animate { scrollLeft: 0 }, 1000
     $(currPanel).animate { opacity: 0 }, 1000, "swing", ->
         $(this).css("display", "none")
+    do updateProgressBar
 
 # Transitions to the next panel
 showNextPanel = ->
@@ -34,7 +47,7 @@ showNextPanel = ->
         $('body').animate
             scrollTop: 0
     $(nextPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
-
+    do updateProgressBar
 
 # Returns an object holding the form values for fields with the given id
 objectForFields = (arr) ->
@@ -78,6 +91,7 @@ processChildrenInfo = ->
                     obj[field] = document.getElementById('child' + i + field).checked
                 res.push obj
         data.children = res
+        populateChildrenIncome res
         do showNextPanel
     else
         data.children = null
@@ -161,9 +175,7 @@ setUpValidation = (parent) ->
             parentLastName: 'required'
             email: 'email'
             phone: 'phoneUS'
-            zip: 'digits'
-            childFirstName: 'required'
-            childLastName: 'required'
+            zipCode: 'digits'
 
     $('form').each ->
         $(this).validate {}
@@ -200,12 +212,48 @@ setUpChildPanel = ->
 
     do addChild
 
+setUpIncomePanel = ->
+    childIncomeElement = $('#childIncomeTemplate')
+    childIncomeTemplate = $(childIncomeElement)[0].outerHTML
+    #$(childIncomeElement).remove()
+
+    $('#caseNumberSection').hide 0
+    $('#incomeInfoSection').hide 0
+
+    $("input[name='programParticipation']").change ->
+        if $(this).val() == 'true'
+            $('#caseNumberSection').show()
+            $('#incomeInfoSection').hide()
+        else
+            $('#caseNumberSection').hide()
+            $('#incomeInfoSection').show()
+
+populateChildrenIncome = (children) ->
+    childIncomeSection = $('#childIncomeSection')
+    $(childIncomeSection).empty()
+    for c, i in children
+        name = c.FirstName + ' ' + c.LastName
+        newForm = $.parseHTML(childIncomeTemplate)
+        $(childIncomeSection).append newForm
+        $(newForm).attr 'id', 'childIncomeForm' + i
+        $(newForm).find('#childIncomeNameTemplate')
+            .attr 'id', 'childIncomeName' + i
+            .html name
+        $(newForm).find('#childIncomeFieldTemplate')
+            .attr 'id', 'childIncomeField' + i
+        $(newForm).find('#childIncomeFrequencyTemplate')
+            .attr 'id', 'childIncomeFrequency' + i
+            .material_select()
+        $(newForm).validate {}
+
+
 # Begin configuration when page is ready
 $ ->
     do setUpButtons
     do setUpDefinitions
     do setUpValidation
     do setUpChildPanel
+    do setUpIncomePanel
     $('select').material_select()
 
     do showNextPanel

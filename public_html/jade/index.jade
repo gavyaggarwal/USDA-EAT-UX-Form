@@ -15,11 +15,10 @@ html(lang="en")
             nav
                 .nav-wrapper
                     a.brand-logo(href='#!') Logo
-                    ul.right.hide-on-med-and-down
-                        li
-                            span Sass
-                        li
-                            a(href='badges.html') Components
+                    ul.right.hide-on-med-and-down.max-height(style='margin-right:10px;')
+                        li.valign-wrapper.max-height
+                            .progress.valign(style='width:200px;')
+                                #progressBar.determinate(style='width:0%;')
     main
         .panel#welcome
             h4 Welcome!
@@ -161,122 +160,113 @@ html(lang="en")
                 h5 Add Another Child
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#childrenInfoButton Next
-        .panel#household_info
+        .panel#householdInfo
             h4 Household Information
-            p Please select one of the following:
-            form(action='#')
-                p
-                    input#programParticipant(name='programParticipation', type='radio')
-                    label(for='programParticipant') I participate in one of the following programs: Student Nutrition Assistance Program (SNAP), Temporary Assistance for Needy Families (TANF), and/or Food Distribution Program on Indian Reservations (FDPIR).
-                p
-                    input#notProgramParticipant(name='programParticipation', type='radio')
-                    label(for='notProgramParticipant') I do not participate in any of those assistance programs.
+            p Does any member of your household participate in any of the following programs? 
+            ul.list(style='margin-left: 50px;')
+                li Student Nutrition Assistance Program (SNAP) 
+                li Temporary Assistance for Needy Families (TANF) 
+                li Food Distribution Program on Indian Reservations (FDPIR)
+            p
+                input#programParticipant(name='programParticipation', type='radio', value='true')
+                label(for='programParticipant') Yes
+            p
+                input#notProgramParticipant(name='programParticipation', type='radio', value='false')
+                label(for='notProgramParticipant') No
             .section#caseNumberSection
-            p Please provide a case number for one of these programs, even if you participate in multiple.
-            form
-                .input-field
+                p Please provide a case number for one of these programs, even if you participate in multiple.
+                form.input-field
                     input#caseNumber.validate(type='text', name='caseNumber')
                     label(for='caseNumber') Case Number    
-            .section#incomeInfoSection    
-            h4 Additional Children Information
-            p Please provide information about your children's income. 
-            form
-                .section#child-num-incomeForm.row.s12
-                    h5 Gavy Aggarwal
-                    .col.s4.input-field
-                        select(multiple='')
-                            option(value='', disabled='', selected='') No Income
-                            option(value='1') Paying Job
-                            option(value='2') Social Security Benefits
-                            option(value='3') Parental Social Security Benefits
-                            option(value='4') Relative/Friend Outside Household
-                            option(value='5') Social Security Benefits
-                            option(value='6') Private Pension Fund/Annuity/Trust
-                        label Income Source
-                    .col.s4.input-field
-                        i.mdi-editor-attach-money.prefix
-                        input#child-num-income.validate(type='text', name='child-num-income', active=)
-                        label(for='child-num-income') Child Income  
-                    .col.s4.input-field
-                        select
-                            option(value='', disabled='', selected='') How often?
-                            option(value='weekly') Weekly`
-                            option(value='biweekly') Every Two Weeks
-                            option(value='semimonthly') Twice a Month
-                            option(value='monthly') Monthly
-                            option(value='annually') Annually 
-                        label Frequency
-            h4 Household Members
-            p Please provide information about the rest of the people living in your household. This does not include the children you listed before or those who live in your household but are not supported by or contribute to your household's income.
-            form
-                .section#adult-num-Form.adultForm
-                    a.removeAdult.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
-                        i.material-icons remove
-                    h5 New Adult
-                    .row
-                      .input-field.col.s5
-                        input#adult-num-FirstName(type='text', name="adult-num-FirstName", required)
-                        label(for='adult-num-FirstName') First Name
-                      .input-field.col.s1
-                        input#adult-num-MiddleName(type='text', name="adult-num-MiddleName")
-                        label(for='adult-num-MiddleName') M. I.
-                      .input-field.col.s6
-                        input#adult-num-LastName(type='text', name="adult-num-LastName", required)
-                        label(for='adult-num-LastName') Last Name
-                    .row
-                        .col.s4.input-field
-                            select(multiple='', style='width:500px;')
-                                option(value='', disabled='', selected='') No Income
-                                option(value='1') Paying Job
-                                option(value='2') Public Assitance
-                                option(value='3') Child Support/Alimony
-                                option(value='4') Pensions/Retirement
-                                option(value='5') Other
-                            label Income Source
-                        .col.s4.input-field
-                            i.mdi-editor-attach-money.prefix
-                            input#adult-num-income.validate(type='text', name='adult-num-income', active=)
-                            label(for='adult-num-income') Adult Income  
-                        .col.s4.input-field
-                            select
-                                option(value='', disabled='', selected='') How often?
+            .section#incomeInfoSection
+                h4 Children Income Information
+                p Please provide information about your children's income. 
+                #childIncomeSection
+                    form#childIncomeTemplate.row.has-definition(data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: <ul class='list'><li>Paying Job</li><li>Social Security Disability Payments</li><li>Social Security Survivor's Benefits</li><li>Relative/Friend Outside Household</li><li>Private Pension Fund/Annuity/Trust</li>")
+                            .col.s4.input-field
+                                h5#childIncomeNameTemplate
+                            .col.s4.input-field
+                                i.mdi-editor-attach-money.prefix
+                                input#childIncomeFieldTemplate(type='text', name='childIncome', placeholder='0')
+                                label(for='childIncome') Income  
+                            .col.s4.input-field
+                                select#childIncomeFrequencyTemplate(name='childIncomeFrequency')
+                                    option(value='', disabled='', selected='') How often?
+                                    option(value='weekly') Weekly
+                                    option(value='biweekly') Every Two Weeks
+                                    option(value='semimonthly') Twice a Month
+                                    option(value='monthly') Monthly
+                                    option(value='annually') Annually 
+                                label Frequency
+                h4 Household Members
+                p Please provide information about the rest of the people living in your household. This does not include the children you listed before or those who live in your household but are not supported by or contribute to your household's income.
+                form
+                    .section#adult-num-Form.adultForm
+                        a.removeAdult.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
+                            i.material-icons remove
+                        h5 New Adult
+                        .row
+                          .input-field.col.s6
+                            input#adult-num-FirstName(type='text', name="adult-num-FirstName", required)
+                            label(for='adult-num-FirstName') First Name
+                          .input-field.col.s6
+                            input#adult-num-LastName(type='text', name="adult-num-LastName", required)
+                            label(for='adult-num-LastName') Last Name
+                        .row
+                            .col.s4.input-field
+                                select(multiple='', style='width:500px;')
+                                    option(value='', disabled='', selected='') No Income
+                                    option(value='1') Paying Job
+                                    option(value='2') Public Assitance
+                                    option(value='3') Child Support/Alimony
+                                    option(value='4') Pensions/Retirement
+                                    option(value='5') Other
+                                label Income Source
+                            .col.s4.input-field
+                                i.mdi-editor-attach-money.prefix
+                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
+                                label(for='adult-num-income') Adult Income  
+                            .col.s4.input-field
+                                select
+                                    option(value='', disabled='', selected='') How often?
+                                    option(value='weekly') Weekly`
+                                    option(value='biweekly') Every Two Weeks
+                                    option(value='semimonthly') Twice a Month
+                                    option(value='monthly') Monthly
+                                    option(value='annually') Annually 
+                                label Frequency
+                    .section#addAdultSection
+                        a#addAdult.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
+                            i.material-icons add
+                        h5 Add Another Adult
+                .section#primaryEarner
+                    h4 Primary Wage Earner
+                    p Does at least one adult member of your household possess a social security number (SSN)?
+                    form(action='#')
+                        p
+                            input#availableSSN(name='socialSecurity', type='radio')
+                            label(for='availableSSN') Yes
+                        p
+                            input#unavailableSSN(name='socialSecurity', type='radio')
+                            label(for='unavailableSSN') No.
+                    p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
+                    form
+                        .input-field.col.s6
+                            select(data-constrainwidth='false')
                                 option(value='weekly') Weekly`
                                 option(value='biweekly') Every Two Weeks
                                 option(value='semimonthly') Twice a Month
                                 option(value='monthly') Monthly
                                 option(value='annually') Annually 
-                            label Frequency
-                .section#addAdultSection
-                    a#addAdult.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
-                        i.material-icons add
-                    h5 Add Another Adult
-            .section#primaryEarner
-                h4 Primary Wage Earner
-                p Does at least one adult member of your household possess a social security number (SSN)?
-                form(action='#')
-                    p
-                        input#availableSSN(name='socialSecurity', type='radio')
-                        label(for='availableSSN') Yes
-                    p
-                        input#unavailableSSN(name='socialSecurity', type='radio')
-                        label(for='unavailableSSN') No.
-                p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
-                form
-                    .input-field.col.s6
-                        select
-                            option(value='weekly') Weekly`
-                            option(value='biweekly') Every Two Weeks
-                            option(value='semimonthly') Twice a Month
-                            option(value='monthly') Monthly
-                            option(value='annually') Annually 
-                        label Primary Wage Earner
-                    .input-field.col.s6
-                        input#disabled.validate(disabled='', value='XXX - XX', type='text')
-                        label(for='disabled') SSN
+                            label Primary Wage Earner
+                        .input-field.col.s6
+                            input#disabled.validate(disabled='', value='XXX - XX', type='text')
+                            label(for='disabled') SSN
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right.nextButton Next
-        .panel#panel6
-            h4 Household Information
+        .panel#submitPanel
+            h4 Submit
+            p Thanks for filling out the form. Click here to submit.
             
         #status-card.card-panel.teal.lighten-1
           span.white-text
