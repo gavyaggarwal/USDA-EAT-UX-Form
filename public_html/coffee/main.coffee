@@ -4,9 +4,11 @@ baseURL = 'http://localhost:8080/'
 # State Variables
 panel = 0
 child = 1
+panelStack = []
 
 # Data Variables
 childIncomeTemplate = null
+submitPanelIndex = null
 
 # Data Model that stores form data
 data =
@@ -27,7 +29,7 @@ updateProgressBar = ->
 # Transitions to the previous panel
 showPreviousPanel = ->
     currPanel = do currentPanel
-    panel--
+    panel = panelStack.pop()
     prevPanel = do currentPanel
     $(prevPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
     $('main').scrollLeft(720).animate { scrollLeft: 0 }, 1000
@@ -35,10 +37,11 @@ showPreviousPanel = ->
         $(this).css("display", "none")
     do updateProgressBar
 
-# Transitions to the next panel
-showNextPanel = ->
+# Helper function that animates panel sliding in from right
+forwardPanelTransition = (newPanel) ->
     currPanel = do currentPanel
-    panel++
+    panelStack.push panel
+    panel = newPanel
     nextPanel = do currentPanel
     $(currPanel).animate { opacity: 0 }, 1000, "swing", ->
         $(this).css("display", "none")
@@ -48,6 +51,14 @@ showNextPanel = ->
             scrollTop: 0
     $(nextPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
     do updateProgressBar
+
+# Transitions to the next panel
+showNextPanel = ->
+    forwardPanelTransition panel + 1
+
+# Transitions to final panel
+skipToSubmitPanel = ->
+    forwardPanelTransition submitPanelIndex
 
 # Returns an object holding the form values for fields with the given id
 objectForFields = (arr) ->
@@ -69,9 +80,10 @@ processParentInfo = ->
     else
         data.parent = null
 
-# Processes children information and continues to next panel if valid
+# Processes children information and continues if valid
 processChildrenInfo = ->
     allValid = true
+    allFosters = true
     $('#children_info').find('form').each ->
         $(this).submit()
         if !($(this).valid())
@@ -89,12 +101,32 @@ processChildrenInfo = ->
                         obj[field] = val
                 for field in ['student', 'foster', 'homeless', 'migrant', 'runaway']
                     obj[field] = document.getElementById('child' + i + field).checked
+                if !obj.foster
+                    allFosters = false
                 res.push obj
         data.children = res
         populateChildrenIncome res
-        do showNextPanel
+        if allFosters
+            do skipToSubmitPanel
+        else
+            do showNextPanel
     else
         data.children = null
+
+# Process program information and continues if valid
+processProgramInfo = ->
+    $('#program_info').find('form').submit()
+    if $('#program_info').find('form').valid()
+        if $("input[name='programParticipation']").val() == 'true'
+            data.program =
+                participates: true
+                caseNumber: $('#caseNumber').val()
+        else
+            data.program =
+                participates: false
+        do showNextPanel
+    else
+        data.program = null
 
 # Prints current form data to console
 showData = ->
@@ -145,6 +177,9 @@ setUpButtons = ->
     $('#childrenInfoButton').click ->
         do processChildrenInfo
 
+    $('#programInfoButton').click ->
+        do processProgramInfo
+
 # Configure helper tooltips
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
@@ -176,6 +211,8 @@ setUpValidation = (parent) ->
             email: 'email'
             phone: 'phoneUS'
             zipCode: 'digits'
+            caseNumber: 'required'
+            programParticipation: 'required'
 
     $('form').each ->
         $(this).validate {}
@@ -212,22 +249,24 @@ setUpChildPanel = ->
 
     do addChild
 
-setUpIncomePanel = ->
-    childIncomeElement = $('#childIncomeTemplate')
-    childIncomeTemplate = $(childIncomeElement)[0].outerHTML
-    #$(childIncomeElement).remove()
-
-    $('#caseNumberSection').hide 0
-    $('#incomeInfoSection').hide 0
+# Configure program panel to ask for case number when necessary
+setUpProgramPanel = ->
+    caseNumberHTML = $('#caseNumberSection').html()
+    $('#caseNumberSection').html ''
 
     $("input[name='programParticipation']").change ->
         if $(this).val() == 'true'
-            $('#caseNumberSection').show()
-            $('#incomeInfoSection').hide()
+            $('#caseNumberSection').html caseNumberHTML
         else
-            $('#caseNumberSection').hide()
-            $('#incomeInfoSection').show()
+            $('#caseNumberSection').html ''
 
+# Configure income panel to dynamically adapt to input
+setUpIncomePanel = ->
+    childIncomeElement = $('#childIncomeTemplate')
+    childIncomeTemplate = $(childIncomeElement)[0].outerHTML
+    $(childIncomeElement).remove()
+
+# Fill the income panel with a form asking for each child's income
 populateChildrenIncome = (children) ->
     childIncomeSection = $('#childIncomeSection')
     $(childIncomeSection).empty()
@@ -246,6 +285,9 @@ populateChildrenIncome = (children) ->
             .material_select()
         $(newForm).validate {}
 
+# TODO
+do setUpSubmitPanel = ->
+    submitPanelIndex = $('.panel').length - 1
 
 # Begin configuration when page is ready
 $ ->
@@ -253,7 +295,9 @@ $ ->
     do setUpDefinitions
     do setUpValidation
     do setUpChildPanel
+    do setUpProgramPanel
     do setUpIncomePanel
+    do setUpSubmitPanel
     $('select').material_select()
 
     do showNextPanel

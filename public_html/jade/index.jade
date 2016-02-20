@@ -160,25 +160,91 @@ html(lang="en")
                 h5 Add Another Child
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#childrenInfoButton Next
-        .panel#householdInfo
-            h4 Household Information
+        .panel#program_info
+            h4 Assistance Program Information
             p Does any member of your household participate in any of the following programs? 
             ul.list(style='margin-left: 50px;')
                 li Student Nutrition Assistance Program (SNAP) 
                 li Temporary Assistance for Needy Families (TANF) 
                 li Food Distribution Program on Indian Reservations (FDPIR)
-            p
-                input#programParticipant(name='programParticipation', type='radio', value='true')
-                label(for='programParticipant') Yes
-            p
-                input#notProgramParticipant(name='programParticipation', type='radio', value='false')
-                label(for='notProgramParticipant') No
-            .section#caseNumberSection
-                p Please provide a case number for one of these programs, even if you participate in multiple.
-                form.input-field
-                    input#caseNumber.validate(type='text', name='caseNumber')
-                    label(for='caseNumber') Case Number    
+            form
+                p
+                    input#programParticipant(name='programParticipation', type='radio', value='true')
+                    label(for='programParticipant') Yes
+                p
+                    input#notProgramParticipant(name='programParticipation', type='radio', value='false')
+                    label(for='notProgramParticipant') No
+                .section#caseNumberSection
+                    p Please provide a case number for one of these programs, even if you participate in multiple.
+                    form.input-field
+                        input#caseNumber(type='text', name='caseNumber')
+                        label(for='caseNumber') Case Number
+
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right#programInfoButton Next
+        .panel#household_info
+            h4 Household Information
             .section#incomeInfoSection
+                h4 Your Income Information
+                p Please provide your income information.
+                #parentIncomeSection
+                    form#parentIncomeTemplate
+                        .row
+                            .col.s4.input-field
+                                select(multiple='')
+                                    option(value='', disabled='', selected='') No Income
+                                    option(value='1') Paying Job
+                                    option(value='2') Public Assitance/Child Support/Alimony
+                                    option(value='3') Pensions/Retirement/Other
+                                label Income Source
+                        .row#jobIncome
+                            .col.s5
+                                h6 Salary and Wages
+                            .col.s3.input-field
+                                i.mdi-editor-attach-money.prefix
+                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
+                                label(for='adult-num-income') Income
+                            .col.s4.input-field
+                                select
+                                    option(value='', disabled='', selected='') How often?
+                                    option(value='weekly') Weekly`
+                                    option(value='biweekly') Every Two Weeks
+                                    option(value='semimonthly') Twice a Month
+                                    option(value='monthly') Monthly
+                                    option(value='annually') Annually 
+                                label Frequency
+                        .row#externalIncome
+                            .col.s5
+                                h6 Salary and Wages
+                            .col.s3.input-field
+                                i.mdi-editor-attach-money.prefix
+                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
+                                label(for='adult-num-income') Income
+                            .col.s4.input-field
+                                select
+                                    option(value='', disabled='', selected='') How often?
+                                    option(value='weekly') Weekly`
+                                    option(value='biweekly') Every Two Weeks
+                                    option(value='semimonthly') Twice a Month
+                                    option(value='monthly') Monthly
+                                    option(value='annually') Annually 
+                                label Frequency
+                        .row#otherIncome
+                            .col.s5
+                                h6 Pension/Retirement/Other
+                            .col.s3.input-field
+                                i.mdi-editor-attach-money.prefix
+                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
+                                label(for='adult-num-income') Income
+                            .col.s4.input-field
+                                select
+                                    option(value='', disabled='', selected='') How often?
+                                    option(value='weekly') Weekly`
+                                    option(value='biweekly') Every Two Weeks
+                                    option(value='semimonthly') Twice a Month
+                                    option(value='monthly') Monthly
+                                    option(value='annually') Annually 
+                                label Frequency
                 h4 Children Income Information
                 p Please provide information about your children's income. 
                 #childIncomeSection
@@ -267,6 +333,8 @@ html(lang="en")
         .panel#submitPanel
             h4 Submit
             p Thanks for filling out the form. Click here to submit.
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right Submit
             
         #status-card.card-panel.teal.lighten-1
           span.white-text
