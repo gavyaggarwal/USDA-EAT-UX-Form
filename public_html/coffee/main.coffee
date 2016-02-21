@@ -4,7 +4,9 @@ baseURL = 'http://localhost:8080/'
 # State Variables
 panel = 0
 child = 1
+adult = 1
 panelStack = []
+programParticipant = false
 
 # Data Variables
 childIncomeTemplate = null
@@ -14,6 +16,8 @@ submitPanelIndex = null
 data =
     parent: null
     children: null
+    program: null
+    adults: null
 
 # Returns current panel
 currentPanel = ->
@@ -21,7 +25,7 @@ currentPanel = ->
 
 # Update progress bar based on current panel
 updateProgressBar = ->
-    progress = (panel + 1) / ($('.panel').length + 1)
+    progress = panel / submitPanelIndex
     progressStr = progress * 100 + '%'
     $('#progressBar').animate
         width: progressStr
@@ -117,16 +121,42 @@ processChildrenInfo = ->
 processProgramInfo = ->
     $('#program_info').find('form').submit()
     if $('#program_info').find('form').valid()
-        if $("input[name='programParticipation']").val() == 'true'
+        if programParticipant
             data.program =
                 participates: true
                 caseNumber: $('#caseNumber').val()
+            do skipToSubmitPanel
         else
             data.program =
                 participates: false
-        do showNextPanel
+            do showNextPanel
     else
         data.program = null
+
+# Processes adult information and continues if valid
+processAdultInfo = ->
+    allValid = true
+    $('#household_info').find('form').each ->
+        $(this).submit()
+        if !($(this).valid())
+            allValid = false
+    if allValid
+        res = []
+        for i in [1...adult]
+            if document.getElementById('adult' + i + 'Form')
+                obj = {}
+                for field in ['FirstName', 'LastName']
+                    val = $('#adult' + i + field).val()
+                    if val == null || val == "" || val == undefined
+                        obj[field] = null
+                    else
+                        obj[field] = val
+                res.push obj
+        data.adults = res
+        populateAdultIncome res
+        do showNextPanel
+    else
+        data.adults = null
 
 # Prints current form data to console
 showData = ->
@@ -179,6 +209,9 @@ setUpButtons = ->
 
     $('#programInfoButton').click ->
         do processProgramInfo
+
+    $('#adultInfoButton').click ->
+        do processAdultInfo
 
 # Configure helper tooltips
 setUpDefinitions = (parent) ->
@@ -256,9 +289,32 @@ setUpProgramPanel = ->
 
     $("input[name='programParticipation']").change ->
         if $(this).val() == 'true'
+            programParticipant = true
             $('#caseNumberSection').html caseNumberHTML
         else
+            programParticipant = false
             $('#caseNumberSection').html ''
+
+# Configure household panel so that household members can be dynamically added and removed
+setUpHouseholdPanel = ->
+    template = $('#adult-num-Form')
+    templateHTML = $(template)[0].outerHTML
+    $(template).remove()
+
+    addAdult = ->
+        newHTML = templateHTML.replace /-num-/g, adult.toString()
+        newElement = $.parseHTML(newHTML)
+        setUpDefinitions newElement
+        $(newElement).validate {}
+        $('#addAdultSection').before newElement
+
+        adult++
+
+        $(newElement).find('.removeAdult').click ->
+            $(this).closest('form').remove()
+
+    $('#addAdult').click ->
+        do addAdult
 
 # Configure income panel to dynamically adapt to input
 setUpIncomePanel = ->
@@ -285,6 +341,9 @@ populateChildrenIncome = (children) ->
             .material_select()
         $(newForm).validate {}
 
+populateAdultIncome = (adults) ->
+    console.log 'TODO'
+
 # TODO
 do setUpSubmitPanel = ->
     submitPanelIndex = $('.panel').length - 1
@@ -296,11 +355,15 @@ $ ->
     do setUpValidation
     do setUpChildPanel
     do setUpProgramPanel
+    do setUpHouseholdPanel
+
     do setUpIncomePanel
+
     do setUpSubmitPanel
     $('select').material_select()
 
-    do showNextPanel
-    do showNextPanel
-    do showNextPanel
-    do showNextPanel
+    do showNextPanel for [1..6]
+    data.children = [
+        {FirstName: 'Gavy', LastName: 'Aggarwal'}
+    ]
+    populateChildrenIncome data.children

@@ -184,152 +184,137 @@ html(lang="en")
             a.waves-effect.btn.right#programInfoButton Next
         .panel#household_info
             h4 Household Information
-            .section#incomeInfoSection
-                h4 Your Income Information
-                p Please provide your income information.
-                #parentIncomeSection
-                    form#parentIncomeTemplate
-                        .row
-                            .col.s4.input-field
-                                select(multiple='')
-                                    option(value='', disabled='', selected='') No Income
-                                    option(value='1') Paying Job
-                                    option(value='2') Public Assitance/Child Support/Alimony
-                                    option(value='3') Pensions/Retirement/Other
-                                label Income Source
-                        .row#jobIncome
-                            .col.s5
-                                h6 Salary and Wages
-                            .col.s3.input-field
-                                i.mdi-editor-attach-money.prefix
-                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
-                                label(for='adult-num-income') Income
-                            .col.s4.input-field
-                                select
-                                    option(value='', disabled='', selected='') How often?
-                                    option(value='weekly') Weekly`
-                                    option(value='biweekly') Every Two Weeks
-                                    option(value='semimonthly') Twice a Month
-                                    option(value='monthly') Monthly
-                                    option(value='annually') Annually 
-                                label Frequency
-                        .row#externalIncome
-                            .col.s5
-                                h6 Salary and Wages
-                            .col.s3.input-field
-                                i.mdi-editor-attach-money.prefix
-                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
-                                label(for='adult-num-income') Income
-                            .col.s4.input-field
-                                select
-                                    option(value='', disabled='', selected='') How often?
-                                    option(value='weekly') Weekly`
-                                    option(value='biweekly') Every Two Weeks
-                                    option(value='semimonthly') Twice a Month
-                                    option(value='monthly') Monthly
-                                    option(value='annually') Annually 
-                                label Frequency
-                        .row#otherIncome
-                            .col.s5
-                                h6 Pension/Retirement/Other
-                            .col.s3.input-field
-                                i.mdi-editor-attach-money.prefix
-                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
-                                label(for='adult-num-income') Income
-                            .col.s4.input-field
-                                select
-                                    option(value='', disabled='', selected='') How often?
-                                    option(value='weekly') Weekly`
-                                    option(value='biweekly') Every Two Weeks
-                                    option(value='semimonthly') Twice a Month
-                                    option(value='monthly') Monthly
-                                    option(value='annually') Annually 
-                                label Frequency
-                h4 Children Income Information
-                p Please provide information about your children's income. 
-                #childIncomeSection
-                    form#childIncomeTemplate.row.has-definition(data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: <ul class='list'><li>Paying Job</li><li>Social Security Disability Payments</li><li>Social Security Survivor's Benefits</li><li>Relative/Friend Outside Household</li><li>Private Pension Fund/Annuity/Trust</li>")
-                            .col.s4.input-field
-                                h5#childIncomeNameTemplate
-                            .col.s4.input-field
-                                i.mdi-editor-attach-money.prefix
-                                input#childIncomeFieldTemplate(type='text', name='childIncome', placeholder='0')
-                                label(for='childIncome') Income  
-                            .col.s4.input-field
-                                select#childIncomeFrequencyTemplate(name='childIncomeFrequency')
-                                    option(value='', disabled='', selected='') How often?
-                                    option(value='weekly') Weekly
-                                    option(value='biweekly') Every Two Weeks
-                                    option(value='semimonthly') Twice a Month
-                                    option(value='monthly') Monthly
-                                    option(value='annually') Annually 
-                                label Frequency
-                h4 Household Members
-                p Please provide information about the rest of the people living in your household. This does not include the children you listed before or those who live in your household but are not supported by or contribute to your household's income.
-                form
-                    .section#adult-num-Form.adultForm
+            p Please list all members of your household, not including yourself and the children listed in the previous section. This does not include those who live in your household but are not supported by or contribute to your household's income.
+            form.row#adult-num-Form.adultForm
+                    .input-field.col.s5
+                        input#adult-num-FirstName(type='text', name="adult-num-FirstName", required)
+                        label(for='adult-num-FirstName') First Name
+                    .input-field.col.s6
+                        input#adult-num-LastName(type='text', name="adult-num-LastName", required)
+                        label(for='adult-num-LastName') Last Name
+                    .input-field.col.s1
                         a.removeAdult.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
                             i.material-icons remove
-                        h5 New Adult
-                        .row
-                          .input-field.col.s6
-                            input#adult-num-FirstName(type='text', name="adult-num-FirstName", required)
-                            label(for='adult-num-FirstName') First Name
-                          .input-field.col.s6
-                            input#adult-num-LastName(type='text', name="adult-num-LastName", required)
-                            label(for='adult-num-LastName') Last Name
-                        .row
-                            .col.s4.input-field
-                                select(multiple='', style='width:500px;')
-                                    option(value='', disabled='', selected='') No Income
-                                    option(value='1') Paying Job
-                                    option(value='2') Public Assitance
-                                    option(value='3') Child Support/Alimony
-                                    option(value='4') Pensions/Retirement
-                                    option(value='5') Other
-                                label Income Source
-                            .col.s4.input-field
-                                i.mdi-editor-attach-money.prefix
-                                input#adult-num-income.validate(type='text', name='adult-num-income', active=)
-                                label(for='adult-num-income') Adult Income  
-                            .col.s4.input-field
-                                select
-                                    option(value='', disabled='', selected='') How often?
-                                    option(value='weekly') Weekly`
-                                    option(value='biweekly') Every Two Weeks
-                                    option(value='semimonthly') Twice a Month
-                                    option(value='monthly') Monthly
-                                    option(value='annually') Annually 
-                                label Frequency
-                    .section#addAdultSection
-                        a#addAdult.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
-                            i.material-icons add
-                        h5 Add Another Adult
-                .section#primaryEarner
-                    h4 Primary Wage Earner
-                    p Does at least one adult member of your household possess a social security number (SSN)?
-                    form(action='#')
-                        p
-                            input#availableSSN(name='socialSecurity', type='radio')
-                            label(for='availableSSN') Yes
-                        p
-                            input#unavailableSSN(name='socialSecurity', type='radio')
-                            label(for='unavailableSSN') No.
-                    p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
-                    form
-                        .input-field.col.s6
-                            select(data-constrainwidth='false')
+            .row#addAdultSection
+                .input-field.col.s11
+                    h5 Add an Adult
+                .input-field.col.s1
+                    a#addAdult.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
+                        i.material-icons add
+            
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right#adultInfoButton Next                
+        .panel#income_info
+            h4 Income Information
+            p Specify the total income for each of the children in your household. If a child does not earn any income, simply leave the fields blank.
+            #childIncomeSection
+                form#childIncomeTemplate.row.has-definition(data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: <ul class='list'><li>Paying Job</li><li>Social Security Disability Payments</li><li>Social Security Survivor's Benefits</li><li>Relative/Friend Outside Household</li><li>Private Pension Fund/Annuity/Trust</li>")
+                    .col.s4.input-field
+                        h5#childIncomeNameTemplate
+                    .col.s4.input-field
+                        i.mdi-editor-attach-money.prefix
+                        input#childIncomeFieldTemplate(type='text', name='childIncome', placeholder='0', active='')
+                        label(for='childIncome') Income  
+                    .col.s4.input-field
+                        select#childIncomeFrequencyTemplate(name='childIncomeFrequency')
+                            option(value='', disabled='', selected='') How often?
+                            option(value='weekly') Weekly
+                            option(value='biweekly') Every Two Weeks
+                            option(value='semimonthly') Twice a Month
+                            option(value='monthly') Monthly
+                            option(value='annually') Annually 
+                        label Frequency
+            p Specify the gross income (before taxes and deductions) of each adult household member. Note the income source, amount, and frequency. Choose multiple sources if a member earns income from different types of sources. Also specify if there are household members that do not earn any individual income.
+            #adultIncomeSection
+                form#adultIncomeTemplate
+                    .row
+                        .col.s4.input-field
+                            h5#adultIncomeNameTemplate
+                        .col.s8.input-field
+                            select#adultIncomeTypeTemplate(multiple='', name='adultIncomeType')
+                                option(value='', disabled='', selected='') No Income
+                                option(value='1') Paying Job
+                                option(value='2') Public Assistance/Child Support/Alimony
+                                option(value='3') Pensions/Retirement/Other
+                            label Income Source
+                    .row#jobIncome
+                        .col.s5.input-field
+                            h6 Salary and Wages
+                        .col.s3.input-field
+                            i.mdi-editor-attach-money.prefix
+                            input#adult-num-income.validate(type='text', name='adult-num-incomeWage', active='', placeholder='0')
+                            label(for='adult-num-incomeWage') Income
+                        .col.s4.input-field
+                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeWageFrequency')
+                                option(value='', disabled='', selected='') How often?
                                 option(value='weekly') Weekly`
                                 option(value='biweekly') Every Two Weeks
                                 option(value='semimonthly') Twice a Month
                                 option(value='monthly') Monthly
                                 option(value='annually') Annually 
-                            label Primary Wage Earner
-                        .input-field.col.s6
-                            input#disabled.validate(disabled='', value='XXX - XX', type='text')
-                            label(for='disabled') SSN
+                            label Frequency
+                    .row#externalIncome
+                        .col.s5.input-field
+                            h6 Public Assistance/Child Support/Alimony
+                        .col.s3.input-field
+                            i.mdi-editor-attach-money.prefix
+                            input#adult-num-income.validate(type='text', name='adult-num-incomeExternal', active='', placeholder='0')
+                            label(for='adult-num-incomeExternal') Income
+                        .col.s4.input-field
+                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeExternalFrequency')
+                                option(value='', disabled='', selected='') How often?
+                                option(value='weekly') Weekly`
+                                option(value='biweekly') Every Two Weeks
+                                option(value='semimonthly') Twice a Month
+                                option(value='monthly') Monthly
+                                option(value='annually') Annually 
+                            label Frequency
+                    .row#otherIncome
+                        .col.s5.input-field
+                            h6 Pension/Retirement/Other
+                        .col.s3.input-field
+                            i.mdi-editor-attach-money.prefix
+                            input#adult-num-income.validate(type='text', name='adult-num-incomeOther', active='', placeholder='0')
+                            label(for='adult-num-incomeOther') Income
+                        .col.s4.input-field
+                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeOtherFrequency')
+                                option(value='', disabled='', selected='') How often?
+                                option(value='weekly') Weekly
+                                option(value='biweekly') Every Two Weeks
+                                option(value='semimonthly') Twice a Month
+                                option(value='monthly') Monthly
+                                option(value='annually') Annually 
+                            label Frequency
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right.nextButton Next
+        .panel#SSN_info
+            .section#primaryEarner
+                h4 Social Security Information
+                p Does at least one adult member of your household possess a social security number (SSN)?
+                form(action='#')
+                    p
+                        input#availableSSN(name='socialSecurity', type='radio')
+                        label(for='availableSSN') Yes
+                    p
+                        input#unavailableSSN(name='socialSecurity', type='radio')
+                        label(for='unavailableSSN') No.
+                p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
+                form.row
+                    .input-field.col.s6
+                        select(data-constrainwidth='false')
+                            option(value='weekly') Weekly`
+                            option(value='biweekly') Every Two Weeks
+                            option(value='semimonthly') Twice a Month
+                            option(value='monthly') Monthly
+                            option(value='annually') Annually 
+                        label Primary Wage Earner
+                    .input-field.col.s1
+                        input#SSN1.validate(disabled='', value='XXX -', type='text')
+                        label(for='disabled') SSN
+                    .input-field.col.s1
+                        input#SSN2.validate(disabled='', value='XX -', type='text')
+                    .input-field.col.s4
+                        input#SSN3.validate(placeholder='XXXX', type='text')
         .panel#submitPanel
             h4 Submit
             p Thanks for filling out the form. Click here to submit.
