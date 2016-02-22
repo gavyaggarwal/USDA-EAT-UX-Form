@@ -10,6 +10,7 @@ programParticipant = false
 
 # Data Variables
 childIncomeTemplate = null
+adultIncomeTemplate = null
 submitPanelIndex = null
 
 # Data Model that stores form data
@@ -322,18 +323,21 @@ setUpIncomePanel = ->
     childIncomeTemplate = $(childIncomeElement)[0].outerHTML
     $(childIncomeElement).remove()
 
+    adultIncomeElement = $('#adultIncomeTemplate')
+    adultIncomeTemplate = $(adultIncomeElement)[0].outerHTML
+    $(adultIncomeElement).remove()
+
 # Fill the income panel with a form asking for each child's income
 populateChildrenIncome = (children) ->
     childIncomeSection = $('#childIncomeSection')
     $(childIncomeSection).empty()
     for c, i in children
-        name = c.FirstName + ' ' + c.LastName
         newForm = $.parseHTML(childIncomeTemplate)
         $(childIncomeSection).append newForm
         $(newForm).attr 'id', 'childIncomeForm' + i
         $(newForm).find('#childIncomeNameTemplate')
             .attr 'id', 'childIncomeName' + i
-            .html name
+            .html c.FirstName
         $(newForm).find('#childIncomeFieldTemplate')
             .attr 'id', 'childIncomeField' + i
         $(newForm).find('#childIncomeFrequencyTemplate')
@@ -342,7 +346,21 @@ populateChildrenIncome = (children) ->
         $(newForm).validate {}
 
 populateAdultIncome = (adults) ->
-    console.log 'TODO'
+    adultIncomeSection = $('#adultIncomeSection')
+    $(adultIncomeSection).empty()
+    for a, i in adults
+        newForm = $.parseHTML(adultIncomeTemplate)
+        $(adultIncomeSection).append newForm
+        $(newForm).attr 'id', 'adultIncomeForm' + i
+        $(newForm).find('#adultIncomeNameTemplate')
+            .attr 'id', 'adultIncomeName' + i
+            .html a.FirstName
+        $(newForm).find('#adultIncomeTypeTemplate')
+            .attr 'id', 'adultIncomeType' + i
+            .change ->
+                console.log $(this).val()
+            .material_select()
+        $(newForm).validate {}
 
 # TODO
 do setUpSubmitPanel = ->
@@ -366,4 +384,8 @@ $ ->
     data.children = [
         {FirstName: 'Gavy', LastName: 'Aggarwal'}
     ]
+    data.adults = [
+        {FirstName: 'Abirami', LastName: 'Kurinchi-Vendhan'}
+    ]
     populateChildrenIncome data.children
+    populateAdultIncome data.adults

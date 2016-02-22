@@ -293,28 +293,24 @@ html(lang="en")
                 p Does at least one adult member of your household possess a social security number (SSN)?
                 form(action='#')
                     p
-                        input#availableSSN(name='socialSecurity', type='radio')
+                        input#availableSSN(name='socialSecurity', type='radio', required)
                         label(for='availableSSN') Yes
                     p
-                        input#unavailableSSN(name='socialSecurity', type='radio')
+                        input#unavailableSSN(name='socialSecurity', type='radio', required)
                         label(for='unavailableSSN') No.
                 p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
-                form.row
+                form.row#SSNInfo
                     .input-field.col.s6
                         select(data-constrainwidth='false')
-                            option(value='weekly') Weekly`
-                            option(value='biweekly') Every Two Weeks
-                            option(value='semimonthly') Twice a Month
-                            option(value='monthly') Monthly
-                            option(value='annually') Annually 
+                            option(value='1') Weekly
+                            option(value='2') Every Two Weeks
+                            option(value='3') Twice a Month
+                            option(value='4') Monthly
+                            option(value='5') Annually 
                         label Primary Wage Earner
-                    .input-field.col.s1
-                        input#SSN1.validate(disabled='', value='XXX -', type='text')
-                        label(for='disabled') SSN
-                    .input-field.col.s1
-                        input#SSN2.validate(disabled='', value='XX -', type='text')
-                    .input-field.col.s4
-                        input#SSN3.validate(placeholder='XXXX', type='text')
+                    .input-field.col.s6
+                        input#SSN.validate(type='text', placeholder='XXXX')
+                        label(for='disabled') Last 4 Digits of SSN
         .panel#submitPanel
             h4 Submit
             p Thanks for filling out the form. Click here to submit.

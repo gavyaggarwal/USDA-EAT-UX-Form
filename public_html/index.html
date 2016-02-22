@@ -348,35 +348,29 @@
           <p>Does at least one adult member of your household possess a social security number (SSN)?</p>
           <form action="#">
             <p>
-              <input id="availableSSN" name="socialSecurity" type="radio">
+              <input id="availableSSN" name="socialSecurity" type="radio" required>
               <label for="availableSSN">Yes</label>
             </p>
             <p>
-              <input id="unavailableSSN" name="socialSecurity" type="radio">
+              <input id="unavailableSSN" name="socialSecurity" type="radio" required>
               <label for="unavailableSSN">No.</label>
             </p>
           </form>
           <p>Choose the household's primary wage earner or another household member and list the last four digits of their SSN.</p>
-          <form class="row">
+          <form id="SSNInfo" class="row">
             <div class="input-field col s6">
               <select data-constrainwidth="false">
-                <option value="weekly">Weekly`</option>
-                <option value="biweekly">Every Two Weeks</option>
-                <option value="semimonthly">Twice a Month</option>
-                <option value="monthly">Monthly</option>
-                <option value="annually">Annually </option>
+                <option value="1">Weekly</option>
+                <option value="2">Every Two Weeks</option>
+                <option value="3">Twice a Month</option>
+                <option value="4">Monthly</option>
+                <option value="5">Annually </option>
               </select>
               <label>Primary Wage Earner</label>
             </div>
-            <div class="input-field col s1">
-              <input id="SSN1" disabled="" value="XXX -" type="text" class="validate">
-              <label for="disabled">SSN</label>
-            </div>
-            <div class="input-field col s1">
-              <input id="SSN2" disabled="" value="XX -" type="text" class="validate">
-            </div>
-            <div class="input-field col s4">
-              <input id="SSN3" placeholder="XXXX" type="text" class="validate">
+            <div class="input-field col s6">
+              <input id="SSN" type="text" placeholder="XXXX" class="validate">
+              <label for="disabled">Last 4 Digits of SSN</label>
             </div>
           </form>
         </div>
