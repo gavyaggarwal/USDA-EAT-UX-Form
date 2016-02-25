@@ -24,12 +24,27 @@ html(lang="en")
             h4 Welcome!
             .center-align
                 p The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.
-                a.waves-effect.btn#GetStartButton Get Started
-        .panel#general_info
-            h4 General Information
-            .center-align
-                p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.
-                a.waves-effect.btn.center.nextButton Got It!    
+                p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.
+                a.waves-effect.btn#GetStartButton Got It!
+        .panel#eligibility_info
+            h4 Categorical Eligibility
+            p Children are deemed eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. 
+            p On what basis are you applying for the NSLP?
+                form(action='#')
+                    p
+                        input#financial(name='eligibilityCategory', type='radio', required)
+                        label(for='financial') #[b Financial Need] - Based on demonstrated financial need.
+                    p 
+                        input#assistance(name='eligibilityCategory', type='radio', required)
+                        label(for='assistance') #[b Assistance Program Participation] - Based on participation in SNAP/TANF/FDPIR.
+                    p
+                        input#childStatus(name='eligibilityCategory', type='radio', required)
+                        label(for='childStatus') #[b Children Status] - Based on children's status as foster/homeless/migrant/runaway/etc.
+                    p
+                        input#unknown(name='eligibilityCategory', type='radio', required)
+                        label(for='unknown') #[b Unsure] - If you're not sure, don't worry! We'll find the category that best suits you.
+            .center-align            
+                a.waves-effect.btn.center.nextButton Get Started   
         .panel#parent_info
             h4 Parent Information
             p This information will help us reach you quickly if we need to contact you.
@@ -127,33 +142,34 @@ html(lang="en")
                     i.material-icons remove
                 h5 New Child
                 .row
-                  .input-field.col.s5
-                    input#child-num-FirstName(type='text', name="child-num-FirstName", required)
-                    label(for='child-num-FirstName') First Name
-                  .input-field.col.s1
-                    input#child-num-MiddleName(type='text', name="child-num-MiddleName")
-                    label(for='child-num-MiddleName') M. I.
-                  .input-field.col.s6
-                    input#child-num-LastName(type='text', name="child-num-LastName", required)
-                    label(for='child-num-LastName') Last Name
+                    .input-field.col.s5
+                        input#child-num-FirstName(type='text', name="child-num-FirstName", required)
+                        label(for='child-num-FirstName') First Name
+                    .input-field.col.s1
+                        input#child-num-MiddleName(type='text', name="child-num-MiddleName")
+                        label(for='child-num-MiddleName') M. I.
+                    .input-field.col.s6
+                        input#child-num-LastName(type='text', name="child-num-LastName", required)
+                        label(for='child-num-LastName') Last Name
                 .row
-                    .col.s1 &nbsp;
                     .col.s2.has-definition(data-definition="A student is anyone (of any age) attending grades K-12 at any school.")
-                      input#child-num-student(type='checkbox', name='child-num-student')
-                      label(for='child-num-student') Student
+                        input#child-num-student(type='checkbox', name='child-num-student')
+                        label(for='child-num-student') Student
                     .col.s2.has-definition(data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application.")
-                      input#child-num-foster(type='checkbox', name='child-num-foster')
-                      label(for='child-num-foster') Foster
+                        input#child-num-foster(type='checkbox', name='child-num-foster')
+                        label(for='child-num-foster') Foster
                     .col.s2.has-definition(data-definition="A child identified by the Local Education Agency (LEA) homeless liaison or by an official of a homeless shelter as lacking a fixed, regular, and adequate nighttime residence.")
-                      input#child-num-homeless(type='checkbox', name='child-num-homeless')
-                      label(for='child-num-homeless') Homeless
+                        input#child-num-homeless(type='checkbox', name='child-num-homeless')
+                        label(for='child-num-homeless') Homeless
                     .col.s2.has-definition(data-definition="A child identified as a migrant by the State or local Migrant Education Program coordinator or the local educational liaison, or other individual identified by FNS.")
-                      input#child-num-migrant(type='checkbox', name='child-num-migrant')
-                      label(for='child-num-migrant') Migrant
+                        input#child-num-migrant(type='checkbox', name='child-num-migrant')
+                        label(for='child-num-migrant') Migrant
                     .col.s2.has-definition(data-definition="A child identified as a runaway receiving assistance under a program under the Runaway and Homeless Youth Act, by the local educational liaison, or other individual in accordance with guidance issued by FNS.")
-                      input#child-num-runaway(type='checkbox', name='child-num-runaway')
-                      label(for='child-num-runaway') Runaway
-                    .col.s1 &nbsp;
+                        input#child-num-runaway(type='checkbox', name='child-num-runaway')
+                        label(for='child-num-runaway') Runaway
+                    .col.s2.has-definition(data-definition="A child that is enrolled in a Federal Head Start or State-funded pre-kindergarten program that uses eligibility criteria that is identical or more stringent than Federal Head Start.")
+                        input#child-num-headStart(type='checkbox', name='child-num-headStart')
+                        label(for='child-num-headStart') Head Start
             .section#addChildSection
                 a#addChild.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
                     i.material-icons add
@@ -206,24 +222,24 @@ html(lang="en")
             a.waves-effect.btn.right#adultInfoButton Next                
         .panel#income_info
             h4 Income Information
-            p Specify the total income for each of the children in your household. If a child does not earn any income, simply leave the fields blank.
+            p Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field.
             #childIncomeSection
-                form#childIncomeTemplate.row.has-definition(data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: <ul class='list'><li>Paying Job</li><li>Social Security Disability Payments</li><li>Social Security Survivor's Benefits</li><li>Relative/Friend Outside Household</li><li>Private Pension Fund/Annuity/Trust</li>")
-                    .col.s4.input-field
-                        h5#childIncomeNameTemplate
-                    .col.s4.input-field
-                        i.mdi-editor-attach-money.prefix
-                        input#childIncomeFieldTemplate(type='text', name='childIncome', placeholder='0', active='')
-                        label(for='childIncome') Income  
-                    .col.s4.input-field
-                        select#childIncomeFrequencyTemplate(name='childIncomeFrequency')
-                            option(value='', disabled='', selected='') How often?
-                            option(value='weekly') Weekly
-                            option(value='biweekly') Every Two Weeks
-                            option(value='semimonthly') Twice a Month
-                            option(value='monthly') Monthly
-                            option(value='annually') Annually 
-                        label Frequency
+                form#childIncomeTemplate
+                    .row.has-definition(data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: <ul class='list'><li>Paying Job</li><li>Social Security Disability Payments</li><li>Social Security Survivor's Benefits</li><li>Relative/Friend Outside Household</li><li>Private Pension Fund/Annuity/Trust</li>")
+                        .col.s4.input-field
+                            h5#childIncomeNameTemplate
+                        .col.s4.input-field
+                            i.mdi-editor-attach-money.prefix
+                            input#childIncomeFieldTemplate(type='text', name='childIncome', placeholder='0', active='', required)
+                            label(for='childIncome') Income  
+                        .col.s4.input-field
+                            select#childIncomeFrequencyTemplate(name='childIncomeFrequency', required)
+                                option(value='weekly') Weekly
+                                option(value='biweekly') Every Two Weeks
+                                option(value='semimonthly') Twice a Month
+                                option(value='monthly') Monthly
+                                option(value='annually') Annually 
+                            label Frequency
             p Specify the gross income (before taxes and deductions) of each adult household member. Note the income source, amount, and frequency. Choose multiple sources if a member earns income from different types of sources. Also specify if there are household members that do not earn any individual income.
             #adultIncomeSection
                 form#adultIncomeTemplate
@@ -233,52 +249,49 @@ html(lang="en")
                         .col.s8.input-field
                             select#adultIncomeTypeTemplate(multiple='', name='adultIncomeType')
                                 option(value='', disabled='', selected='') No Income
-                                option(value='1') Paying Job
-                                option(value='2') Public Assistance/Child Support/Alimony
-                                option(value='3') Pensions/Retirement/Other
+                                option(value='job') Paying Job
+                                option(value='external') Public Assistance/Child Support/Alimony
+                                option(value='other') Pensions/Retirement/Other
                             label Income Source
-                    .row#jobIncome
+                    .row#jobIncomeTemplate
                         .col.s5.input-field
                             h6 Salary and Wages
                         .col.s3.input-field
                             i.mdi-editor-attach-money.prefix
-                            input#adult-num-income.validate(type='text', name='adult-num-incomeWage', active='', placeholder='0')
-                            label(for='adult-num-incomeWage') Income
+                            input#adult-num-income.validate(type='text', name='adultIncomeWage', active='', placeholder='0', required)
+                            label(for='adultIncomeWage') Income
                         .col.s4.input-field
-                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeWageFrequency')
-                                option(value='', disabled='', selected='') How often?
-                                option(value='weekly') Weekly`
+                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeWageFrequency', required='')
+                                option(value='weekly') Weekly
                                 option(value='biweekly') Every Two Weeks
                                 option(value='semimonthly') Twice a Month
                                 option(value='monthly') Monthly
                                 option(value='annually') Annually 
                             label Frequency
-                    .row#externalIncome
+                    .row#externalIncomeTemplate
                         .col.s5.input-field
                             h6 Public Assistance/Child Support/Alimony
                         .col.s3.input-field
                             i.mdi-editor-attach-money.prefix
-                            input#adult-num-income.validate(type='text', name='adult-num-incomeExternal', active='', placeholder='0')
-                            label(for='adult-num-incomeExternal') Income
+                            input#adult-num-income.validate(type='text', name='adultIncomeExternal', active='', placeholder='0', required)
+                            label(for='adultIncomeExternal') Income
                         .col.s4.input-field
-                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeExternalFrequency')
-                                option(value='', disabled='', selected='') How often?
-                                option(value='weekly') Weekly`
+                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeExternalFrequency', required='')
+                                option(value='weekly') Weekly
                                 option(value='biweekly') Every Two Weeks
                                 option(value='semimonthly') Twice a Month
                                 option(value='monthly') Monthly
                                 option(value='annually') Annually 
                             label Frequency
-                    .row#otherIncome
+                    .row#otherIncomeTemplate
                         .col.s5.input-field
                             h6 Pension/Retirement/Other
                         .col.s3.input-field
                             i.mdi-editor-attach-money.prefix
-                            input#adult-num-income.validate(type='text', name='adult-num-incomeOther', active='', placeholder='0')
-                            label(for='adult-num-incomeOther') Income
+                            input#adult-num-income.validate(type='text', name='adultIncomeOther', active='', placeholder='0', required)
+                            label(for='adultIncomeOther') Income
                         .col.s4.input-field
-                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeOtherFrequency')
-                                option(value='', disabled='', selected='') How often?
+                            select#adultIncomeWageFrequencyTemplate(name='adultIncomeOtherFrequency', required='')
                                 option(value='weekly') Weekly
                                 option(value='biweekly') Every Two Weeks
                                 option(value='semimonthly') Twice a Month
@@ -286,34 +299,49 @@ html(lang="en")
                                 option(value='annually') Annually 
                             label Frequency
             a.waves-effect.btn.left.backButton Back
-            a.waves-effect.btn.right.nextButton Next
-        .panel#SSN_info
+            a.waves-effect.btn.right#incomeInfoButton Next
+        .panel#ssn_info
             .section#primaryEarner
                 h4 Social Security Information
-                p Does at least one adult member of your household possess a social security number (SSN)?
-                form(action='#')
-                    p
-                        input#availableSSN(name='socialSecurity', type='radio', required)
-                        label(for='availableSSN') Yes
-                    p
-                        input#unavailableSSN(name='socialSecurity', type='radio', required)
-                        label(for='unavailableSSN') No.
-                p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
-                form.row#SSNInfo
-                    .input-field.col.s6
-                        select(data-constrainwidth='false')
-                            option(value='1') Weekly
-                            option(value='2') Every Two Weeks
-                            option(value='3') Twice a Month
-                            option(value='4') Monthly
-                            option(value='5') Annually 
-                        label Primary Wage Earner
-                    .input-field.col.s6
-                        input#SSN.validate(type='text', placeholder='XXXX')
-                        label(for='disabled') Last 4 Digits of SSN
-        .panel#submitPanel
+                form
+                    .section#ssnAvailability
+                        p Does at least one adult member of your household possess a social security number (SSN)?
+                        p
+                            input#availableSSN(name='socialSecurity', type='radio', value='true', required)
+                            label(for='availableSSN') Yes
+                        p
+                            input#unavailableSSN(name='socialSecurity', type='radio', value='false', required)
+                            label(for='unavailableSSN') No
+                    p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
+                    .section#ssnDetails.row
+                        .input-field.col.s6
+                            select(data-constrainwidth='false')
+                                option(value=0) Weekly
+                                option(value=1) Every Two Weeks
+                                option(value=2) Twice a Month
+                                option(value=3) Monthly
+                                option(value=4) Annually 
+                            label Primary Wage Earner
+                        .input-field.col.s6
+                            input#SSN.validate(type='text', placeholder='XXXX')
+                            label(for='disabled') Last 4 Digits of SSN
+                        
+                a.waves-effect.btn.left.backButton Back
+                a.waves-effect.btn.right.nextButton Next
+        .panel#submit
             h4 Submit
             p Thanks for filling out the form. Click here to submit.
+            
+            h5 Electronic Signature
+            p By signing below, you attest to the following statements:
+            ul.list(style='margin-left: 50px;')
+                li  The person signing is furnishing true information and to advise that person that the application is being made in connection with the receipt of Federal funds
+                li  School officials may verify the information on the application.
+                li  Deliberate misrepresentation of the information may subject the applicant to prosecution under State and Federal statutes.
+            .row.input-field
+                i.mdi-image-edit.prefix
+                input#signature.validate(type='text', name='signature', required)
+                label Signature
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right Submit
             

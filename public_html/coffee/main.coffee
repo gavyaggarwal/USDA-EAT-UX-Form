@@ -12,6 +12,7 @@ programParticipant = false
 childIncomeTemplate = null
 adultIncomeTemplate = null
 submitPanelIndex = null
+adultIncomeTemplate = null
 
 # Data Model that stores form data
 data =
@@ -19,6 +20,8 @@ data =
     children: null
     program: null
     adults: null
+    earner: null
+    agreement: null
 
 # Returns current panel
 currentPanel = ->
@@ -88,7 +91,7 @@ processParentInfo = ->
 # Processes children information and continues if valid
 processChildrenInfo = ->
     allValid = true
-    allFosters = true
+    allExempt = true
     $('#children_info').find('form').each ->
         $(this).submit()
         if !($(this).valid())
@@ -104,14 +107,14 @@ processChildrenInfo = ->
                         obj[field] = null
                     else
                         obj[field] = val
-                for field in ['student', 'foster', 'homeless', 'migrant', 'runaway']
+                for field in ['student', 'foster', 'homeless', 'migrant', 'runaway', 'headStart']
                     obj[field] = document.getElementById('child' + i + field).checked
-                if !obj.foster
-                    allFosters = false
+                if obj.student and !obj.foster and !obj.homeless and !obj.migrant and !obj.runaway and !obj.headStart
+                    allExempt = false
                 res.push obj
         data.children = res
         populateChildrenIncome res
-        if allFosters
+        if allExempt
             do skipToSubmitPanel
         else
             do showNextPanel
@@ -158,6 +161,47 @@ processAdultInfo = ->
         do showNextPanel
     else
         data.adults = null
+
+# Processes income information and continues if valid
+processIncomeInfo = ->
+    allValid = true
+    $('#income_info').find('form').each ->
+        $(this).submit()
+        if !($(this).valid())
+            allValid = false
+    if allValid
+        for form, i in $('#childIncomeSection').find('form')
+            data.children[i].income =
+                amount: $(form).find('[name="childIncome"]').val()
+                frequency: $(form).find('[name="childIncomeFrequency"]').val()
+        for form, i in $('#adultIncomeSection').find('form')
+            income = []
+            for method in $(form).find('#adultIncomeType' + i).val()
+                if method == 'job'
+                    income.push
+                        type: 'job',
+                        amount: $(form).find('[name="adultIncomeWage"]').val()
+                        frequency: $(form).find('[name="adultIncomeWageFrequency"]').val()
+                else if method == 'external'
+                    income.push
+                        type: 'external',
+                        amount: $(form).find('[name="adultIncomeExternal"]').val()
+                        frequency: $(form).find('[name="adultIncomeExternalFrequency"]').val()
+                else if method == 'other'
+                    income.push
+                        type: 'other',
+                        amount: $(form).find('[name="adultIncomeOther"]').val()
+                        frequency: $(form).find('[name="adultIncomeOtherFrequency"]').val()
+
+            if i == 0
+                data.parent.income = income
+            else
+                data.adults[i - 1].income = income
+
+        do showNextPanel
+    else
+        data.adults = null
+
 
 # Prints current form data to console
 showData = ->
@@ -214,6 +258,9 @@ setUpButtons = ->
     $('#adultInfoButton').click ->
         do processAdultInfo
 
+    $('#incomeInfoButton').click ->
+        do processIncomeInfo
+
 # Configure helper tooltips
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
@@ -247,6 +294,10 @@ setUpValidation = (parent) ->
             zipCode: 'digits'
             caseNumber: 'required'
             programParticipation: 'required'
+            childIncome: 'digits'
+            adultIncomeWage: 'digits'
+            adultIncomeExternal: 'digits'
+            adultIncomeOther: 'digits'
 
     $('form').each ->
         $(this).validate {}
@@ -334,6 +385,7 @@ populateChildrenIncome = (children) ->
     for c, i in children
         newForm = $.parseHTML(childIncomeTemplate)
         $(childIncomeSection).append newForm
+        setUpDefinitions newForm
         $(newForm).attr 'id', 'childIncomeForm' + i
         $(newForm).find('#childIncomeNameTemplate')
             .attr 'id', 'childIncomeName' + i
@@ -348,9 +400,13 @@ populateChildrenIncome = (children) ->
 populateAdultIncome = (adults) ->
     adultIncomeSection = $('#adultIncomeSection')
     $(adultIncomeSection).empty()
-    for a, i in adults
+    adultIncomeBoxes = new Array(adults.length + 1)
+    allAdults = adults.slice 0
+    allAdults.unshift {FirstName: data.parent.parentFirstName}
+    for a, i in allAdults
         newForm = $.parseHTML(adultIncomeTemplate)
         $(adultIncomeSection).append newForm
+        setUpDefinitions newForm
         $(newForm).attr 'id', 'adultIncomeForm' + i
         $(newForm).find('#adultIncomeNameTemplate')
             .attr 'id', 'adultIncomeName' + i
@@ -358,9 +414,53 @@ populateAdultIncome = (adults) ->
         $(newForm).find('#adultIncomeTypeTemplate')
             .attr 'id', 'adultIncomeType' + i
             .change ->
-                console.log $(this).val()
+                form = $(this).closest('form')
+                j = $(form).index()
+                $('#adultIncomeForm' + i + ' .select-wrapper')
+                for box in adultIncomeBoxes[j]
+                    $(box).find('select').material_select 'destroy'
+                    $(box).remove()
+                for method in $(this).val()
+                    if method == 'job'
+                        $(form).append(adultIncomeBoxes[j][0])
+                        $(adultIncomeBoxes[j][0]).find('select').material_select()
+                    else if method == 'external'
+                        $(form).append(adultIncomeBoxes[j][1])
+                        $(adultIncomeBoxes[j][1]).find('select').material_select()
+                    else if method == 'other'
+                        $(form).append(adultIncomeBoxes[j][2])
+                        $(adultIncomeBoxes[j][2]).find('select').material_select()
             .material_select()
+        jobIncome = $(newForm).find('#jobIncomeTemplate')
+        $(jobIncome).attr 'id', 'jobIncome' + i
+        externalIncome = $(newForm).find('#externalIncomeTemplate')
+        $(externalIncome).attr 'id', 'externalIncome' + i
+        otherIncome = $(newForm).find('#otherIncomeTemplate')
+        $(otherIncome).attr 'id', 'otherIncome' + i
+
+        adultIncomeBoxes[i] = [
+            jobIncome
+            externalIncome
+            otherIncome
+        ]
+        for box in adultIncomeBoxes[i]
+            $(box).find('select').material_select 'destroy'
+            $(box).remove()
+
         $(newForm).validate {}
+
+# Configure SSN panel to ask for SSN of primary wage earner
+setUpSSNPanel = ->
+    caseNumberHTML = $('#caseNumberSection').html()
+    $('#caseNumberSection').html ''
+
+    $("input[name='programParticipation']").change ->
+        if $(this).val() == 'true'
+            programParticipant = true
+            $('#caseNumberSection').html caseNumberHTML
+        else
+            programParticipant = false
+            $('#caseNumberSection').html ''
 
 # TODO
 do setUpSubmitPanel = ->
@@ -380,12 +480,4 @@ $ ->
     do setUpSubmitPanel
     $('select').material_select()
 
-    do showNextPanel for [1..6]
-    data.children = [
-        {FirstName: 'Gavy', LastName: 'Aggarwal'}
-    ]
-    data.adults = [
-        {FirstName: 'Abirami', LastName: 'Kurinchi-Vendhan'}
-    ]
-    populateChildrenIncome data.children
-    populateAdultIncome data.adults
+    do showNextPanel for [1..7]

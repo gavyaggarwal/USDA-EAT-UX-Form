@@ -30,14 +30,34 @@
       <div id="welcome" class="panel">
         <h4>Welcome!</h4>
         <div class="center-align">
-          <p>The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.</p><a id="GetStartButton" class="waves-effect btn">Get Started</a>
+          <p>The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.</p>
+          <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.</p><a id="GetStartButton" class="waves-effect btn">Got It!</a>
         </div>
       </div>
-      <div id="general_info" class="panel">
-        <h4>General Information</h4>
-        <div class="center-align">
-          <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following completely and accurately to certify your children for free or reduced price school meals.</p><a class="waves-effect btn center nextButton">Got It!    </a>
-        </div>
+      <div id="eligibility_info" class="panel">
+        <h4>Categorical Eligibility</h4>
+        <p>Children are deemed eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. </p>
+        <p>On what basis are you applying for the NSLP?
+          <form action="#">
+            <p>
+              <input id="financial" name="eligibilityCategory" type="radio" required>
+              <label for="financial"><b>Financial Need</b> - Based on demonstrated financial need.</label>
+            </p>
+            <p>
+              <input id="assistance" name="eligibilityCategory" type="radio" required>
+              <label for="assistance"><b>Assistance Program Participation</b> - Based on participation in SNAP/TANF/FDPIR.</label>
+            </p>
+            <p>
+              <input id="childStatus" name="eligibilityCategory" type="radio" required>
+              <label for="childStatus"><b>Children Status</b> - Based on children's status as foster/homeless/migrant/runaway/etc.</label>
+            </p>
+            <p>
+              <input id="unknown" name="eligibilityCategory" type="radio" required>
+              <label for="unknown"><b>Unsure</b> - If you're not sure, don't worry! We'll find the category that best suits you.</label>
+            </p>
+          </form>
+        </p>
+        <div class="center-align">           <a class="waves-effect btn center nextButton">Get Started   </a></div>
       </div>
       <div id="parent_info" class="panel">
         <h4>Parent Information</h4>
@@ -162,7 +182,6 @@
             </div>
           </div>
           <div class="row">
-            <div class="col s1">&nbsp;</div>
             <div data-definition="A student is anyone (of any age) attending grades K-12 at any school." class="col s2 has-definition">
               <input id="child-num-student" type="checkbox" name="child-num-student">
               <label for="child-num-student">Student</label>
@@ -183,7 +202,10 @@
               <input id="child-num-runaway" type="checkbox" name="child-num-runaway">
               <label for="child-num-runaway">Runaway</label>
             </div>
-            <div class="col s1">&nbsp;</div>
+            <div data-definition="A child that is enrolled in a Federal Head Start or State-funded pre-kindergarten program that uses eligibility criteria that is identical or more stringent than Federal Head Start." class="col s2 has-definition">
+              <input id="child-num-headStart" type="checkbox" name="child-num-headStart">
+              <label for="child-num-headStart">Head Start</label>
+            </div>
           </div>
         </form>
         <div id="addChildSection" class="section"><a id="addChild" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
@@ -239,26 +261,27 @@
       </div>
       <div id="income_info" class="panel">
         <h4>Income Information</h4>
-        <p>Specify the total income for each of the children in your household. If a child does not earn any income, simply leave the fields blank.</p>
+        <p>Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field.</p>
         <div id="childIncomeSection">
-          <form id="childIncomeTemplate" data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: &lt;ul class='list'&gt;&lt;li&gt;Paying Job&lt;/li&gt;&lt;li&gt;Social Security Disability Payments&lt;/li&gt;&lt;li&gt;Social Security Survivor's Benefits&lt;/li&gt;&lt;li&gt;Relative/Friend Outside Household&lt;/li&gt;&lt;li&gt;Private Pension Fund/Annuity/Trust&lt;/li&gt;" class="row has-definition">
-            <div class="col s4 input-field">
-              <h5 id="childIncomeNameTemplate"></h5>
-            </div>
-            <div class="col s4 input-field"><i class="mdi-editor-attach-money prefix"></i>
-              <input id="childIncomeFieldTemplate" type="text" name="childIncome" placeholder="0" active="">
-              <label for="childIncome">Income  </label>
-            </div>
-            <div class="col s4 input-field">
-              <select id="childIncomeFrequencyTemplate" name="childIncomeFrequency">
-                <option value="" disabled="" selected="">How often?</option>
-                <option value="weekly">Weekly</option>
-                <option value="biweekly">Every Two Weeks</option>
-                <option value="semimonthly">Twice a Month</option>
-                <option value="monthly">Monthly</option>
-                <option value="annually">Annually </option>
-              </select>
-              <label>Frequency</label>
+          <form id="childIncomeTemplate">
+            <div data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: &lt;ul class='list'&gt;&lt;li&gt;Paying Job&lt;/li&gt;&lt;li&gt;Social Security Disability Payments&lt;/li&gt;&lt;li&gt;Social Security Survivor's Benefits&lt;/li&gt;&lt;li&gt;Relative/Friend Outside Household&lt;/li&gt;&lt;li&gt;Private Pension Fund/Annuity/Trust&lt;/li&gt;" class="row has-definition">
+              <div class="col s4 input-field">
+                <h5 id="childIncomeNameTemplate"></h5>
+              </div>
+              <div class="col s4 input-field"><i class="mdi-editor-attach-money prefix"></i>
+                <input id="childIncomeFieldTemplate" type="text" name="childIncome" placeholder="0" active="" required>
+                <label for="childIncome">Income  </label>
+              </div>
+              <div class="col s4 input-field">
+                <select id="childIncomeFrequencyTemplate" name="childIncomeFrequency" required>
+                  <option value="weekly">Weekly</option>
+                  <option value="biweekly">Every Two Weeks</option>
+                  <option value="semimonthly">Twice a Month</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="annually">Annually </option>
+                </select>
+                <label>Frequency</label>
+              </div>
             </div>
           </form>
         </div>
@@ -272,25 +295,24 @@
               <div class="col s8 input-field">
                 <select id="adultIncomeTypeTemplate" multiple="" name="adultIncomeType">
                   <option value="" disabled="" selected="">No Income</option>
-                  <option value="1">Paying Job</option>
-                  <option value="2">Public Assistance/Child Support/Alimony</option>
-                  <option value="3">Pensions/Retirement/Other</option>
+                  <option value="job">Paying Job</option>
+                  <option value="external">Public Assistance/Child Support/Alimony</option>
+                  <option value="other">Pensions/Retirement/Other</option>
                 </select>
                 <label>Income Source</label>
               </div>
             </div>
-            <div id="jobIncome" class="row">
+            <div id="jobIncomeTemplate" class="row">
               <div class="col s5 input-field">
                 <h6>Salary and Wages</h6>
               </div>
               <div class="col s3 input-field"><i class="mdi-editor-attach-money prefix"></i>
-                <input id="adult-num-income" type="text" name="adult-num-incomeWage" active="" placeholder="0" class="validate">
-                <label for="adult-num-incomeWage">Income</label>
+                <input id="adult-num-income" type="text" name="adultIncomeWage" active="" placeholder="0" required class="validate">
+                <label for="adultIncomeWage">Income</label>
               </div>
               <div class="col s4 input-field">
-                <select id="adultIncomeWageFrequencyTemplate" name="adultIncomeWageFrequency">
-                  <option value="" disabled="" selected="">How often?</option>
-                  <option value="weekly">Weekly`</option>
+                <select id="adultIncomeWageFrequencyTemplate" name="adultIncomeWageFrequency" required="">
+                  <option value="weekly">Weekly</option>
                   <option value="biweekly">Every Two Weeks</option>
                   <option value="semimonthly">Twice a Month</option>
                   <option value="monthly">Monthly</option>
@@ -299,18 +321,17 @@
                 <label>Frequency</label>
               </div>
             </div>
-            <div id="externalIncome" class="row">
+            <div id="externalIncomeTemplate" class="row">
               <div class="col s5 input-field">
                 <h6>Public Assistance/Child Support/Alimony</h6>
               </div>
               <div class="col s3 input-field"><i class="mdi-editor-attach-money prefix"></i>
-                <input id="adult-num-income" type="text" name="adult-num-incomeExternal" active="" placeholder="0" class="validate">
-                <label for="adult-num-incomeExternal">Income</label>
+                <input id="adult-num-income" type="text" name="adultIncomeExternal" active="" placeholder="0" required class="validate">
+                <label for="adultIncomeExternal">Income</label>
               </div>
               <div class="col s4 input-field">
-                <select id="adultIncomeWageFrequencyTemplate" name="adultIncomeExternalFrequency">
-                  <option value="" disabled="" selected="">How often?</option>
-                  <option value="weekly">Weekly`</option>
+                <select id="adultIncomeWageFrequencyTemplate" name="adultIncomeExternalFrequency" required="">
+                  <option value="weekly">Weekly</option>
                   <option value="biweekly">Every Two Weeks</option>
                   <option value="semimonthly">Twice a Month</option>
                   <option value="monthly">Monthly</option>
@@ -319,17 +340,16 @@
                 <label>Frequency</label>
               </div>
             </div>
-            <div id="otherIncome" class="row">
+            <div id="otherIncomeTemplate" class="row">
               <div class="col s5 input-field">
                 <h6>Pension/Retirement/Other</h6>
               </div>
               <div class="col s3 input-field"><i class="mdi-editor-attach-money prefix"></i>
-                <input id="adult-num-income" type="text" name="adult-num-incomeOther" active="" placeholder="0" class="validate">
-                <label for="adult-num-incomeOther">Income</label>
+                <input id="adult-num-income" type="text" name="adultIncomeOther" active="" placeholder="0" required class="validate">
+                <label for="adultIncomeOther">Income</label>
               </div>
               <div class="col s4 input-field">
-                <select id="adultIncomeWageFrequencyTemplate" name="adultIncomeOtherFrequency">
-                  <option value="" disabled="" selected="">How often?</option>
+                <select id="adultIncomeWageFrequencyTemplate" name="adultIncomeOtherFrequency" required="">
                   <option value="weekly">Weekly</option>
                   <option value="biweekly">Every Two Weeks</option>
                   <option value="semimonthly">Twice a Month</option>
@@ -340,44 +360,57 @@
               </div>
             </div>
           </form>
-        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
+        </div><a class="waves-effect btn left backButton">Back</a><a id="incomeInfoButton" class="waves-effect btn right">Next</a>
       </div>
-      <div id="SSN_info" class="panel">
+      <div id="ssn_info" class="panel">
         <div id="primaryEarner" class="section">
           <h4>Social Security Information</h4>
-          <p>Does at least one adult member of your household possess a social security number (SSN)?</p>
-          <form action="#">
-            <p>
-              <input id="availableSSN" name="socialSecurity" type="radio" required>
-              <label for="availableSSN">Yes</label>
-            </p>
-            <p>
-              <input id="unavailableSSN" name="socialSecurity" type="radio" required>
-              <label for="unavailableSSN">No.</label>
-            </p>
-          </form>
-          <p>Choose the household's primary wage earner or another household member and list the last four digits of their SSN.</p>
-          <form id="SSNInfo" class="row">
-            <div class="input-field col s6">
-              <select data-constrainwidth="false">
-                <option value="1">Weekly</option>
-                <option value="2">Every Two Weeks</option>
-                <option value="3">Twice a Month</option>
-                <option value="4">Monthly</option>
-                <option value="5">Annually </option>
-              </select>
-              <label>Primary Wage Earner</label>
+          <form>
+            <div id="ssnAvailability" class="section">
+              <p>Does at least one adult member of your household possess a social security number (SSN)?</p>
+              <p>
+                <input id="availableSSN" name="socialSecurity" type="radio" value="true" required>
+                <label for="availableSSN">Yes</label>
+              </p>
+              <p>
+                <input id="unavailableSSN" name="socialSecurity" type="radio" value="false" required>
+                <label for="unavailableSSN">No</label>
+              </p>
             </div>
-            <div class="input-field col s6">
-              <input id="SSN" type="text" placeholder="XXXX" class="validate">
-              <label for="disabled">Last 4 Digits of SSN</label>
+            <p>Choose the household's primary wage earner or another household member and list the last four digits of their SSN.</p>
+            <div id="ssnDetails" class="section row">
+              <div class="input-field col s6">
+                <select data-constrainwidth="false">
+                  <option value="0">Weekly</option>
+                  <option value="1">Every Two Weeks</option>
+                  <option value="2">Twice a Month</option>
+                  <option value="3">Monthly</option>
+                  <option value="4">Annually </option>
+                </select>
+                <label>Primary Wage Earner</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="SSN" type="text" placeholder="XXXX" class="validate">
+                <label for="disabled">Last 4 Digits of SSN</label>
+              </div>
             </div>
-          </form>
+          </form><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right nextButton">Next</a>
         </div>
       </div>
-      <div id="submitPanel" class="panel">
+      <div id="submit" class="panel">
         <h4>Submit</h4>
-        <p>Thanks for filling out the form. Click here to submit.</p><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right">Submit</a>
+        <p>Thanks for filling out the form. Click here to submit.</p>
+        <h5>Electronic Signature</h5>
+        <p>By signing below, you attest to the following statements:</p>
+        <ul style="margin-left: 50px;" class="list">
+          <li> The person signing is furnishing true information and to advise that person that the application is being made in connection with the receipt of Federal funds</li>
+          <li> School officials may verify the information on the application.</li>
+          <li> Deliberate misrepresentation of the information may subject the applicant to prosecution under State and Federal statutes.</li>
+        </ul>
+        <div class="row input-field"><i class="mdi-image-edit prefix"></i>
+          <input id="signature" type="text" name="signature" required class="validate">
+          <label>Signature</label>
+        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right">Submit</a>
       </div>
       <div id="status-card" class="card-panel teal lighten-1"><span class="white-text"></span></div>
     </main>
