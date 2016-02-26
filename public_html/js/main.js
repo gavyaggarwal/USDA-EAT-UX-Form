@@ -30,7 +30,6 @@ data = {
   program: null,
   adults: null,
   earner: null,
-  agreement: null,
   signature: null
 };
 
@@ -116,7 +115,7 @@ processEligibilityInfo = function() {
   $(form).submit();
   if ($(form).valid()) {
     data.eligibility = {
-      type: $(form).find('input[name="eligibilityCategory"]')
+      type: $(form).find('input[name="eligibilityCategory"]:checked').val()
     };
     return showNextPanel();
   }
@@ -300,7 +299,7 @@ processSSNInfo = function() {
       }
       data.earner = {
         name: name,
-        ssn: $(form).find('#ssn').val()
+        ssn: $(form).find('#SSN').val()
       };
     } else {
       data.earner = null;

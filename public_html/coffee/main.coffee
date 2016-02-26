@@ -23,7 +23,6 @@ data =
     program: null
     adults: null
     earner: null
-    agreement: null
     signature: null
 
 # Returns current panel
@@ -96,7 +95,7 @@ processEligibilityInfo = ->
     if $(form).valid()
         # Add the eligibility to our data model
         data.eligibility =
-            type: $(form).find('input[name="eligibilityCategory"]')
+            type: $(form).find('input[name="eligibilityCategory"]:checked').val()
         do showNextPanel
 
 # Processes parent information and continues to next panel if valid
@@ -242,7 +241,7 @@ processSSNInfo = ->
                 name = data.adults[i - 1].FirstName + ' ' + data.adults[i - 1].LastName
             data.earner =
                 name: name
-                ssn: $(form).find('#ssn').val()
+                ssn: $(form).find('#SSN').val()
         else
             data.earner = null
         do showNextPanel
