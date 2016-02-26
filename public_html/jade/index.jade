@@ -22,14 +22,14 @@ html(lang="en")
     main
         .panel#welcome
             h4 Welcome!
+            p The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.
+            p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.
             .center-align
-                p The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.
-                p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.
                 a.waves-effect.btn#GetStartButton Got It!
         .panel#eligibility_info
             h4 Categorical Eligibility
             p Children are deemed eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. 
-            p On what basis are you applying for the NSLP?
+            p On what basis are you applying for the National School Lunch Program?
                 form(action='#')
                     p
                         input#financial(name='eligibilityCategory', type='radio', required)
@@ -134,6 +134,28 @@ html(lang="en")
 
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#parentInfoButton Next
+        .panel#program_info
+            h4 Assistance Program Information
+            p Does any member of your household participate in any of the following programs? 
+            ul.list(style='margin-left: 50px;')
+                li Student Nutrition Assistance Program (SNAP) 
+                li Temporary Assistance for Needy Families (TANF) 
+                li Food Distribution Program on Indian Reservations (FDPIR)
+            form
+                p
+                    input#programParticipant(name='programParticipation', type='radio', value='true')
+                    label(for='programParticipant') Yes
+                p
+                    input#notProgramParticipant(name='programParticipation', type='radio', value='false')
+                    label(for='notProgramParticipant') No
+                .section#caseNumberSection
+                    p Please provide a case number for one of these programs, even if you participate in multiple.
+                    form.input-field
+                        input#caseNumber(type='text', name='caseNumber')
+                        label(for='caseNumber') Case Number
+
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right#programInfoButton Next          
         .panel#children_info
             h4 Children
             p.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>") Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
@@ -176,28 +198,6 @@ html(lang="en")
                 h5 Add Another Child
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#childrenInfoButton Next
-        .panel#program_info
-            h4 Assistance Program Information
-            p Does any member of your household participate in any of the following programs? 
-            ul.list(style='margin-left: 50px;')
-                li Student Nutrition Assistance Program (SNAP) 
-                li Temporary Assistance for Needy Families (TANF) 
-                li Food Distribution Program on Indian Reservations (FDPIR)
-            form
-                p
-                    input#programParticipant(name='programParticipation', type='radio', value='true')
-                    label(for='programParticipant') Yes
-                p
-                    input#notProgramParticipant(name='programParticipation', type='radio', value='false')
-                    label(for='notProgramParticipant') No
-                .section#caseNumberSection
-                    p Please provide a case number for one of these programs, even if you participate in multiple.
-                    form.input-field
-                        input#caseNumber(type='text', name='caseNumber')
-                        label(for='caseNumber') Case Number
-
-            a.waves-effect.btn.left.backButton Back
-            a.waves-effect.btn.right#programInfoButton Next
         .panel#household_info
             h4 Household Information
             p Please list all members of your household, not including yourself and the children listed in the previous section. This does not include those who live in your household but are not supported by or contribute to your household's income.
@@ -219,7 +219,7 @@ html(lang="en")
                         i.material-icons add
             
             a.waves-effect.btn.left.backButton Back
-            a.waves-effect.btn.right#adultInfoButton Next                
+            a.waves-effect.btn.right#adultInfoButton Next  
         .panel#income_info
             h4 Income Information
             p Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field.
@@ -301,47 +301,67 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#incomeInfoButton Next
         .panel#ssn_info
-            .section#primaryEarner
-                h4 Social Security Information
-                form
-                    .section#ssnAvailability
-                        p Does at least one adult member of your household possess a social security number (SSN)?
-                        p
-                            input#availableSSN(name='socialSecurity', type='radio', value='true', required)
-                            label(for='availableSSN') Yes
-                        p
-                            input#unavailableSSN(name='socialSecurity', type='radio', value='false', required)
-                            label(for='unavailableSSN') No
+            h4 Social Security Information
+            form
+                .row
+                    p Does at least one adult member of your household possess a social security number (SSN)?
+                    p
+                        input#availableSSN(name='socialSecurity', type='radio', value='true', required)
+                        label(for='availableSSN') Yes
+                    p
+                        input#unavailableSSN(name='socialSecurity', type='radio', value='false', required)
+                        label(for='unavailableSSN') No
+                #ssnDetails.row
                     p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
-                    .section#ssnDetails.row
-                        .input-field.col.s6
-                            select(data-constrainwidth='false')
-                                option(value=0) Weekly
-                                option(value=1) Every Two Weeks
-                                option(value=2) Twice a Month
-                                option(value=3) Monthly
-                                option(value=4) Annually 
-                            label Primary Wage Earner
-                        .input-field.col.s6
-                            input#SSN.validate(type='text', placeholder='XXXX')
-                            label(for='disabled') Last 4 Digits of SSN
+                    .input-field.col.s6
+                        select(data-constrainwidth='false', name='wageEarner', required)
+                        label Primary Wage Earner
+                    .input-field.col.s6
+                        input#SSN(type='text', placeholder='XXXX', name='SSN', required)
+                        label(for='disabled') Last 4 Digits of SSN
                         
-                a.waves-effect.btn.left.backButton Back
-                a.waves-effect.btn.right.nextButton Next
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right#ssnInfoButton Next
         .panel#submit
             h4 Submit
-            p Thanks for filling out the form. Click here to submit.
-            
+            p Thanks for filling out the form! If you'd like to review your application, make sure to do so now. If you're sure that you are ready to submit, please read the following statements.
+            a.waves-effect.waves-light.btn.modal-trigger(href='#nonDiscrimination') USDA Non-Discrimination Statement
+            a.waves-effect.waves-light.btn.modal-trigger(href='#useOfInformation') Use of Information Statement
+            #nonDiscrimination.modal.modal-fixed-footer(style='z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 493.377px;')
+                .modal-content
+                    h5 USDA Non-Discrimination Statement
+                    p In accordance with Federal civil rights law and U.S. Department of Agriculture (USDA) civil rights regulations and policies, the USDA, its Agencies, offices, and employees, and institutions participating in or administering USDA programs are prohibited from discriminating based on race, color, national origin, sex, disability, age, or reprisal or retaliation for prior civil rights activity in any program or activity conducted or funded by USDA.
+                    p Persons with disabilities who require alternative means of communication for program information (e.g. Braille, large print, audiotape, American Sign Language, etc.), should contact the Agency (State or local) where they applied for benefits. Individuals who are deaf, hard of hearing or have speech disabilities may contact USDA through the Federal Relay Service at (800) 877-8339. Additionally, program information may be made available in languages other than English.
+                    p To file a program complaint of discrimination, complete the USDA Program Discrimination Complaint Form, (AD-3027) found online at: http://www.ascr.usda.gov/complaint_filing_cust.html, and at any USDA office, or write a letter addressed to USDA and provide in the letter all of the information requested in the form. To request a copy of the complaint form, call (866) 632-9992. Submit your completed form or letter to USDA by:
+                    ol
+                        li Mail
+                            p U.S. Department of Aagriculture
+                            p Office of the Assistant Secretary for Civil Rights
+                            p 1400 Independence Avenue, SW
+                            p Washington, D.C. 20250-941
+                        li Fax
+                            p (202) 690-7442
+                        li Email
+                            p program.intake@usda.gov
+                    p This institution is an equal opportunity provider.
+                .modal-footer
+                    a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#') I Acknowledge
+            #useOfInformation.modal.modal-fixed-footer(style='z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 493.377px;')
+                .modal-content
+                    h5 Use of Information Statement
+                    p The Richard B. Russell National School Lunch Act requires the information on this application. You do not have to give the information, but if you do not submit all needed information, we cannot approve your child for free or reduced price meals. You must include the last four digits of the social security number of the adult household member who signs the application. The social security number is not required when you apply on behalf of a foster child or you list a Supplemental Nutrition Assistance Program (SNAP), Temporary Assistance for Needy Families (TANF) Program or Food Distribution Program on Indian Reservations (FDPIR) case number or other FDPIR identifier for your child or when you indicate that the adult household member signing the application does not have a social security number. We will use your information to determine if your child is eligible for free or reduced price meals, and for administration and enforcement of the lunch and breakfast programs.
+                    p We may share your eligibility information with education, health, and nutrition programs to help them evaluate, fund, or determine benefits for their programs, auditors for program reviews, and law enforcement officials to help them look into violations of program rules.
+                .modal-footer
+                    a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='#') I Acknowledge
             h5 Electronic Signature
-            p By signing below, you attest to the following statements:
+            p By typing your name below, you attest to the following statements:
             ul.list(style='margin-left: 50px;')
-                li  The person signing is furnishing true information and to advise that person that the application is being made in connection with the receipt of Federal funds
+                li  The person signing is furnishing true information and to advise that person that the application is being made in connection with the receipt of Federal funds.
                 li  School officials may verify the information on the application.
                 li  Deliberate misrepresentation of the information may subject the applicant to prosecution under State and Federal statutes.
             .row.input-field
                 i.mdi-image-edit.prefix
                 input#signature.validate(type='text', name='signature', required)
-                label Signature
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right Submit
             

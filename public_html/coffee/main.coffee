@@ -7,6 +7,7 @@ child = 1
 adult = 1
 panelStack = []
 programParticipant = false
+hasSSN = false
 
 # Data Variables
 childIncomeTemplate = null
@@ -88,6 +89,21 @@ processParentInfo = ->
     else
         data.parent = null
 
+# Process program information and continues if valid
+processProgramInfo = ->
+    $('#program_info').find('form').submit()
+    if $('#program_info').find('form').valid()
+        if programParticipant
+            data.program =
+                participates: true
+                caseNumber: $('#caseNumber').val()
+        else
+            data.program =
+                participates: false
+        do showNextPanel
+    else
+        data.program = null
+
 # Processes children information and continues if valid
 processChildrenInfo = ->
     allValid = true
@@ -114,28 +130,12 @@ processChildrenInfo = ->
                 res.push obj
         data.children = res
         populateChildrenIncome res
-        if allExempt
+        if allExempt or data.program?.participates
             do skipToSubmitPanel
         else
             do showNextPanel
     else
         data.children = null
-
-# Process program information and continues if valid
-processProgramInfo = ->
-    $('#program_info').find('form').submit()
-    if $('#program_info').find('form').valid()
-        if programParticipant
-            data.program =
-                participates: true
-                caseNumber: $('#caseNumber').val()
-            do skipToSubmitPanel
-        else
-            data.program =
-                participates: false
-            do showNextPanel
-    else
-        data.program = null
 
 # Processes adult information and continues if valid
 processAdultInfo = ->
@@ -199,15 +199,32 @@ processIncomeInfo = ->
                 data.adults[i - 1].income = income
 
         do showNextPanel
-    else
-        data.adults = null
 
+# Processes the SSN information and continues if valid
+processSSNInfo = ->
+    form = $('#ssn_info').find('form')
+    $(form).submit()
+    if $(form).valid()
+        if hasSSN
+            i = +$(form).find('select').val()
+            if i == 0
+                name = data.parent.parentFirstName + ' ' + data.parent.parentLastName
+            else
+                name = data.adults[i - 1].FirstName + ' ' + data.adults[i - 1].LastName
+            data.earner =
+                name: name
+                ssn: $(form).find('#ssn').val()
+        else
+            data.earner = null
+        do showNextPanel
+    else
+        data.earner = null
 
 # Prints current form data to console
 showData = ->
     console.log data
 
-# Generates array that represents contents of PDF with formatting
+# Generates array that represents contents of a formatted PDF
 generatePDF = ->
     [{
         text: 'Sample PDF'
@@ -261,6 +278,9 @@ setUpButtons = ->
     $('#incomeInfoButton').click ->
         do processIncomeInfo
 
+    $('#ssnInfoButton').click ->
+        do processSSNInfo
+
 # Configure helper tooltips
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
@@ -278,7 +298,7 @@ setUpValidation = (parent) ->
         @optional(element) or phone_number.length > 9 and phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/)), 'Please enter a valid phone number.'
 
     $.validator.setDefaults
-        debug: true
+        debug: false
         errorClass: 'invalid'
         validClass: 'valid'
         errorPlacement: (error, element) ->
@@ -298,9 +318,23 @@ setUpValidation = (parent) ->
             adultIncomeWage: 'digits'
             adultIncomeExternal: 'digits'
             adultIncomeOther: 'digits'
+            ssn: 'digits'
 
     $('form').each ->
         $(this).validate {}
+
+# Configure program panel to ask for case number when necessary
+setUpProgramPanel = ->
+    caseNumberHTML = $('#caseNumberSection').html()
+    $('#caseNumberSection').html ''
+
+    $("input[name='programParticipation']").change ->
+        if $(this).val() == 'true'
+            programParticipant = true
+            $('#caseNumberSection').html caseNumberHTML
+        else
+            programParticipant = false
+            $('#caseNumberSection').html ''
 
 # Configure child panel so that children can be dynamically added and removed
 setUpChildPanel = ->
@@ -333,19 +367,6 @@ setUpChildPanel = ->
         do addChild
 
     do addChild
-
-# Configure program panel to ask for case number when necessary
-setUpProgramPanel = ->
-    caseNumberHTML = $('#caseNumberSection').html()
-    $('#caseNumberSection').html ''
-
-    $("input[name='programParticipation']").change ->
-        if $(this).val() == 'true'
-            programParticipant = true
-            $('#caseNumberSection').html caseNumberHTML
-        else
-            programParticipant = false
-            $('#caseNumberSection').html ''
 
 # Configure household panel so that household members can be dynamically added and removed
 setUpHouseholdPanel = ->
@@ -397,6 +418,7 @@ populateChildrenIncome = (children) ->
             .material_select()
         $(newForm).validate {}
 
+# Fill the income panel with a form asking for each adult's income and type
 populateAdultIncome = (adults) ->
     adultIncomeSection = $('#adultIncomeSection')
     $(adultIncomeSection).empty()
@@ -451,16 +473,23 @@ populateAdultIncome = (adults) ->
 
 # Configure SSN panel to ask for SSN of primary wage earner
 setUpSSNPanel = ->
-    caseNumberHTML = $('#caseNumberSection').html()
-    $('#caseNumberSection').html ''
+    ssnDetails = $('#ssnDetails')
+    $('#ssnDetails').find('select').material_select 'destroy'
+    $(ssnDetails).remove()
 
-    $("input[name='programParticipation']").change ->
+    $("input[name='socialSecurity']").change ->
         if $(this).val() == 'true'
-            programParticipant = true
-            $('#caseNumberSection').html caseNumberHTML
+            hasSSN = true
+            select = $(ssnDetails).find('select')
+            $('#ssn_info form').append ssnDetails
+            $(select).empty().append '<option value=0>' + data.parent.parentFirstName + '</option>'
+            for a, i in data.adults
+                $(select).append '<option value=' + (i + 1) + '>' + a.FirstName + '</option>'
+            $(select).material_select()
         else
-            programParticipant = false
-            $('#caseNumberSection').html ''
+            hasSSN = false
+            $(ssnDetails).find('select').material_select 'destroy'
+            $(ssnDetails).remove()
 
 # TODO
 do setUpSubmitPanel = ->
@@ -474,10 +503,8 @@ $ ->
     do setUpChildPanel
     do setUpProgramPanel
     do setUpHouseholdPanel
-
     do setUpIncomePanel
-
+    do setUpSSNPanel
     do setUpSubmitPanel
     $('select').material_select()
-
-    do showNextPanel for [1..7]
+    $('.modal-trigger').leanModal()
