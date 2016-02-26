@@ -150,7 +150,7 @@ html(lang="en")
                     label(for='notProgramParticipant') No
                 .section#caseNumberSection
                     p Please provide a case number for one of these programs, even if you participate in multiple.
-                    form.input-field
+                    form.row.input-field
                         input#caseNumber(type='text', name='caseNumber')
                         label(for='caseNumber') Case Number
 
@@ -221,7 +221,7 @@ html(lang="en")
                     a#addAdult.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
                         i.material-icons add
             
-            p By clicking next, you confirm that there are a total of #[span #householdSize] individuals (including you) currently living in your household.
+            p Just to confirm,  there are a total of #[b #[span#householdSize 2]] individuals (including you) currently living in your household.
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#adultInfoButton Next  
         .panel#income_info
@@ -372,6 +372,11 @@ html(lang="en")
                     input#signature(type='text', name='signature', required)
                 a.waves-effect.btn.left.backButton Back
                 a.waves-effect.btn.right#submitButton Submit
+            .section#duringSubmission
+                h4 Submitting Your Application
+                p Hold tight! We are currently processing and submitting your application. Wait to see the confirmation page before exiting the form.
+                .progress
+                    .indeterminate
             .section#postSubmission
                 h4 Thanks!
                 p Your form has been submitted successfully. Your school district will notify you of your children's eligibility.

@@ -5,6 +5,7 @@ baseURL = (location.origin ? location.protocol + '//' + location.host) + '/'
 panel = 0
 child = 1
 adult = 1
+householdMembers = 1
 panelStack = []
 programParticipant = false
 hasSSN = false
@@ -97,6 +98,8 @@ processEligibilityInfo = ->
         data.eligibility =
             type: $(form).find('input[name="eligibilityCategory"]:checked').val()
         do showNextPanel
+    else
+        Materialize.toast 'You must select an option.', 4000
 
 # Processes parent information and continues to next panel if valid
 processParentInfo = ->
@@ -253,8 +256,19 @@ processSubmit = ->
     form = $('#submit').find('form')
     $(form).submit()
     if $(form).valid()
+        $('#preSubmission').hide()
+        $('#duringSubmission').show()
         data.signature = $(form).find('#signature').val()
         do submitForm
+
+# Helper functions used in confirming the number of household members
+changeHouseHoldMembers = (change) ->
+    console.log 'change', change
+    if change == 'add'
+        householdMembers++
+    else if change == 'remove'
+        householdMembers--
+    $('#householdSize').html householdMembers
 
 # Prints current form data to console
 showData = ->
@@ -284,7 +298,8 @@ submitForm = ->
         data: JSON.stringify generatePDF()
         dataType: 'json'
     ).done (data) ->
-        console.log data
+        $('#duringSubmission').hide()
+        $('#postSubmission').show()
     .error (xhr, error) ->
         console.log 'Error Occurred: ' + error
 
@@ -388,8 +403,9 @@ setUpChildPanel = ->
             else
                 $(this).closest('form').find('h5').html 'New Child'
 
-        # Update state variable
+        # Update state variables
         child++
+        changeHouseHoldMembers 'add'
 
         # Upon clicking the remove button, remove the form
         $(newElement).find('.removeChild').click ->
@@ -397,6 +413,7 @@ setUpChildPanel = ->
                 Materialize.toast 'You must have at least one child.', 4000
             else
                 $(this).closest('form').remove()
+                changeHouseHoldMembers 'remove'
 
     # Upon clicking the add button, add a child
     $('#addChild').click ->
@@ -423,10 +440,12 @@ setUpHouseholdPanel = ->
 
         # Update state variable
         adult++
+        changeHouseHoldMembers 'add'
 
         # Upon clicking the remove button, remove the form
         $(newElement).find('.removeAdult').click ->
             $(this).closest('form').remove()
+            changeHouseHoldMembers 'remove'
 
     # Upon clicking the add button, add an adult
     $('#addAdult').click ->
@@ -549,6 +568,9 @@ setUpSSNPanel = ->
 do setUpSubmitPanel = ->
     # Set state variable to index of submit panel
     submitPanelIndex = $('.panel').length - 1
+
+    $('#postSubmission').hide()
+    $('#duringSubmission').hide()
 
 # Begin configuration when page is ready
 $ ->

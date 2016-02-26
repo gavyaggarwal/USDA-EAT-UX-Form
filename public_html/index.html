@@ -180,7 +180,7 @@
           </p>
           <div id="caseNumberSection" class="section">
             <p>Please provide a case number for one of these programs, even if you participate in multiple.</p>
-            <form class="input-field">
+            <form class="row input-field">
               <input id="caseNumber" type="text" name="caseNumber">
               <label for="caseNumber">Case Number</label>
             </form>
@@ -263,7 +263,7 @@
           </div>
           <div class="input-field col s1"><a id="addAdult" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a></div>
         </div>
-        <p>By clicking next, you confirm that there are a total of <span>#householdSize</span> individuals (including you) currently living in your household.</p><a class="waves-effect btn left backButton">Back</a><a id="adultInfoButton" class="waves-effect btn right">Next  </a>
+        <p>Just to confirm,  there are a total of <b><span id="householdSize">2</span></b> individuals (including you) currently living in your household.</p><a class="waves-effect btn left backButton">Back</a><a id="adultInfoButton" class="waves-effect btn right">Next  </a>
       </div>
       <div id="income_info" class="panel">
         <h4>Income Information</h4>
@@ -444,6 +444,13 @@
           <form class="row input-field"><i class="mdi-image-edit prefix"></i>
             <input id="signature" type="text" name="signature" required>
           </form><a class="waves-effect btn left backButton">Back</a><a id="submitButton" class="waves-effect btn right">Submit</a>
+        </div>
+        <div id="duringSubmission" class="section">
+          <h4>Submitting Your Application</h4>
+          <p>Hold tight! We are currently processing and submitting your application. Wait to see the confirmation page before exiting the form.</p>
+          <div class="progress">
+            <div class="indeterminate"></div>
+          </div>
         </div>
         <div id="postSubmission" class="section">
           <h4>Thanks!</h4>
