@@ -24,27 +24,27 @@ html(lang="en")
             h4 Welcome!
             p The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.
             p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.
-            .center-align
-                a.waves-effect.btn#GetStartButton Got It!
+            
+            a.waves-effect.btn.center#GetStartButton Got It!
         .panel#eligibility_info
             h4 Categorical Eligibility
             p Children are deemed eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. 
             p On what basis are you applying for the National School Lunch Program?
                 form(action='#')
                     p
-                        input#financial(name='eligibilityCategory', type='radio', required)
+                        input#financial(name='eligibilityCategory', type='radio', value='financial', required)
                         label(for='financial') #[b Financial Need] - Based on demonstrated financial need.
                     p 
-                        input#assistance(name='eligibilityCategory', type='radio', required)
+                        input#assistance(name='eligibilityCategory', type='radio', value='assistance', required)
                         label(for='assistance') #[b Assistance Program Participation] - Based on participation in SNAP/TANF/FDPIR.
                     p
-                        input#childStatus(name='eligibilityCategory', type='radio', required)
+                        input#childStatus(name='eligibilityCategory', type='radio', value='childStatus', required)
                         label(for='childStatus') #[b Children Status] - Based on children's status as foster/homeless/migrant/runaway/etc.
                     p
-                        input#unknown(name='eligibilityCategory', type='radio', required)
+                        input#unknown(name='eligibilityCategory', type='radio', value='unknown', required)
                         label(for='unknown') #[b Unsure] - If you're not sure, don't worry! We'll find the category that best suits you.
-            .center-align            
-                a.waves-effect.btn.center.nextButton Get Started   
+                      
+            a.waves-effect.btn.center#eligibilityInfoButton Get Started   
         .panel#parent_info
             h4 Parent Information
             p This information will help us reach you quickly if we need to contact you.
@@ -359,11 +359,11 @@ html(lang="en")
                 li  The person signing is furnishing true information and to advise that person that the application is being made in connection with the receipt of Federal funds.
                 li  School officials may verify the information on the application.
                 li  Deliberate misrepresentation of the information may subject the applicant to prosecution under State and Federal statutes.
-            .row.input-field
+            form.row.input-field
                 i.mdi-image-edit.prefix
-                input#signature.validate(type='text', name='signature', required)
+                input#signature(type='text', name='signature', required)
             a.waves-effect.btn.left.backButton Back
-            a.waves-effect.btn.right Submit
+            a.waves-effect.btn.right#submitButton Submit
             
         #status-card.card-panel.teal.lighten-1
           span.white-text

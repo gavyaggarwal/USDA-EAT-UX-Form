@@ -1,5 +1,5 @@
 # Constants
-baseURL = 'http://localhost:8080/'
+baseURL = (location.origin ? location.protocol + '//' + location.host) + '/'
 
 # State Variables
 panel = 0
@@ -17,12 +17,14 @@ adultIncomeTemplate = null
 
 # Data Model that stores form data
 data =
+    eligibility: null
     parent: null
     children: null
     program: null
     adults: null
     earner: null
     agreement: null
+    signature: null
 
 # Returns current panel
 currentPanel = ->
@@ -37,21 +39,28 @@ updateProgressBar = ->
 
 # Transitions to the previous panel
 showPreviousPanel = ->
+    # Change state variables and get panels
     currPanel = do currentPanel
     panel = panelStack.pop()
     prevPanel = do currentPanel
+    # Animate by placing previous panel on scroller, scrolling left, and hiding
+    # the current one
     $(prevPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
     $('main').scrollLeft(720).animate { scrollLeft: 0 }, 1000
     $(currPanel).animate { opacity: 0 }, 1000, "swing", ->
         $(this).css("display", "none")
+    # Update progress bar
     do updateProgressBar
 
 # Helper function that animates panel sliding in from right
 forwardPanelTransition = (newPanel) ->
+    # Change state variables and get panels
     currPanel = do currentPanel
     panelStack.push panel
     panel = newPanel
     nextPanel = do currentPanel
+    # Animate by placing next panel on scroller, scrolling right, and hiding the
+    # current one
     $(currPanel).animate { opacity: 0 }, 1000, "swing", ->
         $(this).css("display", "none")
     $('main').animate { scrollLeft: 720 }, 1000, "swing", ->
@@ -59,6 +68,7 @@ forwardPanelTransition = (newPanel) ->
         $('body').animate
             scrollTop: 0
     $(nextPanel).css("display", "inline-block").animate { opacity: 1 }, 1000
+    # Update progress bar
     do updateProgressBar
 
 # Transitions to the next panel
@@ -73,17 +83,27 @@ skipToSubmitPanel = ->
 objectForFields = (arr) ->
     obj = {}
     for field in arr
+        # For each field in input array, if value is exists, set field in object
+        # to that value
         val = $('#' + field).val()
-        if val == null || val == "" || val == undefined
-            obj[field] = null
-        else
-            obj[field] = val
+        obj[field] = val ? null
     return obj
+
+# Processes eligibility information and continues to next panel if valid
+processEligibilityInfo = ->
+    form = $('#eligibility_info').find('form')
+    $(form).submit()
+    if $(form).valid()
+        # Add the eligibility to our data model
+        data.eligibility =
+            type: $(form).find('input[name="eligibilityCategory"]')
+        do showNextPanel
 
 # Processes parent information and continues to next panel if valid
 processParentInfo = ->
     $('#parent_info').find('form').submit()
     if $('#parent_info').find('form').valid()
+        # Create object of parent info fields and store in data model
         data.parent = objectForFields ['parentFirstName', 'parentLastName', 'email', 'phone', 'address', 'city', 'state', 'zipCode']
         do showNextPanel
     else
@@ -93,6 +113,7 @@ processParentInfo = ->
 processProgramInfo = ->
     $('#program_info').find('form').submit()
     if $('#program_info').find('form').valid()
+        # Get data from form and store in our data model
         if programParticipant
             data.program =
                 participates: true
@@ -100,6 +121,7 @@ processProgramInfo = ->
         else
             data.program =
                 participates: false
+                caseNumber: null
         do showNextPanel
     else
         data.program = null
@@ -108,11 +130,13 @@ processProgramInfo = ->
 processChildrenInfo = ->
     allValid = true
     allExempt = true
+    # Check if the info for each child is filled out properly
     $('#children_info').find('form').each ->
         $(this).submit()
         if !($(this).valid())
             allValid = false
     if allValid
+        # If so, store their name and properties in our data model
         res = []
         for i in [1...child]
             if document.getElementById('child' + i + 'Form')
@@ -130,6 +154,8 @@ processChildrenInfo = ->
                 res.push obj
         data.children = res
         populateChildrenIncome res
+        # If all students are eligible from being foster/homeless/etc or the
+        # parent participates in an assistance program, skip to end
         if allExempt or data.program?.participates
             do skipToSubmitPanel
         else
@@ -139,11 +165,13 @@ processChildrenInfo = ->
 
 # Processes adult information and continues if valid
 processAdultInfo = ->
+    # Check if all adult information is valid
     allValid = true
     $('#household_info').find('form').each ->
         $(this).submit()
         if !($(this).valid())
             allValid = false
+    # If so, store their names in our data model
     if allValid
         res = []
         for i in [1...adult]
@@ -151,10 +179,7 @@ processAdultInfo = ->
                 obj = {}
                 for field in ['FirstName', 'LastName']
                     val = $('#adult' + i + field).val()
-                    if val == null || val == "" || val == undefined
-                        obj[field] = null
-                    else
-                        obj[field] = val
+                    obj[field] = val ? null
                 res.push obj
         data.adults = res
         populateAdultIncome res
@@ -164,16 +189,19 @@ processAdultInfo = ->
 
 # Processes income information and continues if valid
 processIncomeInfo = ->
+    # Check if income info is filled out for each family member
     allValid = true
     $('#income_info').find('form').each ->
         $(this).submit()
         if !($(this).valid())
             allValid = false
     if allValid
+        # For each child, add income amount and frequency to data structure
         for form, i in $('#childIncomeSection').find('form')
             data.children[i].income =
                 amount: $(form).find('[name="childIncome"]').val()
                 frequency: $(form).find('[name="childIncomeFrequency"]').val()
+        # For each adult, add income types, amounts, and frequencies to data
         for form, i in $('#adultIncomeSection').find('form')
             income = []
             for method in $(form).find('#adultIncomeType' + i).val()
@@ -205,6 +233,7 @@ processSSNInfo = ->
     form = $('#ssn_info').find('form')
     $(form).submit()
     if $(form).valid()
+        # If somebody has an SSN, record their SSN as the primary earner
         if hasSSN
             i = +$(form).find('select').val()
             if i == 0
@@ -219,6 +248,14 @@ processSSNInfo = ->
         do showNextPanel
     else
         data.earner = null
+
+# Processes the submit information and submits form if valid
+processSubmit = ->
+    form = $('#submit').find('form')
+    $(form).submit()
+    if $(form).valid()
+        data.signature = $(form).find('#signature').val()
+        do submitForm
 
 # Prints current form data to console
 showData = ->
@@ -254,34 +291,20 @@ submitForm = ->
 
 # Configure actions of buttons
 setUpButtons = ->
-    $('#GetStartButton').click ->
-        do showNextPanel
+    # Map each button to the click handler
+    $('#GetStartButton').click showNextPanel
+    $('.backButton').click showPreviousPanel
+    $('.nextButton').click showNextPanel
+    $('#eligibilityInfoButton').click processEligibilityInfo
+    $('#parentInfoButton').click processParentInfo
+    $('#childrenInfoButton').click processChildrenInfo
+    $('#programInfoButton').click processProgramInfo
+    $('#adultInfoButton').click processAdultInfo
+    $('#incomeInfoButton').click processIncomeInfo
+    $('#ssnInfoButton').click processSSNInfo
+    $('#submitButton').click processSubmit
 
-    $('.backButton').click ->
-        do showPreviousPanel
-
-    $('.nextButton').click ->
-        do showNextPanel
-
-    $('#parentInfoButton').click ->
-        do processParentInfo
-
-    $('#childrenInfoButton').click ->
-        do processChildrenInfo
-
-    $('#programInfoButton').click ->
-        do processProgramInfo
-
-    $('#adultInfoButton').click ->
-        do processAdultInfo
-
-    $('#incomeInfoButton').click ->
-        do processIncomeInfo
-
-    $('#ssnInfoButton').click ->
-        do processSSNInfo
-
-# Configure helper tooltips
+# Configure helper tooltips for all elements in parent
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
     $(parent).find('.has-definition').on 'focusin mouseenter', ->
@@ -293,10 +316,12 @@ setUpDefinitions = (parent) ->
 
 # Configure form validation
 setUpValidation = (parent) ->
+    # Add method for validating phone number
     $.validator.addMethod 'phoneUS', ((phone_number, element) ->
         phone_number = phone_number.replace(/\s+/g, '')
         @optional(element) or phone_number.length > 9 and phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/)), 'Please enter a valid phone number.'
 
+    # Set validation rules
     $.validator.setDefaults
         debug: false
         errorClass: 'invalid'
@@ -319,7 +344,9 @@ setUpValidation = (parent) ->
             adultIncomeExternal: 'digits'
             adultIncomeOther: 'digits'
             ssn: 'digits'
+            signature: 'required'
 
+    # Enable validation for every form on the page
     $('form').each ->
         $(this).validate {}
 
@@ -328,6 +355,8 @@ setUpProgramPanel = ->
     caseNumberHTML = $('#caseNumberSection').html()
     $('#caseNumberSection').html ''
 
+    # Each time the user changes the program participation check box, show or
+    # hide a text field asking for the case number
     $("input[name='programParticipation']").change ->
         if $(this).val() == 'true'
             programParticipant = true
@@ -338,59 +367,76 @@ setUpProgramPanel = ->
 
 # Configure child panel so that children can be dynamically added and removed
 setUpChildPanel = ->
+    # Get template HTML from page and remove template element
     template = $('#child-num-Form')
     templateHTML = $(template)[0].outerHTML
     $(template).remove()
 
+    # Helper function that adds another row for a child to the panel
     addChild = ->
+        # Create new HTML from template HTML and enable definitions/validation
         newHTML = templateHTML.replace /-num-/g, child.toString()
         newElement = $.parseHTML(newHTML)
         setUpDefinitions newElement
         $(newElement).validate {}
         $('#addChildSection').before newElement
 
+        # Update heading when user types the child's name
         $('#child' + child + 'FirstName').on 'change keyup input', ->
             val = $(this).val()
             if val
                 $(this).closest('form').find('h5').html $(this).val()
             else
                 $(this).closest('form').find('h5').html 'New Child'
+
+        # Update state variable
         child++
 
+        # Upon clicking the remove button, remove the form
         $(newElement).find('.removeChild').click ->
             if $('.childForm').size() == 1
                 Materialize.toast 'You must have at least one child.', 4000
             else
                 $(this).closest('form').remove()
 
+    # Upon clicking the add button, add a child
     $('#addChild').click ->
         do addChild
 
+    # Add child so we start with one
     do addChild
 
 # Configure household panel so that household members can be dynamically added and removed
 setUpHouseholdPanel = ->
+    # Get template HTML from page and remove template element
     template = $('#adult-num-Form')
     templateHTML = $(template)[0].outerHTML
     $(template).remove()
 
+    # Helper function that adds another row for an adult to the panel
     addAdult = ->
+        # Create new HTML from template HTML and enable definitions/validation
         newHTML = templateHTML.replace /-num-/g, adult.toString()
         newElement = $.parseHTML(newHTML)
         setUpDefinitions newElement
         $(newElement).validate {}
         $('#addAdultSection').before newElement
 
+        # Update state variable
         adult++
 
+        # Upon clicking the remove button, remove the form
         $(newElement).find('.removeAdult').click ->
             $(this).closest('form').remove()
 
+    # Upon clicking the add button, add an adult
     $('#addAdult').click ->
         do addAdult
 
 # Configure income panel to dynamically adapt to input
 setUpIncomePanel = ->
+    # Get template HTML from panel for adult/child income and remove the
+    # template element
     childIncomeElement = $('#childIncomeTemplate')
     childIncomeTemplate = $(childIncomeElement)[0].outerHTML
     $(childIncomeElement).remove()
@@ -401,6 +447,8 @@ setUpIncomePanel = ->
 
 # Fill the income panel with a form asking for each child's income
 populateChildrenIncome = (children) ->
+    # When we have updated children, add a form for each child prompting for
+    # each child's income and frequency
     childIncomeSection = $('#childIncomeSection')
     $(childIncomeSection).empty()
     for c, i in children
@@ -420,6 +468,8 @@ populateChildrenIncome = (children) ->
 
 # Fill the income panel with a form asking for each adult's income and type
 populateAdultIncome = (adults) ->
+    # When we have updated adults, add a form for each adult prompting for
+    # each adult's income and frequency
     adultIncomeSection = $('#adultIncomeSection')
     $(adultIncomeSection).empty()
     adultIncomeBoxes = new Array(adults.length + 1)
@@ -433,6 +483,9 @@ populateAdultIncome = (adults) ->
         $(newForm).find('#adultIncomeNameTemplate')
             .attr 'id', 'adultIncomeName' + i
             .html a.FirstName
+        # When the income type is changed, update the input fields so that a
+        # text field and dropdown menu is available for each of the selected
+        # income types
         $(newForm).find('#adultIncomeTypeTemplate')
             .attr 'id', 'adultIncomeType' + i
             .change ->
@@ -477,6 +530,8 @@ setUpSSNPanel = ->
     $('#ssnDetails').find('select').material_select 'destroy'
     $(ssnDetails).remove()
 
+    # Each time the user changes the has SSN check box, show or hide a dropdown
+    # menu and textfield asking for the primary earner and SSN
     $("input[name='socialSecurity']").change ->
         if $(this).val() == 'true'
             hasSSN = true
@@ -491,8 +546,9 @@ setUpSSNPanel = ->
             $(ssnDetails).find('select').material_select 'destroy'
             $(ssnDetails).remove()
 
-# TODO
+# Configure submit panel
 do setUpSubmitPanel = ->
+    # Set state variable to index of submit panel
     submitPanelIndex = $('.panel').length - 1
 
 # Begin configuration when page is ready
@@ -506,5 +562,5 @@ $ ->
     do setUpIncomePanel
     do setUpSSNPanel
     do setUpSubmitPanel
-    $('select').material_select()
-    $('.modal-trigger').leanModal()
+    $('select').material_select()       # Enable dropdown menus globally
+    $('.modal-trigger').leanModal()     # Enable model popups globally

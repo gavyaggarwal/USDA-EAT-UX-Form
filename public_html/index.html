@@ -30,8 +30,7 @@
       <div id="welcome" class="panel">
         <h4>Welcome!</h4>
         <p>The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.</p>
-        <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.</p>
-        <div class="center-align"><a id="GetStartButton" class="waves-effect btn">Got It!</a></div>
+        <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.</p><a id="GetStartButton" class="waves-effect btn center">Got It!</a>
       </div>
       <div id="eligibility_info" class="panel">
         <h4>Categorical Eligibility</h4>
@@ -39,24 +38,23 @@
         <p>On what basis are you applying for the National School Lunch Program?
           <form action="#">
             <p>
-              <input id="financial" name="eligibilityCategory" type="radio" required>
+              <input id="financial" name="eligibilityCategory" type="radio" value="financial" required>
               <label for="financial"><b>Financial Need</b> - Based on demonstrated financial need.</label>
             </p>
             <p>
-              <input id="assistance" name="eligibilityCategory" type="radio" required>
+              <input id="assistance" name="eligibilityCategory" type="radio" value="assistance" required>
               <label for="assistance"><b>Assistance Program Participation</b> - Based on participation in SNAP/TANF/FDPIR.</label>
             </p>
             <p>
-              <input id="childStatus" name="eligibilityCategory" type="radio" required>
+              <input id="childStatus" name="eligibilityCategory" type="radio" value="childStatus" required>
               <label for="childStatus"><b>Children Status</b> - Based on children's status as foster/homeless/migrant/runaway/etc.</label>
             </p>
             <p>
-              <input id="unknown" name="eligibilityCategory" type="radio" required>
+              <input id="unknown" name="eligibilityCategory" type="radio" value="unknown" required>
               <label for="unknown"><b>Unsure</b> - If you're not sure, don't worry! We'll find the category that best suits you.</label>
             </p>
           </form>
-        </p>
-        <div class="center-align">           <a class="waves-effect btn center nextButton">Get Started   </a></div>
+        </p><a id="eligibilityInfoButton" class="waves-effect btn center">Get Started   </a>
       </div>
       <div id="parent_info" class="panel">
         <h4>Parent Information</h4>
@@ -430,9 +428,9 @@
           <li> School officials may verify the information on the application.</li>
           <li> Deliberate misrepresentation of the information may subject the applicant to prosecution under State and Federal statutes.</li>
         </ul>
-        <div class="row input-field"><i class="mdi-image-edit prefix"></i>
-          <input id="signature" type="text" name="signature" required class="validate">
-        </div><a class="waves-effect btn left backButton">Back</a><a class="waves-effect btn right">Submit</a>
+        <form class="row input-field"><i class="mdi-image-edit prefix"></i>
+          <input id="signature" type="text" name="signature" required>
+        </form><a class="waves-effect btn left backButton">Back</a><a id="submitButton" class="waves-effect btn right">Submit</a>
       </div>
       <div id="status-card" class="card-panel teal lighten-1"><span class="white-text"></span></div>
     </main>
