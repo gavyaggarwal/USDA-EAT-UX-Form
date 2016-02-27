@@ -39,6 +39,16 @@ styles =
         marginTop: 6
         fontSize: 12
         lineHeight: 1.2
+    tabbed:
+        marginTop: 6
+        marginLeft: 10
+        fontSize: 12
+        lineHeight: 1.2
+    tabbed2:
+        marginTop: 6
+        marginLeft: 20
+        fontSize: 12
+        lineHeight: 1.2
 
 # PDF Generator Engine
 printer = new pdf(fonts)

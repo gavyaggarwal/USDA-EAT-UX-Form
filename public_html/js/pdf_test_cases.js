@@ -325,8 +325,8 @@ generatePDF = function(data) {
     text: 'National School Lunch Program Application',
     style: 'header'
   });
-  proposedEligibility = data.eligbility.type;
-  if (data.children[0].income.amount === '') {
+  proposedEligibility = data.eligibility.type;
+  if (data.children[0].income.amount !== '') {
     proposedEligibility = 'Financial Need';
   } else if (data.program.participates === true) {
     proposedEligibility = 'Assistance Program Participation';
@@ -334,7 +334,7 @@ generatePDF = function(data) {
     proposedEligibility = 'Status of Child(ren)';
   }
   arr.push({
-    text: 'Proposed Categorical Eligibility: ' + proposedEligibility + '/n',
+    text: 'Proposed Categorical Eligibility: ' + proposedEligibility + '\r\n',
     style: 'normal'
   });
   arr.push({
@@ -343,33 +343,36 @@ generatePDF = function(data) {
   });
   arr.push({
     text: 'Name: ' + data.parent.parentFirstName + ' ' + data.parent.parentLastName,
-    style: 'normal'
+    style: 'tabbed'
   });
   if (data.parent.email !== '') {
     arr.push({
       text: 'Email: ' + data.parent.email,
-      style: 'normal'
+      style: 'tabbed'
     });
   }
   if (data.parent.phone !== '') {
     arr.push({
       text: 'Phone Number: ' + data.parent.phone,
-      style: 'normal'
+      style: 'tabbed'
     });
   }
+  address = '';
   if (data.parent.address !== '') {
     address = data.parent.address;
   }
-  if (data.parent.city !== null) {
+  if (data.parent.city !== '') {
     address += ', ' + data.parent.city;
   }
-  if (data.partent.state !== '') {
+  if (data.parent.state !== null) {
     address += ', ' + data.parent.state + ' ' + data.parent.zipCode;
   }
-  arr.push({
-    text: 'Address: ' + address + '/n',
-    style: 'normal'
-  });
+  if (address !== '') {
+    arr.push({
+      text: 'Address: ' + address + '\r\n',
+      style: 'tabbed'
+    });
+  }
   arr.push({
     text: 'Student Information',
     style: 'subheader'
@@ -379,13 +382,13 @@ generatePDF = function(data) {
     c = _ref[i];
     if (c.student === true) {
       arr.push({
-        text: '/t' + studentInfo(c.student) + '/n',
-        style: 'normal'
+        text: studentInfo(c.student, i) + '\r\n',
+        style: 'tabbed'
       });
     }
   }
   arr.push({
-    text: '/n',
+    text: '\r\n',
     style: 'normal'
   });
   if (proposedEligibility === 'Assistance Program Participation') {
@@ -394,7 +397,7 @@ generatePDF = function(data) {
       style: 'subheader'
     });
     arr.push({
-      text: '/t Case Number: ' + data.program.caseNumber + '/n',
+      text: '\t Case Number: ' + data.program.caseNumber + '\r\n',
       style: 'normal'
     });
   }
@@ -405,7 +408,7 @@ generatePDF = function(data) {
     });
     householdSize = 1 + data.children.length + data.adults.length;
     arr.push({
-      text: 'Total Number of Household Members: ' + size,
+      text: 'Total Number of Household Members: ' + householdSize,
       style: 'normal'
     });
     arr.push({
@@ -430,12 +433,12 @@ generatePDF = function(data) {
     }
     if (data.earner !== null) {
       arr.push({
-        text: 'SSN Information (last 4 digits) /n /t' + data.earner.name + ' - ' + data.earner.ssn,
+        text: 'SSN Information (last 4 digits) \r\n \t' + data.earner.name + ' - ' + data.earner.ssn,
         style: 'normal'
       });
     }
     arr.push({
-      text: '/n',
+      text: '\r\n',
       style: 'normal'
     });
   }
@@ -445,15 +448,16 @@ generatePDF = function(data) {
   });
   d = new Date;
   arr.push({
-    text: 'Completed and Signed by: ' + data.signature + '/n Submission Date: ' + d.getMonth + '/' + d.getDate + '/' + d.getFullYear
+    text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + d.getMonth + '/' + d.getDate + '/' + d.getFullYear,
+    style: 'normal'
   });
   return arr;
 };
 
-studentInfo = function(student) {
+studentInfo = function(student, i) {
   var studentName, studentType;
   studentType = '';
-  studentName = '/t' + i + '. ' + student.FirstName + ' ';
+  studentName = '\t' + i + '. ' + student.FirstName + ' ';
   if (student.MiddleName !== '') {
     studentName += student.MiddleName + '. ';
   }
@@ -484,9 +488,9 @@ studentInfo = function(student) {
 incomeInfo = function(person) {
   var i, personIncome, personName, _i, _len, _ref;
   if (person === data.parent) {
-    personName = '/t' + person.parentFirstName + ' ' + person.parentLastName + '/n';
+    personName = '\t' + person.parentFirstName + ' ' + person.parentLastName + '\r\n';
   } else {
-    personName = '/t' + person.FirstName + ' ' + person.LastName + '/n';
+    personName = '\t' + person.FirstName + ' ' + person.LastName + '\r\n';
   }
   personIncome = '';
   if (person.income !== null && person.income !== []) {
@@ -495,7 +499,7 @@ incomeInfo = function(person) {
     _ref = person.income;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       i = _ref[_i];
-      personIncome += '/t /t' + incomeType(i.type) + ': $' + i.amount + '(' + i.frequency + ') /n';
+      personIncome += '\t \t' + incomeType(i.type) + ': $' + i.amount + '(' + i.frequency + ') \r\n';
     }
   }
   return personName + personIncome;
