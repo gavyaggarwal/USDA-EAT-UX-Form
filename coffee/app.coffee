@@ -7,12 +7,12 @@ moment = require('moment')
 pdf = require('pdfmake')
 serveIndex = require('serve-index')
 
-# Base URL
-baseURL = 'http://localhost:8080/'
-
-# Ports to use for web server
+# Port and IP to use for web server
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
 webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.101"
+
+# Base URL
+baseURL = 'http://' + webIP + ':' + webPort + '/'
 
 # Default username and password for access to PDFs of form submissions
 pdfUser = 'USDA'
@@ -52,10 +52,13 @@ webServer = express()
 schoolHandler = (req, res, next) ->
     c = req.cookies
     if !c || c.user != pdfUser || c.pass != pdfPass
-        b = req.body
+        # Get username/password, checking post, get, cookie for data
+        b = req.query ? req.body
         if b && b.user == pdfUser && b.pass == pdfPass
             res.cookie 'user', b.user
             res.cookie 'pass', b.pass
+            res.redirect 307, baseURL + 'schools'
+            return
         else
             res.redirect 307, baseURL + 'login.html'
             return

@@ -150,7 +150,7 @@ html(lang="en")
                     label(for='notProgramParticipant') No
                 .section#caseNumberSection
                     p Please provide a case number for one of these programs, even if you participate in multiple.
-                    form.row.input-field
+                    .input-field
                         input#caseNumber(type='text', name='caseNumber')
                         label(for='caseNumber') Case Number
 
@@ -259,7 +259,7 @@ html(lang="en")
                             label Income Source
                     .row#jobIncomeTemplate
                         .col.s5.input-field
-                            h6 Salary and Wages
+                            h6 Salary/Wages
                         .col.s3.input-field
                             i.mdi-editor-attach-money.prefix
                             input#adult-num-income.validate(type='text', name='adultIncomeWage', active='', placeholder='0', required)
@@ -342,7 +342,7 @@ html(lang="en")
                         p To file a program complaint of discrimination, complete the USDA Program Discrimination Complaint Form, (AD-3027) found online at: http://www.ascr.usda.gov/complaint_filing_cust.html, and at any USDA office, or write a letter addressed to USDA and provide in the letter all of the information requested in the form. To request a copy of the complaint form, call (866) 632-9992. Submit your completed form or letter to USDA by:
                         ol
                             li Mail
-                                p U.S. Department of Aagriculture
+                                p U.S. Department of Agriculture
                                 p Office of the Assistant Secretary for Civil Rights
                                 p 1400 Independence Avenue, SW
                                 p Washington, D.C. 20250-941
@@ -363,10 +363,10 @@ html(lang="en")
                 h5 Electronic Signature
                 p By typing your name below, you attest to the following statements:
                 ul.list(style='margin-left: 50px;')
-                    li  You have read and acknowledge the USDA Non-Discrimination Statement and Use of Information Statement.
                     li  The person signing is furnishing true information and to advise that person that the application is being made in connection with the receipt of Federal funds.
                     li  School officials may verify the information on the application.
                     li  Deliberate misrepresentation of the information may subject the applicant to prosecution under State and Federal statutes.
+                    li  You have read and acknowledge the USDA Non-Discrimination Statement and Use of Information Statement.
                 form.row.input-field
                     i.mdi-image-edit.prefix
                     input#signature(type='text', name='signature', required)

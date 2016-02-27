@@ -15,11 +15,11 @@ pdf = require('pdfmake');
 
 serveIndex = require('serve-index');
 
-baseURL = 'http://localhost:8080/';
-
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.101";
+
+baseURL = 'http://' + webIP + ':' + webPort + '/';
 
 pdfUser = 'USDA';
 
@@ -57,13 +57,15 @@ printer = new pdf(fonts);
 webServer = express();
 
 schoolHandler = function(req, res, next) {
-  var b, c, index, path;
+  var b, c, index, path, _ref;
   c = req.cookies;
   if (!c || c.user !== pdfUser || c.pass !== pdfPass) {
-    b = req.body;
+    b = (_ref = req.query) != null ? _ref : req.body;
     if (b && b.user === pdfUser && b.pass === pdfPass) {
       res.cookie('user', b.user);
       res.cookie('pass', b.pass);
+      res.redirect(307, baseURL + 'schools');
+      return;
     } else {
       res.redirect(307, baseURL + 'login.html');
       return;

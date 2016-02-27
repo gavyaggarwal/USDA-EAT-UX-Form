@@ -279,18 +279,171 @@ data6 =
   'signature': 'Jatin Frost'
 
 generatePDF = (data) ->
-    [{
-        text: 'Sample PDF'
+    arr = []
+
+    arr.push
+        text: 'National School Lunch Program Application'
         style: 'header'
-    },
-    {
-        text: data.parent.parentFirstName + ' ' + data.parent.parentLastName
-        style: 'subheader'
-    },
-    {
-        text: 'This PDF has been generated dynamically.'
+
+    proposedEligibility = data.eligbility.type
+    if data.children[0].income.amount == ''
+        proposedEligibility = 'Financial Need'
+    else if data.program.participates == true
+        proposedEligibility = 'Assistance Program Participation'
+    else
+        proposedEligibility = 'Status of Child(ren)'
+    arr.push
+        text: 'Proposed Categorical Eligibility: ' + proposedEligibility + '/n'
         style: 'normal'
-    }]
+
+    arr.push
+        text: 'Parent Contact Information'
+        style: 'subheader'
+    arr.push
+        text: 'Name: ' + data.parent.parentFirstName + ' ' + data.parent.parentLastName
+        style: 'normal'
+    if data.parent.email != ''
+        arr.push
+            text: 'Email: ' + data.parent.email
+            style: 'normal'
+    if data.parent.phone != ''
+        arr.push
+            text: 'Phone Number: ' + data.parent.phone
+            style: 'normal'
+    if data.parent.address != ''
+        address = data.parent.address
+    if data.parent.city != null
+        address += ', ' + data.parent.city
+    if data.partent.state != ''
+        address += ', ' + data.parent.state + ' ' + data.parent.zipCode
+    arr.push
+        text: 'Address: ' + address + '/n'
+        style: 'normal'
+
+    arr.push
+        text: 'Student Information'
+        style: 'subheader'
+    for c, i in data.children
+        if c.student == true
+            arr.push
+                text: '/t' + studentInfo(c.student) + '/n'
+                style: 'normal'
+    arr.push
+        text: '/n'
+        style: 'normal'
+
+    if proposedEligibility == 'Assistance Program Participation'
+        arr.push
+            text: 'Assistance Program Information'
+            style: 'subheader'
+        arr.push
+            text: '/t Case Number: ' + data.program.caseNumber + '/n'
+            style: 'normal'
+
+    if proposedEligibility == 'Financial Need'
+        arr.push
+            text: 'Income Information'
+            style: 'subheader'
+        householdSize = 1 + data.children.length + data.adults.length
+        arr.push
+            text: 'Total Number of Household Members: ' + size
+            style: 'normal'
+        arr.push
+            text: incomeInfo(data.parent)
+            style: 'normal'
+        for c in data.children
+            arr.push
+                text: incomeInfo(c)
+                style: 'normal'
+        for a in data.adults
+            arr.push
+                text: incomeInfo(a)
+                style: 'normal'
+        if data.earner != null
+            arr.push
+                text: 'SSN Information (last 4 digits) /n /t' + data.earner.name + ' - ' + data.earner.ssn
+                style: 'normal'
+        arr.push
+            text: '/n'
+            style: 'normal'
+
+    arr.push
+        text: 'Electronic Signature'
+        style: 'subheader'
+    d = new Date
+    arr.push
+        text: 'Completed and Signed by: ' + data.signature + '/n Submission Date: ' + d.getMonth + '/' + d.getDate + '/' + d.getFullYear
+
+    arr
+
+studentInfo = (student) ->
+    studentType = ''
+    studentName = '/t' + i + '. ' + student.FirstName + ' '
+    if student.MiddleName != ''
+        studentName += student.MiddleName + '. '
+    studentName += student.LastName + ' '
+
+    if student.foster == true or student.homeless == true or student.runaway == true or student.migrant == true or student.headStart == true
+        studentType = '('
+        if student.foster == true
+            studentType += 'Foster/'
+        if student.homeless == true
+            studentType += 'Homeless/'
+        if student.runaway == true
+            studentType += 'Runaway/'
+        if student.migrant == true
+            studentType += 'Migrant/'
+        if student.headStart == true
+            studentType += 'Head Start/'
+        studentType += ')'
+        studentType.replace('/)', ')')
+
+    return studentName + studentType
+
+incomeInfo = (person) ->
+    if person == data.parent
+        personName = '/t' + person.parentFirstName + ' ' + person.parentLastName + '/n'
+    else
+        personName = '/t' + person.FirstName + ' ' + person.LastName + '/n'
+
+    personIncome = ''
+    if person.income != null and person.income != []
+        personIncome = 'No Income'
+    else
+        for i in person.income
+            personIncome += '/t /t' + incomeType(i.type) + ': $' + i.amount + '(' + i.frequency + ') /n'
+
+    return personName + personIncome
+
+incomeType = (type) ->
+    switch type
+        when 'job'
+            source = 'Salary/Wages'
+        when 'external'
+            source = 'Public Assistance/Child Support/Alimony'
+        when 'other'
+            source = 'Pension/Retirement/Other'
+        else
+            source = ''
+
+    return source
+
+incomeFrequency = (frequency) ->
+    switch frequency
+        when 'weekly'
+            sourceFreq = 'Weekly'
+        when 'biweekly'
+            sourceFreq = 'Every Two Weeks'
+        when 'semimonthly'
+            sourceFreq = 'Twice a Month'
+        when 'monthly'
+            sourceFreq = 'Monthly'
+        when 'annually'
+            sourceFreq = 'Annually'
+        else
+            sourceFreq = ''
+
+    return sourceFreq
 
 test = (caseNumber) ->
     cases = [data1, data2, data3, data4, data5, data6]
