@@ -66,9 +66,6 @@ data2 =
       'migrant': true
       'runaway': false
       'headStart': false
-      'income':
-        'amount': '0'
-        'frequency': 'weekly'
     }
   ]
   'adults': null
@@ -341,7 +338,7 @@ generatePDF = (data) ->
         style: 'header'
 
     proposedEligibility = data.eligibility.type
-    if data.children[0].income
+    if data.children[0].income != undefined
         proposedEligibility = 'Financial Need'
     else if data.program.participates == true
         proposedEligibility = 'Assistance Program Participation'
@@ -399,7 +396,7 @@ generatePDF = (data) ->
             text: 'Income Information'
             style: 'subheader'
         numAdults = 0
-        if data.adults == true
+        if data.adults != undefined
             numAdults = data.adults.length
         householdSize = 1 + data.children.length + numAdults
         arr.push
@@ -433,6 +430,31 @@ generatePDF = (data) ->
             arr.push
                 text: data.earner.name + ' - ' + data.earner.ssn
                 style: 'tabbed'
+        else
+            arr.push
+                text: 'No SSN Information Provided.'
+                style: 'normal'
+
+    if data.identity.races != undefined or data.identity.hispanic != undefined
+        arr.push
+            text: 'Children\'s Racial and Ethnic Identities'
+            style: 'subheader'
+        if data.identity.hispanic
+            arr.push
+                text: 'Ethnicity: Hispanic or Latino'
+                style: 'tabbed'
+        else if !data.identity.hispanic
+            arr.push
+                text: 'Ethnicity: Hispanic or Latino'
+                style: 'tabbed'
+        races = ''
+        if data.identity.races != undefined
+            for r in data.identity.races
+                races += ' ' + r + ','
+            races = races.slice(0, -1)
+            arr.push
+                text: 'Racial Background:' + races
+                style: 'tabbed'
 
     arr.push
         text: 'Electronic Signature'
@@ -446,7 +468,7 @@ generatePDF = (data) ->
 studentInfo = (student, i) ->
     studentType = ''
     studentName = (i + 1) + '. ' + student.FirstName + ' '
-    if student.MiddleName != ''
+    if student.MiddleName
         studentName += student.MiddleName + '. '
     studentName += student.LastName + ' '
 

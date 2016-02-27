@@ -78,11 +78,7 @@ data2 = {
       'homeless': false,
       'migrant': true,
       'runaway': false,
-      'headStart': false,
-      'income': {
-        'amount': '0',
-        'frequency': 'weekly'
-      }
+      'headStart': false
     }
   ],
   'adults': null,
@@ -391,14 +387,14 @@ data7 = {
 };
 
 generatePDF = function(data) {
-  var a, address, arr, c, d, householdSize, i, numAdults, proposedEligibility, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+  var a, address, arr, c, d, householdSize, i, numAdults, proposedEligibility, r, races, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3;
   arr = [];
   arr.push({
     text: 'National School Lunch Program Application',
     style: 'header'
   });
   proposedEligibility = data.eligibility.type;
-  if (data.children[0].income) {
+  if (data.children[0].income !== void 0) {
     proposedEligibility = 'Financial Need';
   } else if (data.program.participates === true) {
     proposedEligibility = 'Assistance Program Participation';
@@ -475,7 +471,7 @@ generatePDF = function(data) {
       style: 'subheader'
     });
     numAdults = 0;
-    if (data.adults === true) {
+    if (data.adults !== void 0) {
       numAdults = data.adults.length;
     }
     householdSize = 1 + data.children.length + numAdults;
@@ -526,6 +522,41 @@ generatePDF = function(data) {
         text: data.earner.name + ' - ' + data.earner.ssn,
         style: 'tabbed'
       });
+    } else {
+      arr.push({
+        text: 'No SSN Information Provided.',
+        style: 'normal'
+      });
+    }
+  }
+  if (data.identity.races !== void 0 || data.identity.hispanic !== void 0) {
+    arr.push({
+      text: 'Children\'s Racial and Ethnic Identities',
+      style: 'subheader'
+    });
+    if (data.identity.hispanic) {
+      arr.push({
+        text: 'Ethnicity: Hispanic or Latino',
+        style: 'tabbed'
+      });
+    } else if (!data.identity.hispanic) {
+      arr.push({
+        text: 'Ethnicity: Hispanic or Latino',
+        style: 'tabbed'
+      });
+    }
+    races = '';
+    if (data.identity.races !== void 0) {
+      _ref3 = data.identity.races;
+      for (_l = 0, _len3 = _ref3.length; _l < _len3; _l++) {
+        r = _ref3[_l];
+        races += ' ' + r + ',';
+      }
+      races = races.slice(0, -1);
+      arr.push({
+        text: 'Racial Background:' + races,
+        style: 'tabbed'
+      });
     }
   }
   arr.push({
@@ -544,7 +575,7 @@ studentInfo = function(student, i) {
   var studentName, studentType;
   studentType = '';
   studentName = (i + 1) + '. ' + student.FirstName + ' ';
-  if (student.MiddleName !== '') {
+  if (student.MiddleName) {
     studentName += student.MiddleName + '. ';
   }
   studentName += student.LastName + ' ';
