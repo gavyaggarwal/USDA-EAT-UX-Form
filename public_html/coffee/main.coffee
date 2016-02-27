@@ -13,6 +13,7 @@ hasSSN = false
 # Data Variables
 childIncomeTemplate = null
 adultIncomeTemplate = null
+identityPanelIndex = null
 submitPanelIndex = null
 adultIncomeTemplate = null
 
@@ -24,6 +25,7 @@ data =
     program: null
     adults: null
     earner: null
+    identity: null
     signature: null
 
 # Returns current panel
@@ -75,9 +77,9 @@ forwardPanelTransition = (newPanel) ->
 showNextPanel = ->
     forwardPanelTransition panel + 1
 
-# Transitions to final panel
-skipToSubmitPanel = ->
-    forwardPanelTransition submitPanelIndex
+# Transitions to identity panel
+skipToIdentityPanel = ->
+    forwardPanelTransition identityPanelIndex
 
 # Returns an object holding the form values for fields with the given id
 objectForFields = (arr) ->
@@ -159,7 +161,7 @@ processChildrenInfo = ->
         # If all students are eligible from being foster/homeless/etc or the
         # parent participates in an assistance program, skip to end
         if allExempt or data.program?.participates
-            do skipToSubmitPanel
+            do skipToIdentityPanel
         else
             do showNextPanel
     else
@@ -251,6 +253,16 @@ processSSNInfo = ->
     else
         data.earner = null
 
+# Saves racial and ethnic data if filled out
+processIdentityInfo = ->
+    form = $('#identity_info').find('form')
+    data.identity =
+        hispanic: $(form).find('input[name="hispanic"]:checked').val()
+        races:  []
+    $(form).find('input[name="race"]:checked').each ->
+        data.identity.races.push $(this).val()
+    do showNextPanel
+
 # Processes the submit information and submits form if valid
 processSubmit = ->
     form = $('#submit').find('form')
@@ -263,16 +275,11 @@ processSubmit = ->
 
 # Helper functions used in confirming the number of household members
 changeHouseHoldMembers = (change) ->
-    console.log 'change', change
     if change == 'add'
         householdMembers++
     else if change == 'remove'
         householdMembers--
     $('#householdSize').html householdMembers
-
-# Prints current form data to console
-showData = ->
-    console.log data
 
 # Generates array that represents contents of a formatted PDF
 generatePDF = ->
@@ -316,6 +323,7 @@ setUpButtons = ->
     $('#adultInfoButton').click processAdultInfo
     $('#incomeInfoButton').click processIncomeInfo
     $('#ssnInfoButton').click processSSNInfo
+    $('#identityInfoButton').click processIdentityInfo
     $('#submitButton').click processSubmit
 
 # Configure helper tooltips for all elements in parent
@@ -564,6 +572,11 @@ setUpSSNPanel = ->
             $(ssnDetails).find('select').material_select 'destroy'
             $(ssnDetails).remove()
 
+# Configure identity panel
+do setUpIdentityPanel = ->
+    # Set state variable to index of identity panel
+    identityPanelIndex = $('.panel').length - 2
+
 # Configure submit panel
 do setUpSubmitPanel = ->
     # Set state variable to index of submit panel
@@ -582,6 +595,7 @@ $ ->
     do setUpHouseholdPanel
     do setUpIncomePanel
     do setUpSSNPanel
+    do setUpIdentityPanel
     do setUpSubmitPanel
     $('select').material_select()       # Enable dropdown menus globally
     $('.modal-trigger').leanModal()     # Enable model popups globally

@@ -17,7 +17,7 @@ serveIndex = require('serve-index');
 
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
-webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.101";
+webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.100";
 
 baseURL = 'http://' + webIP + ':' + webPort + '/';
 
@@ -52,13 +52,13 @@ styles = {
   },
   tabbed: {
     marginTop: 6,
-    marginLeft: 10,
+    marginLeft: 40,
     fontSize: 12,
     lineHeight: 1.2
   },
   tabbed2: {
     marginTop: 6,
-    marginLeft: 20,
+    marginLeft: 80,
     fontSize: 12,
     lineHeight: 1.2
   }
@@ -138,7 +138,7 @@ webServer.post('/form-submit.json', function(req, res) {
     writeStream = fs.createWriteStream(filename);
     file.pipe(writeStream);
     file.end();
-    console.log("PDF Successfully Generated: " + filename);
+    console.log("PDF Successfully Generated");
   } catch (_error) {
     error = _error;
     console.log("Error Generating PDF: " + error);

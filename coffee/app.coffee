@@ -9,7 +9,7 @@ serveIndex = require('serve-index')
 
 # Port and IP to use for web server
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
-webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.101"
+webIP = process.env.OPENSHIFT_NODEJS_IP || "192.168.0.100"
 
 # Base URL
 baseURL = 'http://' + webIP + ':' + webPort + '/'
@@ -41,12 +41,12 @@ styles =
         lineHeight: 1.2
     tabbed:
         marginTop: 6
-        marginLeft: 10
+        marginLeft: 40
         fontSize: 12
         lineHeight: 1.2
     tabbed2:
         marginTop: 6
-        marginLeft: 20
+        marginLeft: 80
         fontSize: 12
         lineHeight: 1.2
 
@@ -118,7 +118,7 @@ webServer.post '/form-submit.json', (req, res) ->
         writeStream = fs.createWriteStream filename
         file.pipe writeStream
         file.end()
-        console.log "PDF Successfully Generated: " + filename
+        console.log "PDF Successfully Generated"
     catch error
         console.log "Error Generating PDF: " + error
 

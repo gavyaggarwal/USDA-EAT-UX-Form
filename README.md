@@ -6,8 +6,8 @@
 Our design includes a public user-facing interface for parents and guardians to apply for reduced school lunches as well as a password protected school-facing interface for school administrators to view and download the submitted applications.
 
 For testing purposes we have set up a server, and you can view our form online:
-* [Application Form for Parents/Guardians](http://eatuxform-gavyaggarwal.rhcloud.com/)
-* [Administrator Portal for School Districts](http://eatuxform-gavyaggarwal.rhcloud.com/schools/)
+* [Application Form for Parents/Guardians](http://reducedlunch.tk)
+* [Administrator Portal for School Districts](http://reducedlunch.tk/schools)
     * Username: **USDA**
     * Password: **Demo**
 
@@ -39,8 +39,6 @@ We have written our code to be self-documenting, so it should be easy to tweak. 
 ### Scratch Notes
 
 This will be removed at some point.
-
-LOGIN INSPIRATION: http://demo.geekslabs.com/materialize/v3.1/user-login.html
 
 FEATURES:
 -AUTOCOMPLETION FROM BROWSER FOR form

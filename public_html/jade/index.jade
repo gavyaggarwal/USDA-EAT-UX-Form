@@ -326,6 +326,39 @@ html(lang="en")
                         
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#ssnInfoButton Next
+        .panel#identity_info
+            h4 Racial and Ethnic Identity
+            form
+                .row
+                p We are required to ask for information about your children’s race and ethnicity. This information is important and helps to make sure we are fully serving our community. Responding to this section is optional and does not affect your children’s eligibility for free or reduced price meals.
+                .row
+                    .col.s6
+                        p Which of the following races are your children? If your children are multiple races, check one or more.
+                        p
+                            input#raceAmericanNative(name='race', type='checkbox', value='American Indian or Alaskan Native')
+                            label(for='raceAmericanNative') #[b American Indian or Alaskan Native]
+                        p
+                            input#raceAsian(name='race', type='checkbox', value='Asian')
+                            label(for='raceAsian') #[b Asian]
+                        p
+                            input#raceBlack(name='race', type='checkbox', value='Black or African American')
+                            label(for='raceBlack') #[b Black or African American]
+                        p
+                            input#racePacificIslander(name='race', type='checkbox', value='Native Hawaiian or Other Pacific Islander')
+                            label(for='racePacificIslander') #[b Native Hawaiian or Other Pacific Islander]
+                        p
+                            input#raceWhite(name='race', type='checkbox', value='White')
+                            label(for='raceWhite') #[b White]
+                    .col.s6
+                        p Are any of your children Hispanic or Latino?
+                        p
+                            input#isHispanic(name='hispanic', type='radio', value='true')
+                            label(for='isHispanic') #[b Yes]
+                        p 
+                            input#isntHispanic(name='hispanic', type='radio', value='false')
+                            label(for='isntHispanic') #[b No]
+            a.waves-effect.btn.left.backButton Back
+            a.waves-effect.btn.right#identityInfoButton Next
         .panel#submit
             .section#preSubmission
                 h4 Submit

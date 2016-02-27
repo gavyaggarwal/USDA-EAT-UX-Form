@@ -40,6 +40,7 @@ data1 =
   'earner':
     'name': 'Jatin Frost'
     'ssn': '1234'
+  'identity': 'races': []
   'signature': 'Jatin Frost'
 
 # All students fall under foster/runaway/migrant benefits
@@ -75,6 +76,7 @@ data2 =
     'participates': false
     'caseNumber': null
   'earner': null
+  'identity': 'races': []
   'signature': 'Jatin Frost'
 
 # Multiple amount of children
@@ -131,6 +133,7 @@ data3 =
   'earner':
     'name': 'Jatin Frost'
     'ssn': '1234'
+  'identity': 'races': []
   'signature': 'Jatin Frost'
 
 # Multiple amount of household members
@@ -193,6 +196,7 @@ data4 =
   'earner':
     'name': 'Jatin Frost'
     'ssn': '1234'
+  'identity': 'races': []
   'signature': 'Jatin Frost'
 
 # In Federal Assistance Program
@@ -236,6 +240,7 @@ data5 =
     'caseNumber': '1234567890ABCEDF'
   'adults': null
   'earner': null
+  'identity': 'races': []
   'signature': 'Jatin Frost'
 
 # No Social Security Number
@@ -276,6 +281,56 @@ data6 =
     'caseNumber': null
   'adults': []
   'earner': null
+  'identity': 'races': []
+  'signature': 'Jatin Frost'
+
+# Full identity info
+data7 =
+  'eligibility': 'type': 'financial'
+  'parent':
+    'parentFirstName': 'Jatin'
+    'parentLastName': 'Frost'
+    'email': ''
+    'phone': ''
+    'address': ''
+    'city': ''
+    'state': null
+    'zipCode': ''
+    'income': [ {
+      'type': 'external'
+      'amount': '100'
+      'frequency': 'weekly'
+    } ]
+  'children': [
+    {
+      'FirstName': 'Mat'
+      'MiddleName': 'R'
+      'LastName': 'Frost'
+      'student': true
+      'foster': false
+      'homeless': false
+      'migrant': false
+      'runaway': false
+      'headStart': false
+      'income':
+        'amount': '0'
+        'frequency': 'weekly'
+    }
+  ]
+  'program':
+    'participates': false
+    'caseNumber': null
+  'adults': []
+  'earner':
+    'name': 'Jatin Frost'
+    'ssn': '1234'
+  'identity':
+    'hispanic': 'false'
+    'races': [
+      'American Indian or Alaskan Native'
+      'Black or African American'
+      'Native Hawaiian or Other Pacific Islander'
+    ]
   'signature': 'Jatin Frost'
 
 generatePDF = (data) ->
@@ -286,7 +341,7 @@ generatePDF = (data) ->
         style: 'header'
 
     proposedEligibility = data.eligibility.type
-    if data.children[0].income.amount != ''
+    if data.children[0].income
         proposedEligibility = 'Financial Need'
     else if data.program.participates == true
         proposedEligibility = 'Assistance Program Participation'
@@ -328,64 +383,74 @@ generatePDF = (data) ->
     for c, i in data.children
         if c.student == true
             arr.push
-                text: studentInfo(c.student, i) + '\r\n'
+                text: studentInfo(c, i) + '\r\n'
                 style: 'tabbed'
-    arr.push
-        text: '\r\n'
-        style: 'normal'
 
     if proposedEligibility == 'Assistance Program Participation'
         arr.push
             text: 'Assistance Program Information'
             style: 'subheader'
         arr.push
-            text: '\t Case Number: ' + data.program.caseNumber + '\r\n'
-            style: 'normal'
+            text: 'Case Number: ' + data.program.caseNumber + '\r\n'
+            style: 'tabbed'
 
     if proposedEligibility == 'Financial Need'
         arr.push
             text: 'Income Information'
             style: 'subheader'
-        householdSize = 1 + data.children.length + data.adults.length
+        numAdults = 0
+        if data.adults == true
+            numAdults = data.adults.length
+        householdSize = 1 + data.children.length + numAdults
         arr.push
             text: 'Total Number of Household Members: ' + householdSize
             style: 'normal'
         arr.push
-            text: incomeInfo(data.parent)
-            style: 'normal'
+            text: memberName(data.parent, true)
+            style: 'tabbed'
+        arr.push
+            text: incomeInfo(data.parent, false)
+            style: 'tabbed2'
         for c in data.children
             arr.push
-                text: incomeInfo(c)
-                style: 'normal'
-        for a in data.adults
+                text: memberName(c, false)
+                style: 'tabbed'
             arr.push
-                text: incomeInfo(a)
-                style: 'normal'
+                text: incomeInfo(c, true)
+                style: 'tabbed2'
+        if data.adults
+            for a in data.adults
+                arr.push
+                    text: memberName(a, false)
+                    style: 'tabbed'
+                arr.push
+                    text: incomeInfo(a, false)
+                    style: 'tabbed2'
         if data.earner != null
             arr.push
-                text: 'SSN Information (last 4 digits) \r\n \t' + data.earner.name + ' - ' + data.earner.ssn
+                text: 'SSN Information (last 4 digits) \r\n'
                 style: 'normal'
-        arr.push
-            text: '\r\n'
-            style: 'normal'
+            arr.push
+                text: data.earner.name + ' - ' + data.earner.ssn
+                style: 'tabbed'
 
     arr.push
         text: 'Electronic Signature'
         style: 'subheader'
     d = new Date
     arr.push
-        text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + d.getMonth + '/' + d.getDate + '/' + d.getFullYear
+        text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString()
         style: 'normal'
     arr
 
 studentInfo = (student, i) ->
     studentType = ''
-    studentName = '\t' + i + '. ' + student.FirstName + ' '
+    studentName = (i + 1) + '. ' + student.FirstName + ' '
     if student.MiddleName != ''
         studentName += student.MiddleName + '. '
     studentName += student.LastName + ' '
 
-    if student.foster == true or student.homeless == true or student.runaway == true or student.migrant == true or student.headStart == true
+    if student.foster or student.homeless or student.runaway or student.migrant or student.headStart
         studentType = '('
         if student.foster == true
             studentType += 'Foster/'
@@ -397,25 +462,27 @@ studentInfo = (student, i) ->
             studentType += 'Migrant/'
         if student.headStart == true
             studentType += 'Head Start/'
+        studentType = studentType.slice(0, -1)
         studentType += ')'
-        studentType.replace('/)', ')')
 
-    return studentName + studentType
+    return studentName + ' ' + studentType
 
-incomeInfo = (person) ->
-    if person == data.parent
-        personName = '\t' + person.parentFirstName + ' ' + person.parentLastName + '\r\n'
+memberName = (person, parent) ->
+    if parent
+        personName = person.parentFirstName + ' ' + person.parentLastName + '\r\n'
     else
-        personName = '\t' + person.FirstName + ' ' + person.LastName + '\r\n'
+        personName = person.FirstName + ' ' + person.LastName + '\r\n'
+    return personName
 
+incomeInfo = (person, child) ->
     personIncome = ''
-    if person.income != null and person.income != []
+    if (!child and !person.income) or (child and +person.income.amount == 0)
         personIncome = 'No Income'
     else
         for i in person.income
-            personIncome += '\t \t' + incomeType(i.type) + ': $' + i.amount + '(' + i.frequency + ') \r\n'
+            personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n'
 
-    return personName + personIncome
+    return personIncome
 
 incomeType = (type) ->
     switch type
@@ -448,7 +515,7 @@ incomeFrequency = (frequency) ->
     return sourceFreq
 
 test = (caseNumber) ->
-    cases = [data1, data2, data3, data4, data5, data6]
+    cases = [data1, data2, data3, data4, data5, data6, data7]
     $.ajax(
         url: baseURL + 'form-submit.json'
         method: 'POST'
