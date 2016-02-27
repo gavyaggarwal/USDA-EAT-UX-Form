@@ -352,18 +352,281 @@ changeHouseHoldMembers = function(change) {
 };
 
 generatePDF = function() {
-  return [
-    {
-      text: 'Sample PDF',
-      style: 'header'
-    }, {
-      text: data.parent.parentFirstName + ' ' + data.parent.parentLastName,
-      style: 'subheader'
-    }, {
-      text: 'This PDF has been generated dynamically.',
-      style: 'normal'
+  var a, address, arr, c, d, householdSize, i, incomeFrequency, incomeInfo, incomeType, memberName, numAdults, proposedEligibility, r, races, studentInfo, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref1, _ref2, _ref3, _ref4;
+  studentInfo = function(student, i) {
+    var studentName, studentType;
+    studentType = '';
+    studentName = (i + 1) + '. ' + student.FirstName + ' ';
+    if (student.MiddleName) {
+      studentName += student.MiddleName + '. ';
     }
-  ];
+    studentName += student.LastName + ' ';
+    if (student.foster || student.homeless || student.runaway || student.migrant || student.headStart) {
+      studentType = '(';
+      if (student.foster === true) {
+        studentType += 'Foster/';
+      }
+      if (student.homeless === true) {
+        studentType += 'Homeless/';
+      }
+      if (student.runaway === true) {
+        studentType += 'Runaway/';
+      }
+      if (student.migrant === true) {
+        studentType += 'Migrant/';
+      }
+      if (student.headStart === true) {
+        studentType += 'Head Start/';
+      }
+      studentType = studentType.slice(0, -1);
+      studentType += ')';
+    }
+    return studentName + ' ' + studentType;
+  };
+  memberName = function(person, parent) {
+    var personName;
+    if (parent) {
+      personName = person.parentFirstName + ' ' + person.parentLastName + '\r\n';
+    } else {
+      personName = person.FirstName + ' ' + person.LastName + '\r\n';
+    }
+    return personName;
+  };
+  incomeInfo = function(person, c) {
+    var i, personIncome, _i, _len, _ref1;
+    personIncome = '';
+    if ((!c && !person.income) || (c && +person.income.amount === 0)) {
+      personIncome = 'No Income';
+    } else {
+      _ref1 = person.income;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        i = _ref1[_i];
+        personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n';
+      }
+    }
+    return personIncome;
+  };
+  incomeType = function(type) {
+    var source;
+    switch (type) {
+      case 'job':
+        source = 'Salary/Wages';
+        break;
+      case 'external':
+        source = 'Public Assistance/Child Support/Alimony';
+        break;
+      case 'other':
+        source = 'Pension/Retirement/Other';
+        break;
+      default:
+        source = '';
+    }
+    return source;
+  };
+  incomeFrequency = function(frequency) {
+    var sourceFreq;
+    switch (frequency) {
+      case 'weekly':
+        sourceFreq = 'Weekly';
+        break;
+      case 'biweekly':
+        sourceFreq = 'Every Two Weeks';
+        break;
+      case 'semimonthly':
+        sourceFreq = 'Twice a Month';
+        break;
+      case 'monthly':
+        sourceFreq = 'Monthly';
+        break;
+      case 'annually':
+        sourceFreq = 'Annually';
+        break;
+      default:
+        sourceFreq = '';
+    }
+    return sourceFreq;
+  };
+  arr = [];
+  arr.push({
+    text: 'National School Lunch Program Application',
+    style: 'header'
+  });
+  proposedEligibility = data.eligibility.type;
+  if (data.children[0].income !== void 0) {
+    proposedEligibility = 'Financial Need';
+  } else if (data.program.participates === true) {
+    proposedEligibility = 'Assistance Program Participation';
+  } else {
+    proposedEligibility = 'Status of Child(ren)';
+  }
+  arr.push({
+    text: 'Proposed Categorical Eligibility: ' + proposedEligibility + '\r\n',
+    style: 'normal'
+  });
+  arr.push({
+    text: 'Parent Contact Information',
+    style: 'subheader'
+  });
+  arr.push({
+    text: 'Name: ' + data.parent.parentFirstName + ' ' + data.parent.parentLastName,
+    style: 'tabbed'
+  });
+  if (data.parent.email !== '') {
+    arr.push({
+      text: 'Email: ' + data.parent.email,
+      style: 'tabbed'
+    });
+  }
+  if (data.parent.phone !== '') {
+    arr.push({
+      text: 'Phone Number: ' + data.parent.phone,
+      style: 'tabbed'
+    });
+  }
+  address = '';
+  if (data.parent.address !== '') {
+    address = data.parent.address;
+  }
+  if (data.parent.city !== '') {
+    address += ', ' + data.parent.city;
+  }
+  if (data.parent.state !== null) {
+    address += ', ' + data.parent.state + ' ' + data.parent.zipCode;
+  }
+  if (address !== '') {
+    arr.push({
+      text: 'Address: ' + address + '\r\n',
+      style: 'tabbed'
+    });
+  }
+  arr.push({
+    text: 'Student Information',
+    style: 'subheader'
+  });
+  _ref1 = data.children;
+  for (i = _i = 0, _len = _ref1.length; _i < _len; i = ++_i) {
+    c = _ref1[i];
+    if (c.student === true) {
+      arr.push({
+        text: studentInfo(c, i) + '\r\n',
+        style: 'tabbed'
+      });
+    }
+  }
+  if (proposedEligibility === 'Assistance Program Participation') {
+    arr.push({
+      text: 'Assistance Program Information',
+      style: 'subheader'
+    });
+    arr.push({
+      text: 'Case Number: ' + data.program.caseNumber + '\r\n',
+      style: 'tabbed'
+    });
+  }
+  if (proposedEligibility === 'Financial Need') {
+    arr.push({
+      text: 'Income Information',
+      style: 'subheader'
+    });
+    numAdults = 0;
+    if (data.adults !== void 0) {
+      numAdults = data.adults.length;
+    }
+    householdSize = 1 + data.children.length + numAdults;
+    arr.push({
+      text: 'Total Number of Household Members: ' + householdSize,
+      style: 'normal'
+    });
+    arr.push({
+      text: memberName(data.parent, true),
+      style: 'tabbed'
+    });
+    arr.push({
+      text: incomeInfo(data.parent, false),
+      style: 'tabbed2'
+    });
+    _ref2 = data.children;
+    for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+      c = _ref2[_j];
+      arr.push({
+        text: memberName(c, false),
+        style: 'tabbed'
+      });
+      arr.push({
+        text: incomeInfo(c, true),
+        style: 'tabbed2'
+      });
+    }
+    if (data.adults) {
+      _ref3 = data.adults;
+      for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+        a = _ref3[_k];
+        arr.push({
+          text: memberName(a, false),
+          style: 'tabbed'
+        });
+        arr.push({
+          text: incomeInfo(a, false),
+          style: 'tabbed2'
+        });
+      }
+    }
+    if (data.earner !== null) {
+      arr.push({
+        text: 'SSN Information (last 4 digits) \r\n',
+        style: 'normal'
+      });
+      arr.push({
+        text: data.earner.name + ' - ' + data.earner.ssn,
+        style: 'tabbed'
+      });
+    } else {
+      arr.push({
+        text: 'No SSN Information Provided.',
+        style: 'normal'
+      });
+    }
+  }
+  if (data.identity.races !== void 0 || data.identity.hispanic !== void 0) {
+    arr.push({
+      text: 'Children\'s Racial and Ethnic Identities',
+      style: 'subheader'
+    });
+    if (data.identity.hispanic) {
+      arr.push({
+        text: 'Ethnicity: Hispanic or Latino',
+        style: 'tabbed'
+      });
+    } else if (!data.identity.hispanic) {
+      arr.push({
+        text: 'Ethnicity: Hispanic or Latino',
+        style: 'tabbed'
+      });
+    }
+    races = '';
+    if (data.identity.races !== void 0) {
+      _ref4 = data.identity.races;
+      for (_l = 0, _len3 = _ref4.length; _l < _len3; _l++) {
+        r = _ref4[_l];
+        races += ' ' + r + ',';
+      }
+      races = races.slice(0, -1);
+      arr.push({
+        text: 'Racial Background:' + races,
+        style: 'tabbed'
+      });
+    }
+  }
+  arr.push({
+    text: 'Electronic Signature',
+    style: 'subheader'
+  });
+  d = new Date;
+  arr.push({
+    text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString(),
+    style: 'normal'
+  });
+  return arr;
 };
 
 submitForm = function() {

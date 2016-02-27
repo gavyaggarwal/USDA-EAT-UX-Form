@@ -97,7 +97,7 @@ webServer.use '/schools', bodyParser.urlencoded(extended:false), cookieParser(),
 # Set up web server to dynamically handle form submissions
 webServer.post '/form-submit.json', (req, res) ->
     contents = req.body
-    console.log 'Received Form Submission', JSON.stringify(contents)
+    console.log 'Received Form Submission'
 
     try
         file = printer.createPdfKitDocument
@@ -118,7 +118,7 @@ webServer.post '/form-submit.json', (req, res) ->
         writeStream = fs.createWriteStream filename
         file.pipe writeStream
         file.end()
-        console.log "PDF Successfully Generated"
+        console.log "PDF Successfully Generated", filename
     catch error
         console.log "Error Generating PDF: " + error
 

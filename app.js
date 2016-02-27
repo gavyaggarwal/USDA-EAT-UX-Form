@@ -115,7 +115,7 @@ webServer.use('/schools', bodyParser.urlencoded({
 webServer.post('/form-submit.json', function(req, res) {
   var contents, count, countStr, error, file, filename, writeStream;
   contents = req.body;
-  console.log('Received Form Submission', JSON.stringify(contents));
+  console.log('Received Form Submission');
   try {
     file = printer.createPdfKitDocument({
       content: contents,
@@ -138,7 +138,7 @@ webServer.post('/form-submit.json', function(req, res) {
     writeStream = fs.createWriteStream(filename);
     file.pipe(writeStream);
     file.end();
-    console.log("PDF Successfully Generated");
+    console.log("PDF Successfully Generated", filename);
   } catch (_error) {
     error = _error;
     console.log("Error Generating PDF: " + error);

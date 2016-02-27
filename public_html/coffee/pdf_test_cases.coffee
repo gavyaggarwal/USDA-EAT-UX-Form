@@ -331,8 +331,77 @@ data7 =
   'signature': 'Jatin Frost'
 
 generatePDF = (data) ->
-    arr = []
+    studentInfo = (student, i) ->
+        studentType = ''
+        studentName = (i + 1) + '. ' + student.FirstName + ' '
+        if student.MiddleName
+            studentName += student.MiddleName + '. '
+        studentName += student.LastName + ' '
 
+        if student.foster or student.homeless or student.runaway or student.migrant or student.headStart
+            studentType = '('
+            if student.foster == true
+                studentType += 'Foster/'
+            if student.homeless == true
+                studentType += 'Homeless/'
+            if student.runaway == true
+                studentType += 'Runaway/'
+            if student.migrant == true
+                studentType += 'Migrant/'
+            if student.headStart == true
+                studentType += 'Head Start/'
+            studentType = studentType.slice(0, -1)
+            studentType += ')'
+
+        return studentName + ' ' + studentType
+
+    memberName = (person, parent) ->
+        if parent
+            personName = person.parentFirstName + ' ' + person.parentLastName + '\r\n'
+        else
+            personName = person.FirstName + ' ' + person.LastName + '\r\n'
+        return personName
+
+    incomeInfo = (person, c) ->
+        personIncome = ''
+        if (!c and !person.income) or (c and +person.income.amount == 0)
+            personIncome = 'No Income'
+        else
+            for i in person.income
+                personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n'
+
+        return personIncome
+
+    incomeType = (type) ->
+        switch type
+            when 'job'
+                source = 'Salary/Wages'
+            when 'external'
+                source = 'Public Assistance/Child Support/Alimony'
+            when 'other'
+                source = 'Pension/Retirement/Other'
+            else
+                source = ''
+
+        return source
+
+    incomeFrequency = (frequency) ->
+        switch frequency
+            when 'weekly'
+                sourceFreq = 'Weekly'
+            when 'biweekly'
+                sourceFreq = 'Every Two Weeks'
+            when 'semimonthly'
+                sourceFreq = 'Twice a Month'
+            when 'monthly'
+                sourceFreq = 'Monthly'
+            when 'annually'
+                sourceFreq = 'Annually'
+            else
+                sourceFreq = ''
+
+        return sourceFreq
+    arr = []
     arr.push
         text: 'National School Lunch Program Application'
         style: 'header'
@@ -464,77 +533,6 @@ generatePDF = (data) ->
         text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString()
         style: 'normal'
     arr
-
-studentInfo = (student, i) ->
-    studentType = ''
-    studentName = (i + 1) + '. ' + student.FirstName + ' '
-    if student.MiddleName
-        studentName += student.MiddleName + '. '
-    studentName += student.LastName + ' '
-
-    if student.foster or student.homeless or student.runaway or student.migrant or student.headStart
-        studentType = '('
-        if student.foster == true
-            studentType += 'Foster/'
-        if student.homeless == true
-            studentType += 'Homeless/'
-        if student.runaway == true
-            studentType += 'Runaway/'
-        if student.migrant == true
-            studentType += 'Migrant/'
-        if student.headStart == true
-            studentType += 'Head Start/'
-        studentType = studentType.slice(0, -1)
-        studentType += ')'
-
-    return studentName + ' ' + studentType
-
-memberName = (person, parent) ->
-    if parent
-        personName = person.parentFirstName + ' ' + person.parentLastName + '\r\n'
-    else
-        personName = person.FirstName + ' ' + person.LastName + '\r\n'
-    return personName
-
-incomeInfo = (person, child) ->
-    personIncome = ''
-    if (!child and !person.income) or (child and +person.income.amount == 0)
-        personIncome = 'No Income'
-    else
-        for i in person.income
-            personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n'
-
-    return personIncome
-
-incomeType = (type) ->
-    switch type
-        when 'job'
-            source = 'Salary/Wages'
-        when 'external'
-            source = 'Public Assistance/Child Support/Alimony'
-        when 'other'
-            source = 'Pension/Retirement/Other'
-        else
-            source = ''
-
-    return source
-
-incomeFrequency = (frequency) ->
-    switch frequency
-        when 'weekly'
-            sourceFreq = 'Weekly'
-        when 'biweekly'
-            sourceFreq = 'Every Two Weeks'
-        when 'semimonthly'
-            sourceFreq = 'Twice a Month'
-        when 'monthly'
-            sourceFreq = 'Monthly'
-        when 'annually'
-            sourceFreq = 'Annually'
-        else
-            sourceFreq = ''
-
-    return sourceFreq
 
 test = (caseNumber) ->
     cases = [data1, data2, data3, data4, data5, data6, data7]
