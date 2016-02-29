@@ -1,11 +1,25 @@
-# Reduced School Lunch Program Online Application Form
-## Testing Conducted
+# RSLP Form Testing Conducted
 
 In order to create the best form that we can, we conducted various types of testing and used the results from our testing to improve the design, efficiency, and compatibility of our reduced lunch school application form.
 
 ### Usability Testing
 
--Animations
+-Animations (Intuitive)
+-Form Validation
+-Dialogs
+-Autocomplete Form
+-Minimalist
+-Translate
+-Accessibility
+    -Compatible with voice over plugins
+    -High contrast for those with vision problems
+
+For validation:
+
+After trying to submit an invalid form, the first invalid element is focused, allowing the user to correct the field. If another invalid field – that wasn't the first one – was focused before submit, that field is focused instead, allowing the user to start at the bottom if he or she prefers.
+Before a field is marked as invalid, the validation is lazy: Before submitting the form for the first time, the user can tab through fields without getting annoying messages – they won't get bugged before having the chance to actually enter a correct value
+Once a field is marked invalid, it is eagerly validated: As soon as the user has entered the necessary value, the error message is removed
+If the user enters something in a non-marked field, and tabs/clicks away from it (blur the field), it is validated – obviously the user had the intention to enter something, but failed to enter the correct value
 
 
 ### Performance Testing
@@ -22,14 +36,14 @@ One area we really focused on includes network performance. We measured the size
 In order to tackle the issue, we tried various approaches, but the following techniques were most successful.
 
 * **Compression:** We compressed everything. We took our HTML document layout and removed all the formatting and whitespace so that the file size was minimal, and only data remained. We "compiled" all our Javascript so that we could squeeze the logic of our program into as few lines as possible. We reduced the size of our static assets (images, etc.) by using standard compression algorithms found in common image formats such as png, jpg, and gif.
-* **Preloading:** Instead of waiting to load each resource that our program needs to display it, we decided to rewrite our logic to preload everything in the background as once. This reduces the overhead of needing to send multiple requests and waiting on multiple resources, and it minimizes the consequences of poor latency. Instead, everything simply loads at once, and when the user needs to go to a new panel or go back a page, it happens instantaneously.
+* **Preloading:** Instead of waiting to load each resource that our program needs to display it, we decided to rewrite our logic to preload everything in the background at once. This reduces the overhead of needing to send multiple requests and waiting on multiple resources, and it minimizes the consequences of poor latency. Instead, everything simply loads at once, and when the user needs to go to a new panel or go back a page, it happens instantaneously.
 * **Use of CDNs:** The use of content delivery networks, a globally distributed network of proxy servers hosted by companies such as Google, allow the open source libraries that we use to be downloaded from external servers that are configured to provide maximum speed and minimal latency. As a result, the application is loaded simultaneously from both our servers and CDNs, eliminating the bottleneck of a user's connection speed to our server. The cherry on top is that most websites on the internet also use CDNs to load their libraries, so in most cases, these libraries are already cached on users' computers and no time is wasted loading them.
 
-After making all these optimizations, the final version of our reduced school lunch form uses an astonishingly low 2.9 kB of data, a whooping **99.4% reduction** in the amount of data originally required to load our form.
+After making all these optimizations, the final version of our reduced school lunch form uses an astonishingly low 2.9 kB of data, a whopping **99.4% reduction** in the amount of data originally required to load our form.
 
 #### CPU/Memory Performance
 
-Getting the our program to load quickly is just part of the battle. Not everybody has blazing fast state-of-the-art computers, and we spent a lot of time and effort in crafting a form that provides a robust user experience while still performing well on older, slower computers with limited processors and RAM. Our original prototype featured beautiful animations and functionality that could bring older computers to a halt. We have labored to tweak those animations and functionality so that it has a limited resource footprint that can work on any computer without any freezes or slowdowns.
+Getting our program to load quickly is just part of the battle. Not everybody owns blazing fast state-of-the-art computers, and we spent a lot of time and effort in crafting a form that provides a robust user experience while still performing well on older, slower computers with limited processors and RAM. Our original prototype featured beautiful animations and functionality that could bring older computers to a halt. We have labored to tweak those animations and functionality so that it has a limited resource footprint that can work on any computer without any freezes or slowdowns.
 
 In our original tests, we focused on two major metrics:
 
@@ -43,7 +57,7 @@ To resolve the issues on this front, we implemented the following strategies.
 * **GPU Powered Animations:** Typically, web animations are performed using the CPU (Central Processing Unit, used for general processing). We used the new CSS3 web standards which perform animations using the GPU (Graphics Processing Unit), a chip found in most computers specialized for graphics related processing. This results in buttery smooth animations and leaves the CPU free to do other tasks required by the form.
 * **Reduced DOM Queries:** When we want to dynamically change the contents of our page, we use a library called jQuery, which searches for elements on the page and allows us to perform actions on them. When searching for elements, the DOM (document object model), an internal data structure that represents every element on the page is queried for the element we are looking for. Since the DOM is very large (due to the sheer number of elements on the page), querying the DOM is computationally expensive, and we reduced the number of times we queried the DOM by saving our results from previous queries.
 
-Ultimately, we saw a significant improvement after making the above changes. The time spent on rendering dropped to 412 milliseconds, a **73% reduction**. The frame rate was able to consistently stay above 56 frames per second, an **increase over 500%**.
+Ultimately, we saw a significant improvement after making the above changes. The time spent on rendering dropped to 412 milliseconds, a **73% reduction**. The frame rate was able to consistently stay above 56 frames per second, an **increase of over 500%**.
 
 ### Compatibility Testing
 
@@ -57,8 +71,10 @@ One of the key steps in achieving this compatibility included rewriting a large 
 
 We also worked to improve the mobile browser experience. While our form is designed for desktop interfaces, we have seen the recent trends of people relying more and more on their mobile devices, so we conducted testing on the iOS and Android mobile operating systems to ensure that the form also works as expected on those devices.
 
-Finally, we have striven to make our form as future-proof as possible. Thus, we incorporated the latest web standards such as HTML5 and CSS3 so that the technology that our form uses will be here to stay, and nobody needs to worry about it growing obsolete anytime soon. So whether somebody uses their laptop, a public library computer, their smartphone, or some new device invented 10 years from now, they'd still be able to apply for reduced lunch.
+Finally, we have strived to make our form as future-proof as possible. Thus, we incorporated the latest web standards such as HTML5 and CSS3 so that the technology that our form uses will be here to stay, and nobody needs to worry about it growing obsolete anytime soon.
+
+So whether somebody uses their laptop, a public library computer, their smartphone, or some new device invented 10 years from now, they'd still be able to apply for reduced lunch.
 
 ### Correctness Testing
 
-Building our application was the easy part. Testing for bugs after was much harder. We tackled this issue by creating several test cases 
+Building our application was the easy part. Testing for bugs after was much harder. We tackled this issue by creating several test cases for different form use case scenarios. 

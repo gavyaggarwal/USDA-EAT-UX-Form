@@ -16,6 +16,7 @@ adultIncomeTemplate = null
 identityPanelIndex = null
 submitPanelIndex = null
 adultIncomeTemplate = null
+pdfDocument = null
 
 # Data Model that stores form data
 data =
@@ -261,6 +262,7 @@ processIdentityInfo = ->
         races:  []
     $(form).find('input[name="race"]:checked').each ->
         data.identity.races.push $(this).val()
+    do generatePDF
     do showNextPanel
 
 # Processes the submit information and submits form if valid
@@ -273,6 +275,9 @@ processSubmit = ->
         data.signature = $(form).find('#signature').val()
         do submitForm
 
+downloadPDF = ->
+    pdfDocument.download 'Reduced School Lunch Application'
+
 # Helper functions used in confirming the number of household members
 changeHouseHoldMembers = (change) ->
     if change == 'add'
@@ -282,7 +287,7 @@ changeHouseHoldMembers = (change) ->
     $('#householdSize').html householdMembers
 
 # Generates array that represents contents of a formatted PDF
-generatePDF = ->
+formatPDF = ->
     studentInfo = (student, i) ->
         studentType = ''
         studentName = (i + 1) + '. ' + student.FirstName + ' '
@@ -486,19 +491,67 @@ generatePDF = ->
         style: 'normal'
     arr
 
+# Creates a PDF document from the data model and stores it as pdfDocument
+generatePDF = ->
+    format = do formatPDF
+
+    # Custom Font Definitions for PDF Generation
+    # https://github.com/bpampuch/pdfmake/wiki/Custom-Fonts---client-side
+    # Causes a slowdown, but could be reenabled in the future
+    ###
+    fonts = Roboto:
+        normal: 'fonts/Roboto-Light.ttf'
+        bold: 'fonts/Roboto-Medium.ttf'
+        bolditalics: 'fonts/Roboto-Regular.ttf'
+        italics: 'fonts/Roboto-Thin.ttf'
+    ###
+
+    # Style Definitions for PDF Generation
+    styles =
+        header:
+            marginTop: 12
+            fontSize: 24
+            italics: true
+        subheader:
+            marginTop: 9
+            fontSize: 18
+            italics: true
+        normal:
+            marginTop: 6
+            fontSize: 12
+            lineHeight: 1.2
+        tabbed:
+            marginTop: 6
+            marginLeft: 40
+            fontSize: 12
+            lineHeight: 1.2
+        tabbed2:
+            marginTop: 6
+            marginLeft: 80
+            fontSize: 12
+            lineHeight: 1.2
+
+    pdfDocument = pdfMake.createPdf
+        content: format
+        styles: styles
+
+    # Display PDF Preview in iFrame
+    pdfDocument.getDataUrl (result) ->
+        $('#pdfView').attr 'src', result
+
 # Sends data to server
 submitForm = ->
-    $.ajax(
-        url: baseURL + 'form-submit.json'
-        method: 'POST'
-        contentType: 'application/json;charset=UTF-8'
-        data: JSON.stringify generatePDF()
-        dataType: 'json'
-    ).done (data) ->
-        $('#duringSubmission').hide()
-        $('#postSubmission').show()
-    .error (xhr, error) ->
-        console.log 'Error Occurred: ' + error
+    pdfDocument.getDataUrl (result) ->
+        $.ajax(
+            url: baseURL + 'form-submit.json'
+            method: 'POST'
+            data: {filename: 'test', data: result},
+        ).done (data) ->
+            console.log 'Form Submitted Successfully'
+            $('#duringSubmission').hide()
+            $('#postSubmission').show()
+        .error (xhr, error) ->
+            console.log 'Error Occurred: ' + error
 
 # Configure actions of buttons
 setUpButtons = ->
@@ -515,6 +568,7 @@ setUpButtons = ->
     $('#ssnInfoButton').click processSSNInfo
     $('#identityInfoButton').click processIdentityInfo
     $('#submitButton').click processSubmit
+    $('#pdfDownload').click downloadPDF
 
 # Configure helper tooltips for all elements in parent
 setUpDefinitions = (parent) ->

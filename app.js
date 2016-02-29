@@ -106,21 +106,20 @@ schoolHandler = function(req, res, next) {
 
 webServer.use(express["static"]('./public_html/'));
 
-webServer.use(bodyParser.json());
+webServer.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 webServer.use('/schools', bodyParser.urlencoded({
   extended: false
 }), cookieParser(), schoolHandler);
 
 webServer.post('/form-submit.json', function(req, res) {
-  var contents, count, countStr, error, file, filename, writeStream;
+  var contents, count, countStr, data, error, filename;
   contents = req.body;
   console.log('Received Form Submission');
   try {
-    file = printer.createPdfKitDocument({
-      content: contents,
-      styles: styles
-    });
+    data = contents.data.replace(/^data:application\/pdf;base64,/, "");
     filename = moment().format('YYYYMMDD-hhmmss');
     count = 0;
     while (true) {
@@ -135,9 +134,7 @@ webServer.post('/form-submit.json', function(req, res) {
         break;
       }
     }
-    writeStream = fs.createWriteStream(filename);
-    file.pipe(writeStream);
-    file.end();
+    fs.writeFileSync(filename, data, 'base64');
     console.log("PDF Successfully Generated", filename);
   } catch (_error) {
     error = _error;

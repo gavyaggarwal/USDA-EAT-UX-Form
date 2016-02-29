@@ -5,9 +5,11 @@ html(lang="en")
     link(href='css/css.css', rel='stylesheet')
     link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
     link(href='css/materialize.css', rel='stylesheet')
-    script(src='https://code.jquery.com/jquery-2.2.1.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js')
     script(src='js/main.js')
   body
     header
@@ -362,11 +364,13 @@ html(lang="en")
         .panel#submit
             .section#preSubmission
                 h4 Submit
-                p Thanks for filling out the form! If you'd like to review your application, make sure to do so now. If you're sure that you are ready to submit, please read the following statements.
-                .row.center-align
-                    a.waves-effect.waves-light.btn-flat.modal-trigger(href='#nonDiscrimination') USDA Non-Discrimination Statement
-                .row.center-align
-                    a.waves-effect.waves-light.btn-flat.modal-trigger(href='#useOfInformation') Use of Information Statement
+                p Thanks for filling out the form! Review your application below to make sure everything has been entered correctly. If you want to make any changes, you can go back and do so now. Your school district will recieve this version of your application. 
+                .row
+                    iframe.col.s12#pdfView(src='', height='300px', style='border: 0;')
+                p If you're sure that you are ready to submit, please read the following:
+                .center-align
+                    a.waves-effect.waves-light.btn-flat.modal-trigger(href='#nonDiscrimination').teal-text USDA Non-Discrimination Statement
+                    a.waves-effect.waves-light.btn-flat.modal-trigger(href='#useOfInformation').teal-text Use of Information Statement
                 #nonDiscrimination.modal.modal-fixed-footer(style='z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 493.377px;')
                     .modal-content
                         h5 USDA Non-Discrimination Statement
@@ -412,7 +416,11 @@ html(lang="en")
                     .indeterminate
             .section#postSubmission
                 h4 Thanks!
-                p Your form has been submitted successfully. Your school district will notify you of your children's eligibility.
+                p Your form has been submitted successfully. Your school district will notify you of your children's eligibility. If you'd like a copy of your application, you can download the file below for your records.
+                .center-align
+                    a#pdfDownload.waves-effect.waves-light.btn-large
+                        i.mdi-file-file-download.left
+                        | download
                 p For more information about the National School Lunch Program and the USDA, visit the links at the bottom of the page.
         #status-card.card-panel.teal.lighten-1
           span.white-text

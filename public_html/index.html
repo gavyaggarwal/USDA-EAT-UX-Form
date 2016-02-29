@@ -5,9 +5,11 @@
     <link href="css/css.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="css/materialize.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js"></script>
     <script src="js/main.js"></script>
   </head>
   <body>
@@ -441,9 +443,12 @@
       <div id="submit" class="panel">
         <div id="preSubmission" class="section">
           <h4>Submit</h4>
-          <p>Thanks for filling out the form! If you'd like to review your application, make sure to do so now. If you're sure that you are ready to submit, please read the following statements.</p>
-          <div class="row center-align"><a href="#nonDiscrimination" class="waves-effect waves-light btn-flat modal-trigger">USDA Non-Discrimination Statement</a></div>
-          <div class="row center-align"><a href="#useOfInformation" class="waves-effect waves-light btn-flat modal-trigger">Use of Information Statement</a></div>
+          <p>Thanks for filling out the form! Review your application below to make sure everything has been entered correctly. If you want to make any changes, you can go back and do so now. Your school district will recieve this version of your application. </p>
+          <div class="row">
+            <iframe id="pdfView" src="" height="300px" style="border: 0;" class="col s12"></iframe>
+          </div>
+          <p>If you're sure that you are ready to submit, please read the following:</p>
+          <div class="center-align"><a href="#nonDiscrimination" class="waves-effect waves-light btn-flat modal-trigger teal-text">USDA Non-Discrimination Statement</a><a href="#useOfInformation" class="waves-effect waves-light btn-flat modal-trigger teal-text">Use of Information Statement</a></div>
           <div id="nonDiscrimination" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 493.377px;" class="modal modal-fixed-footer">
             <div class="modal-content">
               <h5>USDA Non-Discrimination Statement</h5>
@@ -497,7 +502,8 @@
         </div>
         <div id="postSubmission" class="section">
           <h4>Thanks!</h4>
-          <p>Your form has been submitted successfully. Your school district will notify you of your children's eligibility.</p>
+          <p>Your form has been submitted successfully. Your school district will notify you of your children's eligibility. If you'd like a copy of your application, you can download the file below for your records.</p>
+          <div class="center-align"><a id="pdfDownload" class="waves-effect waves-light btn-large"><i class="mdi-file-file-download left"></i>download</a></div>
           <p>For more information about the National School Lunch Program and the USDA, visit the links at the bottom of the page.</p>
         </div>
       </div>
