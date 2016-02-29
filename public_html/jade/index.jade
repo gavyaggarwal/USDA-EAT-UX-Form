@@ -1,34 +1,35 @@
 doctype html
 html(lang="en")
   head
-    title EAT UX Challenge
+    title Reduced School Lunch Application
     link(href='css/css.css', rel='stylesheet')
     link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
     link(rel='stylesheet', href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css')
     link(href='css/materialize.css', rel='stylesheet')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js')
+    // Import libraries, all under MIT license
+    script(src='https:cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/pdfmake.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.20/vfs_fonts.js')
     script(src='js/main.js')
   body
-    //Webpage header contains title and dynamic progress bar
+    // Webpage header contains title and dynamic progress bar
     header
         .navbar-fixed
             nav
                 .nav-wrapper
-                    //Webpage title
+                    // Webpage title
                     a.brand-logo(href='#!', style='margin-left:10px;') Reduced School Lunch Application
-                    //Progress bar indicating state of application
+                    // Progress bar indicating state of application
                     ul.right.hide-on-med-and-down.max-height(style='margin-right:10px;')
                         li.valign-wrapper.max-height
                             .progress.valign(style='width:200px;')
                                 #progressBar.determinate.teal.darken-2(style='width:0%;')
     
-    //Main body of webpage contains dynamic panels that guide user through application
+    // Main body of webpage contains dynamic panels that guide user through application
     main
-        //Intro panel describing application process information
+        // Intro panel describing application process information
         .panel#welcome
             h4.center Welcome!
             p The following application is for the National School Lunch Program. Good news! You can apply for #[b free and reduced school lunches] for your children here. Better news! You only need to fill out one application per household, even if your children attend more than one school. Even better news! The process will only take about #[b 15] minutes. 
@@ -36,26 +37,26 @@ html(lang="en")
             .center-align
                 a.waves-effect.btn#GetStartButton Got It!
         
-        //Preliminary (user) determination of categorical eligibility
+        // Preliminary (user) determination of categorical eligibility
         .panel#eligibility_info
-            //Also for user edification of eligibility categories, to keep them well-informed
+            // Also for user edification of eligibility categories, to keep them well-informed
             h4 Categorical Eligibility
             p Children are considered eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. 
             p On what basis are you applying for the National School Lunch Program? Here are some of the typical eligibility categories. 
                 form(action='#')
-                    //Financial need based
+                    // Financial need based
                     p
                         input#financial(name='eligibilityCategory', type='radio', value='financial', required)
                         label(for='financial') #[b Financial Need] - Based on demonstrated financial need, category of most applicants.
-                    //Assistance program based
+                    // Assistance program based
                     p 
                         input#assistance(name='eligibilityCategory', type='radio', value='assistance', required)
                         label(for='assistance') #[b Assistance Program Participation] - Based on participation in SNAP/TANF/FDPIR.
-                    //Child status based
+                    // Child status based
                     p
                         input#childStatus(name='eligibilityCategory', type='radio', value='childStatus', required)
                         label(for='childStatus') #[b Children Status] - Based on children's status as foster/homeless/migrant/runaway/etc.
-                    //Safe option for those who are unsure
+                    // Safe option for those who are unsure
                     p
                         input#unknown(name='eligibilityCategory', type='radio', value='unknown', required)
                         label(for='unknown') #[b Unsure] - If you're not sure, don't worry! We'll find the category that best suits you.
@@ -63,13 +64,13 @@ html(lang="en")
             .center-align          
                 a.waves-effect.btn.center#eligibilityInfoButton Get Started
                 
-        //Gathers parent contact information 
+        // Gathers parent contact information 
         .panel#parent_info
             h4 Parent Information
             p Fill out your information below. Though some fields are not required, we recommend filling out the fields as completely as possible. This information will help us reach you quickly if we need to contact you. 
             .section
               form.col.s12
-                //Name
+                // Name
                 .row
                   .input-field.col.s6
                     input#parentFirstName(type='text', name='parentFirstName')
@@ -77,17 +78,17 @@ html(lang="en")
                   .input-field.col.s6
                     input#parentLastName(type='text', name='parentLastName')
                     label(for='parentLastName') Last Name
-                //Email
+                // Email
                 .row
                   .input-field.col.s12
                     input#email(type='email', name='email')
                     label(for='email') Email
-                //Phone number
+                // Phone number
                 .row
                   .input-field.col.s12
                     input#phone(type='text', name='phone')
                     label(for='phone') Phone Number
-                //Address
+                // Address
                 .row.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
                   .input-field.col.s6
                     input#address(type='text', name='address')
@@ -158,10 +159,10 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#parentInfoButton Next
         
-        //Assistance program participation information
+        // Assistance program participation information
         .panel#program_info
             h4 Assistance Program Information
-            //Confirmation of program participation
+            // Confirmation of program participation
             p Does any member of your household participate in any of the following programs? 
             ul.list(style='margin-left: 50px;')
                 li Student Nutrition Assistance Program (SNAP) 
@@ -174,7 +175,7 @@ html(lang="en")
                 p.has-definition(data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.")
                     input#notProgramParticipant(name='programParticipation', type='radio', value='false')
                     label(for='notProgramParticipant') No
-                //User prompt for case number if they participate with tips
+                // User prompt for case number if they participate with tips
                 .section#caseNumberSection
                     p Please provide a case number for one of these programs, even if you participate in multiple.
                     .input-field.has-definition(data-definition="Participation in any one of the programs will make the children in your household eligible. Don't worry! If you can't remember your case number, just contact your local/state agency with the contact information provided at the bottom of the page and they'll assist you.")
@@ -184,16 +185,16 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#programInfoButton Next          
         
-        //Gathers information about children in household
+        // Gathers information about children in household
         .panel#children_info
             h4 Children
             p Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals. Let us know if your children fall under any of those categories.
-            //Template for adding child information
+            // Template for adding child information
             form.section#child-num-Form.childForm
                 a.removeChild.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
                     i.material-icons remove
                 h5 New Child
-                //Name
+                // Name
                 .row
                     .input-field.col.s5.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>")
                         input#child-num-FirstName(type='text', name="child-num-FirstName", required)
@@ -204,7 +205,7 @@ html(lang="en")
                     .input-field.col.s6
                         input#child-num-LastName(type='text', name="child-num-LastName", required)
                         label(for='child-num-LastName') Last Name
-                //Categorical statuses with definitions
+                // Categorical statuses with definitions
                 .row
                     .col.s10.offset-s1
                         .row
@@ -227,7 +228,7 @@ html(lang="en")
                             .col.s4.has-definition(data-definition="A child that is enrolled in a Federal Head Start or State-funded pre-kindergarten program that uses eligibility criteria that is identical or more stringent than Federal Head Start.")
                                 input#child-num-headStart(type='checkbox', name='child-num-headStart')
                                 label(for='child-num-headStart') Head Start
-            //Section for adding a new child
+            // Section for adding a new child
             .section#addChildSection
                 a#addChild.btn-floating.btn-medium.waves-effect.waves-light.teal.lighten-1.right
                     i.material-icons add
@@ -236,11 +237,11 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#childrenInfoButton Next
         
-        //Gathers information about household residents
+        // Gathers information about household residents
         .panel#household_info
             h4 Household Information
             p Please list all members of your household, not including yourself and the children listed in the previous section. Don't include those who live in your household but are not supported by or contribute to your household's income.
-            //Template for adding new adult information (name)
+            // Template for adding new adult information (name)
             form.row#adult-num-Form.adultForm
                     .input-field.col.s5
                         input#adult-num-FirstName(type='text', name="adult-num-FirstName", required)
@@ -251,7 +252,7 @@ html(lang="en")
                     .input-field.col.s1
                         a.removeAdult.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
                             i.material-icons remove
-            //Section for adding a new adult
+            // Section for adding a new adult
             .row#addAdultSection.has-definition(data-definition="Make sure to include everyone! Many families have grandparents, extended family, or even friends that all live in the same household.")
                 .input-field.col.s11
                     h5 Add an Adult
@@ -264,14 +265,14 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#adultInfoButton Next  
         
-        //Gathers income information
+        // Gathers income information
         .panel#income_info
             h4 Income Information
             p Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field. Many households do not have any child income.
-            //Template for collecting child income information (duplicated for each child)
+            // Template for collecting child income information (duplicated for each child)
             #childIncomeSection
                 form#childIncomeTemplate
-                    //Collects amount and frequency, defines child income
+                    // Collects amount and frequency, defines child income
                     .row.has-definition(data-definition="Child income is money received from outside your household that is paid directly to your children. Sources of child income include: <ul class='list'><li>Paying Job</li><li>Social Security Disability Payments</li><li>Social Security Survivor's Benefits</li><li>Relative/Friend Outside Household</li><li>Private Pension Fund/Annuity/Trust</li>")
                         .col.s4.input-field
                             h5#childIncomeNameTemplate
@@ -288,14 +289,14 @@ html(lang="en")
                                 option(value='annually') Annually 
                             label Frequency
             p Specify the gross income (before taxes and deductions) of each adult household member. Note the income source, amount, and frequency. Choose multiple sources if a member earns income from different types of sources. Also specify if there are household members that do not earn any individual income.
-            //Template for collecting adult income information (duplicated for each adult)
+            // Template for collecting adult income information (duplicated for each adult)
             #adultIncomeSection
                 form#adultIncomeTemplate
-                    //Gathers amount and frequency of different types of income
+                    // Gathers amount and frequency of different types of income
                     .row
                         .col.s4.input-field
                             h5#adultIncomeNameTemplate
-                        //Income source options
+                        // Income source options
                         .col.s8.input-field
                             select#adultIncomeTypeTemplate(multiple='', name='adultIncomeType')
                                 option(value='', disabled='', selected='') No Income
@@ -303,7 +304,7 @@ html(lang="en")
                                 option(value='external') Public Assistance/Child Support/Alimony
                                 option(value='other') Pensions/Retirement/Other
                             label Income Source
-                    //Income source type templates (duplicated as needed)     
+                    // Income source type templates (duplicated as needed)     
                     .row#jobIncomeTemplate.has-definition(data-definition="This is usually the money received from working at jobs, including cash bonuses. Make sure that the income you report on this application has not been reduced to pay for taxes, insurance premiums, or any other amounts taken from your pay. <br/><br/> If you are a self-employed business or farm owner, you should report your net income. <br/><br/> If you are in the U.S. Military: <ul class='list'><li> Include basic pay and cash bonuses</li><li>Include allowances for off-base housing, food, and clothing</li><li>Don’t include combat pay, FSSA or privatized housing allowances</li></ul>")
                         .col.s5.input-field
                             h6 Salary/Wages
@@ -353,11 +354,11 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#incomeInfoButton Next
         
-        //Gathers social security information    
+        // Gathers social security information    
         .panel#ssn_info
             h4 Social Security Information
             form
-                //Determines availablity of social security number
+                // Determines availablity of social security number
                 .row.has-definition(data-definition="Don't worry! You are eligible to apply for benefits even if you do not have a Social Security Number.")
                     p Does at least one adult member of your household possess a social security number (SSN)?
                     p
@@ -366,7 +367,7 @@ html(lang="en")
                     p
                         input#unavailableSSN(name='socialSecurity', type='radio', value='false', required)
                         label(for='unavailableSSN') No
-                //Conditional section that collects SSN when available
+                // Conditional section that collects SSN when available
                 #ssnDetails.row
                     p Choose the household's primary wage earner or another household member and list the last four digits of their SSN.
                     .input-field.col.s6
@@ -379,13 +380,13 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#ssnInfoButton Next
         
-        //Gathers demographical information
+        // Gathers demographical information
         .panel#identity_info
             h4 Demographics
             form
                 p Almost there! We are required to ask for information about your children’s race and ethnicity. This information is important and helps to make sure we are fully serving our community. Responding to this section is #[b optional] and does not affect your children’s eligibility for free or reduced price meals.
                 .row
-                    //Collects racial identity information
+                    // Collects racial identity information
                     .col.s6
                         p Which of the following races are your children? If your children are multiple races, check one or more.
                         p
@@ -403,7 +404,7 @@ html(lang="en")
                         p
                             input#raceWhite(name='race', type='checkbox', value='White')
                             label(for='raceWhite') #[b White]
-                    //Collects ethinicity information
+                    // Collects ethinicity information
                     .col.s6
                         p Are any of your children Hispanic or Latino?
                         p
@@ -416,16 +417,16 @@ html(lang="en")
             a.waves-effect.btn.left.backButton Back
             a.waves-effect.btn.right#identityInfoButton Next
         
-        //Submission panel with final steps and application review    
+        // Submission panel with final steps and application review    
         .panel#submit
-            //Pre-submission: Produces preview of application, necessary statements, signature field
+            // Pre-submission: Produces preview of application, necessary statements, signature field
             .section#preSubmission
                 h4 Submit
                 p Thanks for filling out the form! Review your application below to make sure everything has been entered correctly. If you want to make any changes, you can go back and do so now. Your school district will recieve this version of your application. 
-                //PDF preview of application
+                // PDF preview of application
                 .row
                     iframe.col.s12#pdfView(src='', height='300px', style='border: 0;')
-                //Required statements
+                // Required statements
                 p If you're sure that you are ready to submit, please read the following:
                 .center-align
                     a.waves-effect.waves-light.btn-flat.modal-trigger(href='#nonDiscrimination').teal-text USDA Non-Discrimination Statement
@@ -456,7 +457,7 @@ html(lang="en")
                         p We may share your eligibility information with education, health, and nutrition programs to help them evaluate, fund, or determine benefits for their programs, auditors for program reviews, and law enforcement officials to help them look into violations of program rules.
                     .modal-footer
                         a.modal-action.modal-close.waves-effect.waves-green.btn-flat I Acknowledge
-                //Signature field with attesting statements
+                // Signature field with attesting statements
                 h5 Electronic Signature
                 p By typing your name below, you attest to the following statements:
                 ul.list(style='margin-left: 50px;')
@@ -469,13 +470,13 @@ html(lang="en")
                     input#signature(type='text', name='signature', required)
                 a.waves-effect.btn.left.backButton Back
                 a.waves-effect.btn.right#submitButton Submit
-            //During submission: Updates and occupies users while application is submitted
+            // During submission: Updates and occupies users while application is submitted
             .section#duringSubmission
                 h4 Submitting Your Application
                 p Hold tight! We are currently processing and submitting your application. Wait to see the confirmation page before exiting the form.
                 .progress
                     .indeterminate
-            //Post-submission: Updates users and provides downloadable PDF version of the application
+            // Post-submission: Updates users and provides downloadable PDF version of the application
             .section#postSubmission
                 h4 Thanks!
                 p Your form has been submitted successfully. Your school district will notify you of your children's eligibility. If you'd like a copy of your application, you can download the file below for your records.
@@ -485,37 +486,43 @@ html(lang="en")
                         | download
                 p For more information about the National School Lunch Program and the USDA, visit the links at the bottom of the page.
         
-        //Defintion card that is dynamically modified
+        // Defintion card that is dynamically modified
         #status-card.card-panel.teal.lighten-1
           span.white-text
           
-    //Footer of webpage contains important contact and program information/links
+    // Footer of webpage contains important contact and program information/links
     footer.page-footer
         .container
             .row
-                //School district information (customizable by district)
+                // Useful links to program information (customizable by district as well)
                 .col.m6.s12
-                    h5.white-text California School District Name
-                    ul.grey-text.text-lighten-4
-                        li If you still have any comments or questions, feel free to contact us!
-                        li(style='margin-left: 30px;') Phone: (987) - 654 - 3210
-                        li(style='margin-left: 30px;') Email: counselors@yourschooldistrict.edu
-                //Useful links to program information (customizable by district as well)
-                .col.m4.offset-m2.s12
                     h5.white-text Links
                     ul
                         li 
                             a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/nslp/national-school-lunch-program-nslp;') USDA National School Lunch Program
                         li 
-                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program-snap') California TANF
+                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program-snap') Temporary Assistance for Needy Families
                         li 
-                            a.grey-text.text-lighten-3(href='http://www.acf.hhs.gov/programs/ofa/programs/tanf') California SNAP
+                            a.grey-text.text-lighten-3(href='http://www.acf.hhs.gov/programs/ofa/programs/tanf') Supplemental Nutrition Assistance Program
                         li 
-                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/fdpir/food-distribution-program-indian-reservations-fdpir') FDPIR
+                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/fdpir/food-distribution-program-indian-reservations-fdpir') The Food Distribution Program on Indian Reservations
+                // School district information (customizable by district)
+                .col.m4.offset-m2.s12
+                    h5.white-text Fake School District
+                    ul
+                        li 
+                            a.grey-text.text-lighten-3(href='tel://9876543210') (987) 654 3210
+                        li 
+                            a.grey-text.text-lighten-3(href='mailto://counselors@schooldistrict.edu') counselors@schooldistrict.edu
+                        li
+                            a.grey-text.text-lighten-3 123 Fake Street
+                        li
+                            a.grey-text.text-lighten-3 Fake City, FS 98765
+                        
         .footer-copyright.teal.darken-2
             .container
                 | © 2016 Gavy & Abirami
-                //Links to USDA social media for news/updates/info
+                // Links to USDA social media for news/updates/info
                 a.grey-text.text-lighten-4.right(href='https://www.facebook.com/USDA')
                     i.fa.fa-facebook-square(style='font-size:25px; vertical-align:middle;')
                 a.grey-text.text-lighten-4.right(href='https://twitter.com/USDANutrition')
