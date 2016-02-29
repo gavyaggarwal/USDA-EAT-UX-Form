@@ -9,6 +9,8 @@ householdMembers = 1
 panelStack = []
 programParticipant = false
 hasSSN = false
+started = false
+submitted = false
 
 # Data Variables
 childIncomeTemplate = null

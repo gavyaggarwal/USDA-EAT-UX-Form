@@ -1,11 +1,10 @@
 # Required Modules (all under MIT license)
-bodyParser = require('body-parser')
+bodyParser   = require('body-parser')
 cookieParser = require('cookie-parser')
-express = require('express')
-fs = require('fs')
-moment = require('moment')
-pdf = require('pdfmake')
-serveIndex = require('serve-index')
+express      = require('express')
+fs           = require('fs')
+moment       = require('moment')
+serveIndex   = require('serve-index')
 
 # Port and IP to use for web server
 webPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
@@ -17,41 +16,6 @@ baseURL = 'http://' + webIP + ':' + webPort + '/'
 # Default username and password for access to PDFs of form submissions
 pdfUser = 'USDA'
 pdfPass = 'Demo'
-
-# Fonts used in PDF generation
-fonts = Roboto:
-    normal: 'fonts/Roboto-Light.ttf'
-    bold: 'fonts/Roboto-Medium.ttf'
-    bolditalics: 'fonts/Roboto-Regular.ttf'
-    italics: 'fonts/Roboto-Thin.ttf'
-
-# Formatting Rules for PDF generation
-styles =
-    header:
-        marginTop: 12
-        fontSize: 24
-        italics: true
-    subheader:
-        marginTop: 9
-        fontSize: 18
-        italics: true
-    normal:
-        marginTop: 6
-        fontSize: 12
-        lineHeight: 1.2
-    tabbed:
-        marginTop: 6
-        marginLeft: 40
-        fontSize: 12
-        lineHeight: 1.2
-    tabbed2:
-        marginTop: 6
-        marginLeft: 80
-        fontSize: 12
-        lineHeight: 1.2
-
-# PDF Generator Engine
-printer = new pdf(fonts)
 
 # Web Server
 webServer = express()
