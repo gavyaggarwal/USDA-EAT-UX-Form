@@ -700,6 +700,7 @@ setUpProgramPanel = ->
         if $(this).val() == 'true'
             programParticipant = true
             $('#caseNumberSection').html caseNumberHTML
+            setUpDefinitions '#caseNumberSection'
         else
             programParticipant = false
             $('#caseNumberSection').html ''
@@ -848,6 +849,7 @@ populateAdultIncome = (adults) ->
                     else if method == 'other'
                         $(form).append(adultIncomeBoxes[j][2])
                         $(adultIncomeBoxes[j][2]).find('select').material_select()
+                setUpDefinitions form
             .material_select()
         jobIncome = $(newForm).find('#jobIncomeTemplate')
         $(jobIncome).attr 'id', 'jobIncome' + i

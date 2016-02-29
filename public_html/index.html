@@ -32,8 +32,8 @@
     <main>
       <div id="welcome" class="panel">
         <h4 class="center">Welcome!</h4>
-        <p>The following application is for the National School Lunch Program. The process will take at most about <b>15</b> minutes. Careful! Once you leave this page, your information won't be saved so make sure you can complete it in one sitting.</p>
-        <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to ensure your children will be considered for free or reduced price school meals.</p>
+        <p>The following application is for the National School Lunch Program. Good news! You can apply for <b>free and reduced school lunches</b> for your children here. Better news! You only need to fill out one application per household, even if your children attend more than one school. Even better news! The process will only take about <b>15</b> minutes. </p>
+        <p> You'll need to fill out the following form completely and accurately to ensure your children will be considered. Careful! Once you leave this page, your information won't be saved so make sure you can complete it in one sitting.</p>
         <div class="center-align"><a id="GetStartButton" class="waves-effect btn">Got It!</a></div>
       </div>
       <div id="eligibility_info" class="panel">
@@ -43,7 +43,7 @@
           <form action="#">
             <p>
               <input id="financial" name="eligibilityCategory" type="radio" value="financial" required>
-              <label for="financial"><b>Financial Need</b> - Based on demonstrated financial need.</label>
+              <label for="financial"><b>Financial Need</b> - Based on demonstrated financial need, category of most applicants.</label>
             </p>
             <p>
               <input id="assistance" name="eligibilityCategory" type="radio" value="assistance" required>
@@ -63,7 +63,7 @@
       </div>
       <div id="parent_info" class="panel">
         <h4>Parent Information</h4>
-        <p>Fill out your information below. Though some fields are not required, we reccommend filling out the fields as completely as possible. This information will help us reach you quickly if we need to contact you. </p>
+        <p>Fill out your information below. Though some fields are not required, we recommend filling out the fields as completely as possible. This information will help us reach you quickly if we need to contact you. </p>
         <div class="section">
           <form class="col s12">
             <div class="row">
@@ -88,18 +88,18 @@
                 <label for="phone">Phone Number</label>
               </div>
             </div>
-            <div class="row">
-              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
+            <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="row has-definition">
+              <div class="input-field col s6">
                 <input id="address" type="text" name="address">
                 <label for="address">Street Address</label>
               </div>
-              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
+              <div class="input-field col s6">
                 <input id="city" type="text" name="city">
                 <label for="city">City</label>
               </div>
             </div>
-            <div class="row">
-              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
+            <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="row has-definition">
+              <div class="input-field col s6">
                 <select id="state" name="state">
                   <option value="" disabled="" selected="">Choose Your State</option>
                   <option value="AL">Alabama</option>
@@ -156,7 +156,7 @@
                 </select>
                 <label for="state">State</label>
               </div>
-              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
+              <div class="input-field col s6">
                 <input id="zipCode" type="text" name="zipCode">
                 <label for="zipCode">Zip Code</label>
               </div>
@@ -173,17 +173,17 @@
           <li>Food Distribution Program on Indian Reservations (FDPIR)</li>
         </ul>
         <form>
-          <p data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.">
+          <p data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs." class="has-definition">
             <input id="programParticipant" name="programParticipation" type="radio" value="true">
             <label for="programParticipant">Yes</label>
           </p>
-          <p data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.">
+          <p data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs." class="has-definition">
             <input id="notProgramParticipant" name="programParticipation" type="radio" value="false">
             <label for="notProgramParticipant">No</label>
           </p>
           <div id="caseNumberSection" class="section">
             <p>Please provide a case number for one of these programs, even if you participate in multiple.</p>
-            <div data-definition="Participation in any #[b one]of the programs will make the children in your household eligible." class="input-field">
+            <div data-definition="Participation in any one of the programs will make the children in your household eligible. Don't worry! If you can't remember your case number, just contact your local/state agency with the contact information provided at the bottom of the page and they'll assist you." class="input-field has-definition">
               <input id="caseNumber" type="text" name="caseNumber">
               <label for="caseNumber">Case Number</label>
             </div>
@@ -249,7 +249,7 @@
       </div>
       <div id="household_info" class="panel">
         <h4>Household Information</h4>
-        <p>Please list all members of your household, not including yourself and the children listed in the previous section. This does not include those who live in your household but are not supported by or contribute to your household's income.</p>
+        <p>Please list all members of your household, not including yourself and the children listed in the previous section. Don't include those who live in your household but are not supported by or contribute to your household's income.</p>
         <form id="adult-num-Form" class="row adultForm">
           <div class="input-field col s5">
             <input id="adult-num-FirstName" type="text" name="adult-num-FirstName" required>
@@ -261,7 +261,7 @@
           </div>
           <div class="input-field col s1"><a class="removeAdult right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a></div>
         </form>
-        <div id="addAdultSection" class="row">
+        <div id="addAdultSection" data-definition="Make sure to include everyone! Many families have grandparents, extended family, or even friends that all live in the same household." class="row has-definition">
           <div class="input-field col s11">
             <h5>Add an Adult</h5>
           </div>
@@ -271,10 +271,10 @@
       </div>
       <div id="income_info" class="panel">
         <h4>Income Information</h4>
-        <p>Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field.</p>
+        <p>Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field. Many households do not have any child income.</p>
         <div id="childIncomeSection">
           <form id="childIncomeTemplate">
-            <div data-definition="Child income is money received from outside your household that is paid directly to your children. Many households do not have any child income. Sources of child income include: &lt;ul class='list'&gt;&lt;li&gt;Paying Job&lt;/li&gt;&lt;li&gt;Social Security Disability Payments&lt;/li&gt;&lt;li&gt;Social Security Survivor's Benefits&lt;/li&gt;&lt;li&gt;Relative/Friend Outside Household&lt;/li&gt;&lt;li&gt;Private Pension Fund/Annuity/Trust&lt;/li&gt;" class="row has-definition">
+            <div data-definition="Child income is money received from outside your household that is paid directly to your children. Sources of child income include: &lt;ul class='list'&gt;&lt;li&gt;Paying Job&lt;/li&gt;&lt;li&gt;Social Security Disability Payments&lt;/li&gt;&lt;li&gt;Social Security Survivor's Benefits&lt;/li&gt;&lt;li&gt;Relative/Friend Outside Household&lt;/li&gt;&lt;li&gt;Private Pension Fund/Annuity/Trust&lt;/li&gt;" class="row has-definition">
               <div class="col s4 input-field">
                 <h5 id="childIncomeNameTemplate"></h5>
               </div>
@@ -312,7 +312,7 @@
                 <label>Income Source</label>
               </div>
             </div>
-            <div id="jobIncomeTemplate" class="row">
+            <div id="jobIncomeTemplate" data-definition="This is usually the money received from working at jobs, including cash bonuses. Make sure that the income you report on this application has not been reduced to pay for taxes, insurance premiums, or any other amounts taken from your pay. &lt;br/&gt;&lt;br/&gt; If you are a self-employed business or farm owner, you should report your net income. &lt;br/&gt;&lt;br/&gt; If you are in the U.S. Military: &lt;ul class='list'&gt;&lt;li&gt; Include basic pay and cash bonuses&lt;/li&gt;&lt;li&gt;Include allowances for off-base housing, food, and clothing&lt;/li&gt;&lt;li&gt;Don’t include combat pay, FSSA or privatized housing allowances&lt;/li&gt;&lt;/ul&gt;" class="row has-definition">
               <div class="col s5 input-field">
                 <h6>Salary/Wages</h6>
               </div>
@@ -331,7 +331,7 @@
                 <label>Frequency</label>
               </div>
             </div>
-            <div id="externalIncomeTemplate" class="row">
+            <div id="externalIncomeTemplate" data-definition="Public assistance payments include the following: &lt;ul class='list'&gt;&lt;li&gt;Unemployment benefits&lt;/li&gt;&lt;li&gt;Worker’s compensation&lt;/li&gt;&lt;li&gt;Supplemental Security Income (SSI) &lt;/li&gt;&lt;li&gt;Cash assistance from State or local government&lt;/li&gt;&lt;li&gt; Veteran’s benefits&lt;/li&gt;&lt;/ul&gt; &lt;br/&gt; Also include court-ordered alimony payments and child support payments in this section. Informal but regular payments should be reported as “other” income." class="row has-definition">
               <div class="col s5 input-field">
                 <h6>Public Assistance/Child Support/Alimony</h6>
               </div>
@@ -350,7 +350,7 @@
                 <label>Frequency</label>
               </div>
             </div>
-            <div id="otherIncomeTemplate" class="row">
+            <div id="otherIncomeTemplate" data-definition="You can report the following income in this section: &lt;ul class='list'&gt;&lt;li&gt;Social Security (including railroad retirement and black lung benefits)&lt;/li&gt;&lt;li&gt;Private Pensions or disability&lt;/li&gt;&lt;li&gt;Income from trusts or estates&lt;/li&gt;&lt;li&gt;Annuities&lt;/li&gt;&lt;li&gt;Investment income&lt;/li&gt;&lt;li&gt;Earned interest&lt;/li&gt;&lt;li&gt;Rental income&lt;/li&gt;&lt;li&gt;Regular cash payments from outside household&lt;/li&gt;&lt;/ul&gt;" class="row has-definition">
               <div class="col s5 input-field">
                 <h6>Pension/Retirement/Other</h6>
               </div>
@@ -375,7 +375,7 @@
       <div id="ssn_info" class="panel">
         <h4>Social Security Information</h4>
         <form>
-          <div class="row">
+          <div data-definition="Don't worry! You are eligible to apply for benefits even if you do not have a Social Security Number." class="row has-definition">
             <p>Does at least one adult member of your household possess a social security number (SSN)?</p>
             <p>
               <input id="availableSSN" name="socialSecurity" type="radio" value="true" required>
@@ -400,10 +400,10 @@
         </form><a class="waves-effect btn left backButton">Back</a><a id="ssnInfoButton" class="waves-effect btn right">Next</a>
       </div>
       <div id="identity_info" class="panel">
-        <h4>Racial and Ethnic Identity</h4>
+        <h4>Demographics</h4>
         <form>
           <div class="row"></div>
-          <p>We are required to ask for information about your children’s race and ethnicity. This information is important and helps to make sure we are fully serving our community. Responding to this section is optional and does not affect your children’s eligibility for free or reduced price meals.</p>
+          <p>Almost there! We are required to ask for information about your children’s race and ethnicity. This information is important and helps to make sure we are fully serving our community. Responding to this section is <b>optional</b> and does not affect your children’s eligibility for free or reduced price meals.</p>
           <div class="row">
             <div class="col s6">
               <p>Which of the following races are your children? If your children are multiple races, check one or more.</p>
@@ -473,7 +473,7 @@
               </ol>
               <p>This institution is an equal opportunity provider.</p>
             </div>
-            <div class="modal-footer"><a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I Acknowledge</a></div>
+            <div class="modal-footer"><a class="modal-action modal-close waves-effect waves-green btn-flat">I Acknowledge</a></div>
           </div>
           <div id="useOfInformation" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 493.377px;" class="modal modal-fixed-footer">
             <div class="modal-content">
@@ -481,7 +481,7 @@
               <p>The Richard B. Russell National School Lunch Act requires the information on this application. You do not have to give the information, but if you do not submit all needed information, we cannot approve your child for free or reduced price meals. You must include the last four digits of the social security number of the adult household member who signs the application. The social security number is not required when you apply on behalf of a foster child or you list a Supplemental Nutrition Assistance Program (SNAP), Temporary Assistance for Needy Families (TANF) Program or Food Distribution Program on Indian Reservations (FDPIR) case number or other FDPIR identifier for your child or when you indicate that the adult household member signing the application does not have a social security number. We will use your information to determine if your child is eligible for free or reduced price meals, and for administration and enforcement of the lunch and breakfast programs.</p>
               <p>We may share your eligibility information with education, health, and nutrition programs to help them evaluate, fund, or determine benefits for their programs, auditors for program reviews, and law enforcement officials to help them look into violations of program rules.</p>
             </div>
-            <div class="modal-footer"><a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I Acknowledge</a></div>
+            <div class="modal-footer"><a class="modal-action modal-close waves-effect waves-green btn-flat">I Acknowledge</a></div>
           </div>
           <h5>Electronic Signature</h5>
           <p>By typing your name below, you attest to the following statements:</p>

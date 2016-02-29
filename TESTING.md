@@ -2,20 +2,34 @@
 
 In order to create the best form that we can, we conducted various types of testing and used the results from our testing to improve the design, efficiency, and compatibility of our reduced lunch school application form.
 
+*****
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+### Table of Contents
+
+- [Usability Testing](#usability-testing)
+- [Performance Testing](#performance-testing)
+  - [Network Performance](#network-performance)
+  - [CPU/Memory Performance](#cpumemory-performance)
+- [Compatibility Testing](#compatibility-testing)
+- [Correctness Testing](#correctness-testing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+
 ### Usability Testing
 
-We conducted extensive usability testing ourselves and even had over 50 people use our form and give us their feedback. We took their feedback to heart and tailored our app to suit the average American applying for reduced school lunches. 
+We conducted extensive usability testing ourselves and even had over 50 people use our form and give us their feedback. We took their feedback to heart and tailored our app to suit the average American applying for reduced school lunches.
 
--Animations (Intuitive)
--Form Validation
--Dialogs
--Autocomplete Form
--Minimalist
--Translate
+-images were distracgting
+
+- horizontally sliding panels better than vertical because they appear to move faster
+
 -Accessibility
     -Compatible with voice over plugins
     -High contrast for those with vision problems
--Navigation
 -Application Time
 
 For validation:

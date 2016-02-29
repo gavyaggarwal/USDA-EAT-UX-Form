@@ -798,7 +798,8 @@ setUpProgramPanel = function() {
   return $("input[name='programParticipation']").change(function() {
     if ($(this).val() === 'true') {
       programParticipant = true;
-      return $('#caseNumberSection').html(caseNumberHTML);
+      $('#caseNumberSection').html(caseNumberHTML);
+      return setUpDefinitions('#caseNumberSection');
     } else {
       programParticipant = false;
       return $('#caseNumberSection').html('');
@@ -915,7 +916,7 @@ populateAdultIncome = function(adults) {
     $(newForm).attr('id', 'adultIncomeForm' + i);
     $(newForm).find('#adultIncomeNameTemplate').attr('id', 'adultIncomeName' + i).html(a.FirstName);
     $(newForm).find('#adultIncomeTypeTemplate').attr('id', 'adultIncomeType' + i).change(function() {
-      var box, form, j, method, _j, _k, _len1, _len2, _ref1, _ref2, _results1;
+      var box, form, j, method, _j, _k, _len1, _len2, _ref1, _ref2;
       form = $(this).closest('form');
       j = $(form).index();
       $('#adultIncomeForm' + i + ' .select-wrapper');
@@ -926,23 +927,20 @@ populateAdultIncome = function(adults) {
         $(box).remove();
       }
       _ref2 = $(this).val();
-      _results1 = [];
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         method = _ref2[_k];
         if (method === 'job') {
           $(form).append(adultIncomeBoxes[j][0]);
-          _results1.push($(adultIncomeBoxes[j][0]).find('select').material_select());
+          $(adultIncomeBoxes[j][0]).find('select').material_select();
         } else if (method === 'external') {
           $(form).append(adultIncomeBoxes[j][1]);
-          _results1.push($(adultIncomeBoxes[j][1]).find('select').material_select());
+          $(adultIncomeBoxes[j][1]).find('select').material_select();
         } else if (method === 'other') {
           $(form).append(adultIncomeBoxes[j][2]);
-          _results1.push($(adultIncomeBoxes[j][2]).find('select').material_select());
-        } else {
-          _results1.push(void 0);
+          $(adultIncomeBoxes[j][2]).find('select').material_select();
         }
       }
-      return _results1;
+      return setUpDefinitions(form);
     }).material_select();
     jobIncome = $(newForm).find('#jobIncomeTemplate');
     $(jobIncome).attr('id', 'jobIncome' + i);
