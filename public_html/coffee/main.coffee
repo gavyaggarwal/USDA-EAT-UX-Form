@@ -9,7 +9,6 @@ householdMembers = 1
 panelStack = []
 programParticipant = false
 hasSSN = false
-started = false
 submitted = false
 
 # Data Variables
@@ -59,6 +58,8 @@ showPreviousPanel = ->
 
 # Helper function that animates panel sliding in from right
 forwardPanelTransition = (newPanel) ->
+    # Push state onto history so we can detect back button clicks
+    history.pushState panel, "", "#"
     # Change state variables and get panels
     currPanel = do currentPanel
     panelStack.push panel
@@ -102,8 +103,10 @@ processEligibilityInfo = ->
         # Add the eligibility to our data model
         data.eligibility =
             type: $(form).find('input[name="eligibilityCategory"]:checked').val()
+        # Move onto next panel
         do showNextPanel
     else
+        # If nothing is selected, display a small popup
         Materialize.toast 'You must select an option.', 4000
 
 # Processes parent information and continues to next panel if valid
@@ -122,15 +125,19 @@ processProgramInfo = ->
     if $('#program_info').find('form').valid()
         # Get data from form and store in our data model
         if programParticipant
+            # Get case number if participant
             data.program =
                 participates: true
                 caseNumber: $('#caseNumber').val()
         else
+            # Otherwise, leave it blank
             data.program =
                 participates: false
                 caseNumber: null
+        # Go to the next form
         do showNextPanel
     else
+        # Remove any data we may have stored if the form is invalid
         data.program = null
 
 # Processes children information and continues if valid
@@ -147,18 +154,22 @@ processChildrenInfo = ->
         res = []
         for i in [1...child]
             if document.getElementById('child' + i + 'Form')
+                # If a form exists (doesn't necessarily have to if the user
+                # added and then deleted a file)
                 obj = {}
+                # Get First/Middle/Last Name
                 for field in ['FirstName', 'MiddleName', 'LastName']
                     val = $('#child' + i + field).val()
-                    if val == null || val == "" || val == undefined
-                        obj[field] = null
-                    else
-                        obj[field] = val
+                    obj[field] = val ? null
+                # Check child status
                 for field in ['student', 'foster', 'homeless', 'migrant', 'runaway', 'headStart']
                     obj[field] = document.getElementById('child' + i + field).checked
                 if obj.student and !obj.foster and !obj.homeless and !obj.migrant and !obj.runaway and !obj.headStart
+                    # If a child is a student and not in the foster/homeless/etc
+                    # category, we might need financial info
                     allExempt = false
                 res.push obj
+        # Set children array in data model to parsed data
         data.children = res
         populateChildrenIncome res
         # If all students are eligible from being foster/homeless/etc or the
@@ -168,6 +179,7 @@ processChildrenInfo = ->
         else
             do showNextPanel
     else
+        # If there's a validation error, clear the children already entered
         data.children = null
 
 # Processes adult information and continues if valid
@@ -182,6 +194,7 @@ processAdultInfo = ->
     if allValid
         res = []
         for i in [1...adult]
+            # Record the names of each adult and store it as an array
             if document.getElementById('adult' + i + 'Form')
                 obj = {}
                 for field in ['FirstName', 'LastName']
@@ -205,11 +218,13 @@ processIncomeInfo = ->
     if allValid
         # For each child, add income amount and frequency to data structure
         for form, i in $('#childIncomeSection').find('form')
+            # Child income is stored as an oject with an amount and frequency
             data.children[i].income =
                 amount: $(form).find('[name="childIncome"]').val()
                 frequency: $(form).find('[name="childIncomeFrequency"]').val()
         # For each adult, add income types, amounts, and frequencies to data
         for form, i in $('#adultIncomeSection').find('form')
+            # Parent income is stored as an array of sources/amounts/frequencies
             income = []
             for method in $(form).find('#adultIncomeType' + i).val()
                 if method == 'job'
@@ -227,12 +242,14 @@ processIncomeInfo = ->
                         type: 'other',
                         amount: $(form).find('[name="adultIncomeOther"]').val()
                         frequency: $(form).find('[name="adultIncomeOtherFrequency"]').val()
-
+            # The first index corresponds to the parent currently filling out
+            # the form
             if i == 0
                 data.parent.income = income
             else
                 data.adults[i - 1].income = income
 
+        # Move onto the next panel if validation passes
         do showNextPanel
 
 # Processes the SSN information and continues if valid
@@ -242,29 +259,41 @@ processSSNInfo = ->
     if $(form).valid()
         # If somebody has an SSN, record their SSN as the primary earner
         if hasSSN
+            # Get index of selected value
             i = +$(form).find('select').val()
+            # A value of 0 corresponds to the current person filling out the
+            # form. Get the appropriate formatted name
             if i == 0
                 name = data.parent.parentFirstName + ' ' + data.parent.parentLastName
             else
                 name = data.adults[i - 1].FirstName + ' ' + data.adults[i - 1].LastName
+            # Store into our data model
             data.earner =
                 name: name
                 ssn: $(form).find('#SSN').val()
         else
+            # If no SSN, store nothing
             data.earner = null
+        # Move onto next panel
         do showNextPanel
     else
+        # Clear data if form is invalid
         data.earner = null
 
 # Saves racial and ethnic data if filled out
 processIdentityInfo = ->
+    # This info is optional so validation is not required
+    # Store whatever data is filled out
     form = $('#identity_info').find('form')
     data.identity =
         hispanic: $(form).find('input[name="hispanic"]:checked').val()
         races:  []
     $(form).find('input[name="race"]:checked').each ->
         data.identity.races.push $(this).val()
+    # Generate a PDF of all the data collected so far to display on the next
+    # panel
     do generatePDF
+    # Show the next panel
     do showNextPanel
 
 # Processes the submit information and submits form if valid
@@ -272,11 +301,15 @@ processSubmit = ->
     form = $('#submit').find('form')
     $(form).submit()
     if $(form).valid()
+        # Hide the pre-submission content and display a message indicating the
+        # form is being submitted
         $('#preSubmission').hide()
         $('#duringSubmission').show()
         data.signature = $(form).find('#signature').val()
+        # Let our handler submit the form to the backend
         do submitForm
 
+# Creates and opens a download link for the generated PDF
 downloadPDF = ->
     pdfDocument.download 'Reduced School Lunch Application'
 
@@ -495,6 +528,7 @@ formatPDF = ->
 
 # Creates a PDF document from the data model and stores it as pdfDocument
 generatePDF = ->
+    # Get formatted representation of PDF
     format = do formatPDF
 
     # Custom Font Definitions for PDF Generation
@@ -533,6 +567,7 @@ generatePDF = ->
             fontSize: 12
             lineHeight: 1.2
 
+    # Use the pdfMake library to generate a PDF
     pdfDocument = pdfMake.createPdf
         content: format
         styles: styles
@@ -543,23 +578,43 @@ generatePDF = ->
 
 # Sends data to server
 submitForm = ->
+    # Get the PDF as a base64 encoded format and send it off to the server to be
+    # saved
     pdfDocument.getDataUrl (result) ->
         $.ajax(
             url: baseURL + 'form-submit.json'
             method: 'POST'
-            data: {filename: 'test', data: result},
+            data: {filename: 'pdf', data: result},
         ).done (data) ->
-            console.log 'Form Submitted Successfully'
+            # Server responded in success
+            submitted = true
+            # Change the message to one indicating the submission is complete
             $('#duringSubmission').hide()
             $('#postSubmission').show()
         .error (xhr, error) ->
             console.log 'Error Occurred: ' + error
 
+# Set up window events to improve application functionality in the browser
+setUpWindow = ->
+    # Detect back button presses so we can update content when the browser backButton
+    # button is hit
+    $(window).on 'popstate', (e) ->
+        state = e.originalEvent.state
+        if state <= panel
+            do showPreviousPanel
+    # Display a confirmation prompt if the user tries to navigate away without
+    # submitting the form
+    $(window).on 'beforeunload', (e) ->
+        if !submitted
+            'You have not submitted your form yet. If you leave the page now, your data will be lost.'
+
 # Configure actions of buttons
 setUpButtons = ->
     # Map each button to the click handler
     $('#GetStartButton').click showNextPanel
-    $('.backButton').click showPreviousPanel
+    $('.backButton').click ->
+        # Use browser based back
+        history.back()
     $('.nextButton').click showNextPanel
     $('#eligibilityInfoButton').click processEligibilityInfo
     $('#parentInfoButton').click processParentInfo
@@ -575,9 +630,13 @@ setUpButtons = ->
 # Configure helper tooltips for all elements in parent
 setUpDefinitions = (parent) ->
     parent = parent || 'body'
+    # Add event listener to elements within parent that have a "has-definition"
+    # class so that when they are focused or hovered on, text in their
+    # "data-definition" attribute is displayed in a tooltip.
     $(parent).find('.has-definition').on 'focusin mouseenter', ->
         $('#status-card span').html $(this).attr("data-definition")
         $('#status-card').css('display', 'block').animate { opacity: 1 }
+    # Event listener to hide the tooltip when hovering away
     $(parent).find('.has-definition').on 'focusout mouseleave', ->
         $('#status-card').animate { opacity: 0 }, 400, "swing", ->
             $(this).css('display', 'none')
@@ -600,6 +659,8 @@ setUpValidation = (parent) ->
         submitHandler: (form) ->
             # Don't need to actually submit
         rules:
+            # Rules for various textfields within our form that require Custom
+            # validation procedures
             parentFirstName: 'required'
             parentLastName: 'required'
             email: 'email'
@@ -833,6 +894,7 @@ do setUpSubmitPanel = ->
 
 # Begin configuration when page is ready
 $ ->
+    do setUpWindow
     do setUpButtons
     do setUpDefinitions
     do setUpValidation
