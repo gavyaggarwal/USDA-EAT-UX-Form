@@ -10,6 +10,7 @@ panelStack = []
 programParticipant = false
 hasSSN = false
 submitted = false
+definitionOn = false
 
 # Data Variables
 childIncomeTemplate = null
@@ -634,12 +635,21 @@ setUpDefinitions = (parent) ->
     # class so that when they are focused or hovered on, text in their
     # "data-definition" attribute is displayed in a tooltip.
     $(parent).find('.has-definition').on 'focusin mouseenter', ->
+        definitionOn = true
         $('#status-card span').html $(this).attr("data-definition")
-        $('#status-card').css('display', 'block').animate { opacity: 1 }
+        $('#status-card')
+            .css 'display', 'block'
+            .stop true
+            .animate
+                opacity: 1
     # Event listener to hide the tooltip when hovering away
     $(parent).find('.has-definition').on 'focusout mouseleave', ->
-        $('#status-card').animate { opacity: 0 }, 400, "swing", ->
-            $(this).css('display', 'none')
+        definitionOn = false
+        $('#status-card')
+            .stop true
+            .animate { opacity: 0 }, 400, "swing", ->
+                if !definitionOn
+                    $(this).css('display', 'none')
 
 # Configure form validation
 setUpValidation = (parent) ->

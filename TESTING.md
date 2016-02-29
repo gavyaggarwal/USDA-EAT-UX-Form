@@ -4,6 +4,8 @@ In order to create the best form that we can, we conducted various types of test
 
 ### Usability Testing
 
+We conducted extensive usability testing ourselves and even had over 50 people use our form and give us their feedback. We took their feedback to heart and tailored our app to suit the average American applying for reduced school lunches. 
+
 -Animations (Intuitive)
 -Form Validation
 -Dialogs
@@ -13,6 +15,8 @@ In order to create the best form that we can, we conducted various types of test
 -Accessibility
     -Compatible with voice over plugins
     -High contrast for those with vision problems
+-Navigation
+-Application Time
 
 For validation:
 
@@ -61,7 +65,7 @@ Ultimately, we saw a significant improvement after making the above changes. The
 
 ### Compatibility Testing
 
-We want our form to work with a variety of browsers and conducted extensive testing to ensure that our form is compatible with all the commonly used browsers and operating systems.
+We want our form to work with a variety of browsers and conducted sufficient testing to ensure that our form is compatible with all the commonly used browsers and operating systems.
 
 We accomplished this by using our form on Safari, Firefox, Google Chrome, and Internet Explorer and resolving minor inconsistencies in functionality and appearance (such as different spacing, unequal text parsing) so that the form experience is consistent regardless of browser.
 
@@ -77,4 +81,29 @@ So whether somebody uses their laptop, a public library computer, their smartpho
 
 ### Correctness Testing
 
-Building our application was the easy part. Testing for bugs after was much harder. We tackled this issue by creating several test cases for different form use case scenarios. 
+Building our application was the easy part. Testing for bugs after was much harder. We tackled this issue by creating several test cases for different form use case scenarios. In our [test_cases.coffee](public_html/coffee/test_case.coffee) file, we have defined the following test cases:
+
+* The parent fills out the form but leaves out the optional contact information.
+* All students fall under the foster/runaway/migrant category.
+* A household has multiple amount of children.
+* A household has multiple adult household members.
+* A family participates in a Federal Assistance Program.
+* Nobody in the household has a social security number.
+* The parent answers the optional racial and ethnicity questions.
+
+For each of these scenarios, we conducted tests on the front-end and back-end.
+
+On the front-end side, we filled out the form many times and ensured that our conditional logic worked. Here are some of the many things that we checked for:
+
+* If the user leaves an optional field blank, the form validation allows him/her to continue to the next section.
+* If all students are foster/runaway/migrant, the user skips forward and doesn't have to enter any financial information. Conversely, if some but not all students are foster/runaway/migrant, financial information is requested.
+* If there are multiple children, the form easily allows addition and removal of these children. Then, income information is requested for each child. Also, since there must be at least one child, ensure that the user has filled out information for at least one child.
+* If there are multiple household members, they can be added and removed, and users can enter income information for multiple adults.
+* If the family participates in an assistance program, ensure that a textfield appears so they can input their case number when they mark the "Yes" option. Also, ensure that if they enter in the wrong thing, they can go back and change it.
+* If nobody has a social security number, allow the form to still be submitted. If somebody does have a social security number, ask for the name and the last 4 digits.
+
+In addition to this thorough qualitative testing, we also performed more quantitative studies. In addition to the  interface of our form that end users see, we have an internal data model that stores all the data collected from the form in a format computers can easily process. We tested that it was operating in sync with the user interface by entering data in the form corresponding to the 7 test cases described above. Then, we extracted the contents of our data model and performed comparisons between the actual and expected values. Our results showed no disparities and that our form and data model were working properly.
+
+Likewise, we followed a similar procedure for backend testing. We took the 7 test cases and pumped them into our PDF generation algorithm to assert that the PDFs being created are accurate. We were able to verify all the PDFs, indicating that the form is being saved correctly and being sent to school districts without anything missing.
+
+These correctness tests that we conducted ensure that we are following the guidelines set forth by the USDA and that we properly collect and store information on the required criteria.

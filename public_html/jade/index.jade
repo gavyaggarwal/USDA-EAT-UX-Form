@@ -21,18 +21,18 @@ html(lang="en")
                     ul.right.hide-on-med-and-down.max-height(style='margin-right:10px;')
                         li.valign-wrapper.max-height
                             .progress.valign(style='width:200px;')
-                                #progressBar.determinate(style='width:0%;')
+                                #progressBar.determinate.teal.darken-2(style='width:0%;')
     main
         .panel#welcome
             h4.center Welcome!
-            p The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.
-            p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.
+            p The following application is for the National School Lunch Program. The process will take at most about #[b 15] minutes. Careful! Once you leave this page, your information won't be saved so make sure you can complete it in one sitting.
+            p Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to ensure your children will be considered for free or reduced price school meals.
             .center-align
                 a.waves-effect.btn#GetStartButton Got It!
         .panel#eligibility_info
             h4 Categorical Eligibility
-            p Children are deemed eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. 
-            p On what basis are you applying for the National School Lunch Program?
+            p Children are considered eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. 
+            p On what basis are you applying for the National School Lunch Program? Here are some of the typical eligibility categories. 
                 form(action='#')
                     p
                         input#financial(name='eligibilityCategory', type='radio', value='financial', required)
@@ -50,7 +50,7 @@ html(lang="en")
                 a.waves-effect.btn.center#eligibilityInfoButton Get Started   
         .panel#parent_info
             h4 Parent Information
-            p This information will help us reach you quickly if we need to contact you.
+            p Fill out your information below. Though some fields are not required, we reccommend filling out the fields as completely as possible. This information will help us reach you quickly if we need to contact you. 
             .section
               form.col.s12
                 .row
@@ -72,11 +72,11 @@ html(lang="en")
                   .input-field.col.s6.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
                     input#address(type='text', name='address')
                     label(for='address') Street Address
-                  .input-field.col.s6
+                  .input-field.col.s6.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
                     input#city(type='text', name='city')
                     label(for='city') City
                 .row
-                  .input-field.col.s6
+                  .input-field.col.s6.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
                     select#state(name='state')
                       option(value='', disabled='', selected='') Choose Your State
                       option(value='AL') Alabama
@@ -131,7 +131,7 @@ html(lang="en")
                       option(value='WI') Wisconsin
                       option(value='WY') Wyoming
                     label(for='state') State
-                  .input-field.col.s6
+                  .input-field.col.s6.has-definition(data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals.")
                     input#zipCode(type='text', name='zipCode')
                     label(for='zipCode') Zip Code
 
@@ -145,15 +145,15 @@ html(lang="en")
                 li Temporary Assistance for Needy Families (TANF) 
                 li Food Distribution Program on Indian Reservations (FDPIR)
             form
-                p
-                    input#programParticipant(name='programParticipation', type='radio', value='true')
+                p(data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.")
+                    input#programParticipant(name='programParticipation', type='radio', value='true') 
                     label(for='programParticipant') Yes
-                p
+                p(data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.")
                     input#notProgramParticipant(name='programParticipation', type='radio', value='false')
                     label(for='notProgramParticipant') No
                 .section#caseNumberSection
                     p Please provide a case number for one of these programs, even if you participate in multiple.
-                    .input-field
+                    .input-field(data-definition="Participation in any #[b one]of the programs will make the children in your household eligible.")
                         input#caseNumber(type='text', name='caseNumber')
                         label(for='caseNumber') Case Number
 
@@ -161,13 +161,13 @@ html(lang="en")
             a.waves-effect.btn.right#programInfoButton Next          
         .panel#children_info
             h4 Children
-            p.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>") Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.
+            p Tell us how many infants, children, and school students live in your household. They do #[b not] have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals. Let us know if your children fall under any of those categories.
             form.section#child-num-Form.childForm
                 a.removeChild.right.btn-floating.btn-medium.waves-effect.waves-light.red.lighten-1
                     i.material-icons remove
                 h5 New Child
                 .row
-                    .input-field.col.s5
+                    .input-field.col.s5.has-definition(data-definition="You should include all members in your household who are: <ul class='list'><li> Children who are 18 or under and are supported with the household's income.</li><li> In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.</li><li> Students attending school (K-12), regardless of age.</li></ul>")
                         input#child-num-FirstName(type='text', name="child-num-FirstName", required)
                         label(for='child-num-FirstName') First Name
                     .input-field.col.s1
@@ -182,7 +182,7 @@ html(lang="en")
                             .col.s4.has-definition(data-definition="A student is anyone (of any age) attending grades K-12 at any school.")
                                 input#child-num-student(type='checkbox', name='child-num-student')
                                 label(for='child-num-student') Student
-                            .col.s4.has-definition(data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application.")
+                            .col.s4.has-definition(data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. \n Foster children who live with you may count as members of your household and should be listed on your application.")
                                 input#child-num-foster(type='checkbox', name='child-num-foster')
                                 label(for='child-num-foster') Foster
                             .col.s4.has-definition(data-definition="A child identified by the Local Education Agency (LEA) homeless liaison or by an official of a homeless shelter as lacking a fixed, regular, and adequate nighttime residence.")
@@ -427,27 +427,30 @@ html(lang="en")
           span.white-text
           
     footer.page-footer
-      .container
-        .row
-          .col.l6.s12
-              h5.white-text [Your School District Name]
-              ul.grey-text.text-lighten-4
-                  li If you still have any comments or questions, feel free to contact us!
-                  li(style='margin-left: 30px;') Phone: (987) - 654 - 3210
-                  li(style='margin-left: 30px;') Email: counselors@yourschooldistrict.edu
-          .col.l4.offset-l2.s12
-          h5.white-text Links
-          ul
-            li 
-              a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/nslp/national-school-lunch-program-nslp;') USDA National School Lunch Program
-            li 
-              a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program-snap') TANF 
-            li 
-              a.grey-text.text-lighten-3(href='http://www.acf.hhs.gov/programs/ofa/programs/tanf') SNAP 
-            li 
-              a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/fdpir/food-distribution-program-indian-reservations-fdpir') FDPIR
-      .footer-copyright
         .container
-          | © 2016 Copyright Text
-          a.grey-text.text-lighten-4.right(href='#!')
-            i.fa.fa-facebook-square(style='font-size:30px;')
+            .row
+                .col.l6.s12
+                    h5.white-text [Your School District Name]
+                    ul.grey-text.text-lighten-4
+                        li If you still have any comments or questions, feel free to contact us!
+                        li(style='margin-left: 30px;') Phone: (987) - 654 - 3210
+                        li(style='margin-left: 30px;') Email: counselors@yourschooldistrict.edu
+                .col.l4.offset-l2.s12
+                    h5.white-text Links
+                    ul
+                        li 
+                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/nslp/national-school-lunch-program-nslp;') USDA National School Lunch Program
+                        li 
+                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program-snap') TANF [Insert State TANF]
+                        li 
+                            a.grey-text.text-lighten-3(href='http://www.acf.hhs.gov/programs/ofa/programs/tanf') SNAP [Insert State SNAP]
+                        li 
+                            a.grey-text.text-lighten-3(href='http://www.fns.usda.gov/fdpir/food-distribution-program-indian-reservations-fdpir') FDPIR
+      .footer-copyright.teal.darken-2
+          .container.valign-wrapper(style='height:40px;')
+              span.grey-text.text-lighten-3 © 2016 Copyright Text
+              a.grey-text.text-lighten-4.right-align(href='https://www.facebook.com/USDA')
+                  i.fa.fa-facebook-square(style='font-size:25px;')
+              a.grey-text.text-lighten-4.right-align(href='https://twitter.com/USDANutrition')
+                  i.fa.fa-twitter-square(style='font-size:25px; margin-right:10px;')
+            

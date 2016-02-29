@@ -330,6 +330,8 @@ data7 =
     ]
   'signature': 'Jatin Frost'
 
+# This is a deprecated method used for testing by creating the code server side.
+# You can now test the PDF generation using the generatePDF function in main.js.
 test = (caseNumber) ->
     cases = [data1, data2, data3, data4, data5, data6, data7]
     $.ajax(

@@ -21,7 +21,7 @@
             <ul style="margin-right:10px;" class="right hide-on-med-and-down max-height">
               <li class="valign-wrapper max-height">
                 <div style="width:200px;" class="progress valign">
-                  <div id="progressBar" style="width:0%;" class="determinate"></div>
+                  <div id="progressBar" style="width:0%;" class="determinate teal darken-2"></div>
                 </div>
               </li>
             </ul>
@@ -32,14 +32,14 @@
     <main>
       <div id="welcome" class="panel">
         <h4 class="center">Welcome!</h4>
-        <p>The following application is for the National School Lunch Program. The process will take about 25 minutes. Once you leave this page, your information will not be saved so make sure you can complete it in one sitting.</p>
-        <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to certify your children for free or reduced price school meals.</p>
+        <p>The following application is for the National School Lunch Program. The process will take at most about <b>15</b> minutes. Careful! Once you leave this page, your information won't be saved so make sure you can complete it in one sitting.</p>
+        <p>Good news! You only need to fill out one application per household, even if your children attend more than one school. You'll need to fill out the following form completely and accurately to ensure your children will be considered for free or reduced price school meals.</p>
         <div class="center-align"><a id="GetStartButton" class="waves-effect btn">Got It!</a></div>
       </div>
       <div id="eligibility_info" class="panel">
         <h4>Categorical Eligibility</h4>
-        <p>Children are deemed eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. </p>
-        <p>On what basis are you applying for the National School Lunch Program?
+        <p>Children are considered eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. </p>
+        <p>On what basis are you applying for the National School Lunch Program? Here are some of the typical eligibility categories. 
           <form action="#">
             <p>
               <input id="financial" name="eligibilityCategory" type="radio" value="financial" required>
@@ -63,7 +63,7 @@
       </div>
       <div id="parent_info" class="panel">
         <h4>Parent Information</h4>
-        <p>This information will help us reach you quickly if we need to contact you.</p>
+        <p>Fill out your information below. Though some fields are not required, we reccommend filling out the fields as completely as possible. This information will help us reach you quickly if we need to contact you. </p>
         <div class="section">
           <form class="col s12">
             <div class="row">
@@ -93,13 +93,13 @@
                 <input id="address" type="text" name="address">
                 <label for="address">Street Address</label>
               </div>
-              <div class="input-field col s6">
+              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
                 <input id="city" type="text" name="city">
                 <label for="city">City</label>
               </div>
             </div>
             <div class="row">
-              <div class="input-field col s6">
+              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
                 <select id="state" name="state">
                   <option value="" disabled="" selected="">Choose Your State</option>
                   <option value="AL">Alabama</option>
@@ -156,7 +156,7 @@
                 </select>
                 <label for="state">State</label>
               </div>
-              <div class="input-field col s6">
+              <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="input-field col s6 has-definition">
                 <input id="zipCode" type="text" name="zipCode">
                 <label for="zipCode">Zip Code</label>
               </div>
@@ -173,17 +173,17 @@
           <li>Food Distribution Program on Indian Reservations (FDPIR)</li>
         </ul>
         <form>
-          <p>
+          <p data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.">
             <input id="programParticipant" name="programParticipation" type="radio" value="true">
             <label for="programParticipant">Yes</label>
           </p>
-          <p>
+          <p data-definition="If you're unsure, check out the links at the bottom of the page for more information about these programs.">
             <input id="notProgramParticipant" name="programParticipation" type="radio" value="false">
             <label for="notProgramParticipant">No</label>
           </p>
           <div id="caseNumberSection" class="section">
             <p>Please provide a case number for one of these programs, even if you participate in multiple.</p>
-            <div class="input-field">
+            <div data-definition="Participation in any #[b one]of the programs will make the children in your household eligible." class="input-field">
               <input id="caseNumber" type="text" name="caseNumber">
               <label for="caseNumber">Case Number</label>
             </div>
@@ -192,11 +192,11 @@
       </div>
       <div id="children_info" class="panel">
         <h4>Children</h4>
-        <p data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="has-definition">Tell us how many infants, children, and school students live in your household. They do <b>not</b> have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals.</p>
+        <p>Tell us how many infants, children, and school students live in your household. They do <b>not</b> have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals. Let us know if your children fall under any of those categories.</p>
         <form id="child-num-Form" class="section childForm"><a class="removeChild right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
           <h5>New Child</h5>
           <div class="row">
-            <div class="input-field col s5">
+            <div data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="input-field col s5 has-definition">
               <input id="child-num-FirstName" type="text" name="child-num-FirstName" required>
               <label for="child-num-FirstName">First Name</label>
             </div>
@@ -216,7 +216,8 @@
                   <input id="child-num-student" type="checkbox" name="child-num-student">
                   <label for="child-num-student">Student</label>
                 </div>
-                <div data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. Foster children who live with you may count as members of your household and should be listed on your application." class="col s4 has-definition">
+                <div data-definition="A foster child is someone who is formally placed by a court or a State child welfare agency. 
+ Foster children who live with you may count as members of your household and should be listed on your application." class="col s4 has-definition">
                   <input id="child-num-foster" type="checkbox" name="child-num-foster">
                   <label for="child-num-foster">Foster</label>
                 </div>
@@ -521,19 +522,20 @@
               <li style="margin-left: 30px;">Email: counselors@yourschooldistrict.edu</li>
             </ul>
           </div>
-          <div class="col l4 offset-l2 s12"></div>
-          <h5 class="white-text">Links</h5>
-          <ul>
-            <li><a href="http://www.fns.usda.gov/nslp/national-school-lunch-program-nslp;" class="grey-text text-lighten-3">USDA National School Lunch Program</a></li>
-            <li><a href="http://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program-snap" class="grey-text text-lighten-3">TANF </a></li>
-            <li><a href="http://www.acf.hhs.gov/programs/ofa/programs/tanf" class="grey-text text-lighten-3">SNAP </a></li>
-            <li><a href="http://www.fns.usda.gov/fdpir/food-distribution-program-indian-reservations-fdpir" class="grey-text text-lighten-3">FDPIR</a></li>
-          </ul>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li><a href="http://www.fns.usda.gov/nslp/national-school-lunch-program-nslp;" class="grey-text text-lighten-3">USDA National School Lunch Program</a></li>
+              <li><a href="http://www.fns.usda.gov/snap/supplemental-nutrition-assistance-program-snap" class="grey-text text-lighten-3">TANF [Insert State TANF]</a></li>
+              <li><a href="http://www.acf.hhs.gov/programs/ofa/programs/tanf" class="grey-text text-lighten-3">SNAP [Insert State SNAP]</a></li>
+              <li><a href="http://www.fns.usda.gov/fdpir/food-distribution-program-indian-reservations-fdpir" class="grey-text text-lighten-3">FDPIR</a></li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="footer-copyright">
-        <div class="container">© 2016 Copyright Text<a href="#!" class="grey-text text-lighten-4 right"><i style="font-size:30px;" class="fa fa-facebook-square"></i></a></div>
-      </div>
     </footer>
+    <div class="footer-copyright teal darken-2">
+      <div style="height:40px;" class="container valign-wrapper"><span class="grey-text text-lighten-3">© 2016 Copyright Text</span><a href="https://www.facebook.com/USDA" class="grey-text text-lighten-4 right-align"><i style="font-size:25px;" class="fa fa-facebook-square"></i></a><a href="https://twitter.com/USDANutrition" class="grey-text text-lighten-4 right-align"><i style="font-size:25px; margin-right:10px;" class="fa fa-twitter-square"></i></a></div>
+    </div>
   </body>
 </html>
