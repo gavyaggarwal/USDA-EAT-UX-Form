@@ -78,7 +78,7 @@ showPreviousPanel = function() {
 
 forwardPanelTransition = function(newPanel) {
   var currPanel, nextPanel;
-  history.pushState(panel, "", "#");
+  history.pushState(newPanel, "", "#");
   currPanel = currentPanel();
   panelStack.push(panel);
   panel = newPanel;
@@ -706,10 +706,11 @@ submitForm = function() {
 };
 
 setUpWindow = function() {
+  history.pushState(0, "", "#");
   $(window).on('popstate', function(e) {
     var state;
     state = e.originalEvent.state;
-    if (state <= panel) {
+    if (state !== null && state < panel) {
       return showPreviousPanel();
     }
   });

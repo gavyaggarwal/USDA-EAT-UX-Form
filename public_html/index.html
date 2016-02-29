@@ -14,6 +14,7 @@
     <script src="js/main.js"></script>
   </head>
   <body>
+    <!--Webpage header contains title and dynamic progress bar-->
     <header>
       <div class="navbar-fixed">
         <nav>
@@ -31,43 +32,53 @@
         </nav>
       </div>
     </header>
+    <!--Main body of webpage contains dynamic panels that guide user through application-->
     <main>
+      <!--Intro panel describing application process information-->
       <div id="welcome" class="panel">
         <h4 class="center">Welcome!</h4>
         <p>The following application is for the National School Lunch Program. Good news! You can apply for <b>free and reduced school lunches</b> for your children here. Better news! You only need to fill out one application per household, even if your children attend more than one school. Even better news! The process will only take about <b>15</b> minutes. </p>
         <p> You'll need to fill out the following form completely and accurately to ensure your children will be considered. Careful! Once you leave this page, your information won't be saved so make sure you can complete it in one sitting.</p>
         <div class="center-align"><a id="GetStartButton" class="waves-effect btn">Got It!</a></div>
       </div>
+      <!--Preliminary (user) determination of categorical eligibility-->
       <div id="eligibility_info" class="panel">
+        <!--Also for user edification of eligibility categories, to keep them well-informed-->
         <h4>Categorical Eligibility</h4>
         <p>Children are considered eligible for free or reduced school lunches based on certain categories. Based on your household's categorical eligibility, we can streamline your application process. </p>
         <p>On what basis are you applying for the National School Lunch Program? Here are some of the typical eligibility categories. 
           <form action="#">
+            <!--Financial need based-->
             <p>
               <input id="financial" name="eligibilityCategory" type="radio" value="financial" required>
               <label for="financial"><b>Financial Need</b> - Based on demonstrated financial need, category of most applicants.</label>
             </p>
+            <!--Assistance program based-->
             <p>
               <input id="assistance" name="eligibilityCategory" type="radio" value="assistance" required>
               <label for="assistance"><b>Assistance Program Participation</b> - Based on participation in SNAP/TANF/FDPIR.</label>
             </p>
+            <!--Child status based-->
             <p>
               <input id="childStatus" name="eligibilityCategory" type="radio" value="childStatus" required>
               <label for="childStatus"><b>Children Status</b> - Based on children's status as foster/homeless/migrant/runaway/etc.</label>
             </p>
+            <!--Safe option for those who are unsure-->
             <p>
               <input id="unknown" name="eligibilityCategory" type="radio" value="unknown" required>
               <label for="unknown"><b>Unsure</b> - If you're not sure, don't worry! We'll find the category that best suits you.</label>
             </p>
           </form>
         </p>
-        <div class="center-align">         <a id="eligibilityInfoButton" class="waves-effect btn center">Get Started   </a></div>
+        <div class="center-align">         <a id="eligibilityInfoButton" class="waves-effect btn center">Get Started</a></div>
       </div>
+      <!--Gathers parent contact information -->
       <div id="parent_info" class="panel">
         <h4>Parent Information</h4>
         <p>Fill out your information below. Though some fields are not required, we recommend filling out the fields as completely as possible. This information will help us reach you quickly if we need to contact you. </p>
         <div class="section">
           <form class="col s12">
+            <!--Name-->
             <div class="row">
               <div class="input-field col s6">
                 <input id="parentFirstName" type="text" name="parentFirstName">
@@ -78,18 +89,21 @@
                 <label for="parentLastName">Last Name</label>
               </div>
             </div>
+            <!--Email-->
             <div class="row">
               <div class="input-field col s12">
                 <input id="email" type="email" name="email">
                 <label for="email">Email</label>
               </div>
             </div>
+            <!--Phone number-->
             <div class="row">
               <div class="input-field col s12">
                 <input id="phone" type="text" name="phone">
                 <label for="phone">Phone Number</label>
               </div>
             </div>
+            <!--Address-->
             <div data-definition="Don't worry. If you don't have a permanent address, this does not make your children ineligible for free or reduced school meals." class="row has-definition">
               <div class="input-field col s6">
                 <input id="address" type="text" name="address">
@@ -166,8 +180,10 @@
           </form>
         </div><a class="waves-effect btn left backButton">Back</a><a id="parentInfoButton" class="waves-effect btn right">Next</a>
       </div>
+      <!--Assistance program participation information-->
       <div id="program_info" class="panel">
         <h4>Assistance Program Information</h4>
+        <!--Confirmation of program participation-->
         <p>Does any member of your household participate in any of the following programs? </p>
         <ul style="margin-left: 50px;" class="list">
           <li>Student Nutrition Assistance Program (SNAP) </li>
@@ -183,6 +199,7 @@
             <input id="notProgramParticipant" name="programParticipation" type="radio" value="false">
             <label for="notProgramParticipant">No</label>
           </p>
+          <!--User prompt for case number if they participate with tips-->
           <div id="caseNumberSection" class="section">
             <p>Please provide a case number for one of these programs, even if you participate in multiple.</p>
             <div data-definition="Participation in any one of the programs will make the children in your household eligible. Don't worry! If you can't remember your case number, just contact your local/state agency with the contact information provided at the bottom of the page and they'll assist you." class="input-field has-definition">
@@ -192,11 +209,14 @@
           </div>
         </form><a class="waves-effect btn left backButton">Back</a><a id="programInfoButton" class="waves-effect btn right">Next          </a>
       </div>
+      <!--Gathers information about children in household-->
       <div id="children_info" class="panel">
         <h4>Children</h4>
         <p>Tell us how many infants, children, and school students live in your household. They do <b>not</b> have to be related to you. Children in foster care and children who meet the definition of homeless, migrant, or runaway are eligible for free meals. Let us know if your children fall under any of those categories.</p>
+        <!--Template for adding child information-->
         <form id="child-num-Form" class="section childForm"><a class="removeChild right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a>
           <h5>New Child</h5>
+          <!--Name-->
           <div class="row">
             <div data-definition="You should include all members in your household who are: &lt;ul class='list'&gt;&lt;li&gt; Children who are 18 or under and are supported with the household's income.&lt;/li&gt;&lt;li&gt; In your care under a foster arrangement, or qualify as homeless, migrant, or runaway youth.&lt;/li&gt;&lt;li&gt; Students attending school (K-12), regardless of age.&lt;/li&gt;&lt;/ul&gt;" class="input-field col s5 has-definition">
               <input id="child-num-FirstName" type="text" name="child-num-FirstName" required>
@@ -211,6 +231,7 @@
               <label for="child-num-LastName">Last Name</label>
             </div>
           </div>
+          <!--Categorical statuses with definitions-->
           <div class="row">
             <div class="col s10 offset-s1">
               <div class="row">
@@ -245,13 +266,16 @@
             </div>
           </div>
         </form>
+        <!--Section for adding a new child-->
         <div id="addChildSection" class="section"><a id="addChild" class="btn-floating btn-medium waves-effect waves-light teal lighten-1 right"><i class="material-icons">add</i></a>
           <h5>Add Another Child</h5>
         </div><a class="waves-effect btn left backButton">Back</a><a id="childrenInfoButton" class="waves-effect btn right">Next</a>
       </div>
+      <!--Gathers information about household residents-->
       <div id="household_info" class="panel">
         <h4>Household Information</h4>
         <p>Please list all members of your household, not including yourself and the children listed in the previous section. Don't include those who live in your household but are not supported by or contribute to your household's income.</p>
+        <!--Template for adding new adult information (name)-->
         <form id="adult-num-Form" class="row adultForm">
           <div class="input-field col s5">
             <input id="adult-num-FirstName" type="text" name="adult-num-FirstName" required>
@@ -263,6 +287,7 @@
           </div>
           <div class="input-field col s1"><a class="removeAdult right btn-floating btn-medium waves-effect waves-light red lighten-1"><i class="material-icons">remove</i></a></div>
         </form>
+        <!--Section for adding a new adult-->
         <div id="addAdultSection" data-definition="Make sure to include everyone! Many families have grandparents, extended family, or even friends that all live in the same household." class="row has-definition">
           <div class="input-field col s11">
             <h5>Add an Adult</h5>
@@ -271,11 +296,14 @@
         </div>
         <p>Just to confirm,  there are a total of <b><span id="householdSize">2</span></b> individuals (including you) currently living in your household.</p><a class="waves-effect btn left backButton">Back</a><a id="adultInfoButton" class="waves-effect btn right">Next  </a>
       </div>
+      <!--Gathers income information-->
       <div id="income_info" class="panel">
         <h4>Income Information</h4>
         <p>Specify the total income for each of the children in your household. If a child does not earn any income, simply enter 0 in the appropriate field. Many households do not have any child income.</p>
+        <!--Template for collecting child income information (duplicated for each child)-->
         <div id="childIncomeSection">
           <form id="childIncomeTemplate">
+            <!--Collects amount and frequency, defines child income-->
             <div data-definition="Child income is money received from outside your household that is paid directly to your children. Sources of child income include: &lt;ul class='list'&gt;&lt;li&gt;Paying Job&lt;/li&gt;&lt;li&gt;Social Security Disability Payments&lt;/li&gt;&lt;li&gt;Social Security Survivor's Benefits&lt;/li&gt;&lt;li&gt;Relative/Friend Outside Household&lt;/li&gt;&lt;li&gt;Private Pension Fund/Annuity/Trust&lt;/li&gt;" class="row has-definition">
               <div class="col s4 input-field">
                 <h5 id="childIncomeNameTemplate"></h5>
@@ -298,12 +326,15 @@
           </form>
         </div>
         <p>Specify the gross income (before taxes and deductions) of each adult household member. Note the income source, amount, and frequency. Choose multiple sources if a member earns income from different types of sources. Also specify if there are household members that do not earn any individual income.</p>
+        <!--Template for collecting adult income information (duplicated for each adult)-->
         <div id="adultIncomeSection">
           <form id="adultIncomeTemplate">
+            <!--Gathers amount and frequency of different types of income-->
             <div class="row">
               <div class="col s4 input-field">
                 <h5 id="adultIncomeNameTemplate"></h5>
               </div>
+              <!--Income source options-->
               <div class="col s8 input-field">
                 <select id="adultIncomeTypeTemplate" multiple="" name="adultIncomeType">
                   <option value="" disabled="" selected="">No Income</option>
@@ -314,6 +345,7 @@
                 <label>Income Source</label>
               </div>
             </div>
+            <!--Income source type templates (duplicated as needed)     -->
             <div id="jobIncomeTemplate" data-definition="This is usually the money received from working at jobs, including cash bonuses. Make sure that the income you report on this application has not been reduced to pay for taxes, insurance premiums, or any other amounts taken from your pay. &lt;br/&gt;&lt;br/&gt; If you are a self-employed business or farm owner, you should report your net income. &lt;br/&gt;&lt;br/&gt; If you are in the U.S. Military: &lt;ul class='list'&gt;&lt;li&gt; Include basic pay and cash bonuses&lt;/li&gt;&lt;li&gt;Include allowances for off-base housing, food, and clothing&lt;/li&gt;&lt;li&gt;Don’t include combat pay, FSSA or privatized housing allowances&lt;/li&gt;&lt;/ul&gt;" class="row has-definition">
               <div class="col s5 input-field">
                 <h6>Salary/Wages</h6>
@@ -374,9 +406,11 @@
           </form>
         </div><a class="waves-effect btn left backButton">Back</a><a id="incomeInfoButton" class="waves-effect btn right">Next</a>
       </div>
+      <!--Gathers social security information    -->
       <div id="ssn_info" class="panel">
         <h4>Social Security Information</h4>
         <form>
+          <!--Determines availablity of social security number-->
           <div data-definition="Don't worry! You are eligible to apply for benefits even if you do not have a Social Security Number." class="row has-definition">
             <p>Does at least one adult member of your household possess a social security number (SSN)?</p>
             <p>
@@ -388,6 +422,7 @@
               <label for="unavailableSSN">No</label>
             </p>
           </div>
+          <!--Conditional section that collects SSN when available-->
           <div id="ssnDetails" class="row">
             <p>Choose the household's primary wage earner or another household member and list the last four digits of their SSN.</p>
             <div class="input-field col s6">
@@ -401,12 +436,13 @@
           </div>
         </form><a class="waves-effect btn left backButton">Back</a><a id="ssnInfoButton" class="waves-effect btn right">Next</a>
       </div>
+      <!--Gathers demographical information-->
       <div id="identity_info" class="panel">
         <h4>Demographics</h4>
         <form>
-          <div class="row"></div>
           <p>Almost there! We are required to ask for information about your children’s race and ethnicity. This information is important and helps to make sure we are fully serving our community. Responding to this section is <b>optional</b> and does not affect your children’s eligibility for free or reduced price meals.</p>
           <div class="row">
+            <!--Collects racial identity information-->
             <div class="col s6">
               <p>Which of the following races are your children? If your children are multiple races, check one or more.</p>
               <p>
@@ -430,6 +466,7 @@
                 <label for="raceWhite"><b>White</b></label>
               </p>
             </div>
+            <!--Collects ethinicity information-->
             <div class="col s6">
               <p>Are any of your children Hispanic or Latino?</p>
               <p>
@@ -444,13 +481,17 @@
           </div>
         </form><a class="waves-effect btn left backButton">Back</a><a id="identityInfoButton" class="waves-effect btn right">Next</a>
       </div>
+      <!--Submission panel with final steps and application review    -->
       <div id="submit" class="panel">
+        <!--Pre-submission: Produces preview of application, necessary statements, signature field-->
         <div id="preSubmission" class="section">
           <h4>Submit</h4>
           <p>Thanks for filling out the form! Review your application below to make sure everything has been entered correctly. If you want to make any changes, you can go back and do so now. Your school district will recieve this version of your application. </p>
+          <!--PDF preview of application-->
           <div class="row">
             <iframe id="pdfView" src="" height="300px" style="border: 0;" class="col s12"></iframe>
           </div>
+          <!--Required statements-->
           <p>If you're sure that you are ready to submit, please read the following:</p>
           <div class="center-align"><a href="#nonDiscrimination" class="waves-effect waves-light btn-flat modal-trigger teal-text">USDA Non-Discrimination Statement</a><a href="#useOfInformation" class="waves-effect waves-light btn-flat modal-trigger teal-text">Use of Information Statement</a></div>
           <div id="nonDiscrimination" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 493.377px;" class="modal modal-fixed-footer">
@@ -485,6 +526,7 @@
             </div>
             <div class="modal-footer"><a class="modal-action modal-close waves-effect waves-green btn-flat">I Acknowledge</a></div>
           </div>
+          <!--Signature field with attesting statements-->
           <h5>Electronic Signature</h5>
           <p>By typing your name below, you attest to the following statements:</p>
           <ul style="margin-left: 50px;" class="list">
@@ -497,6 +539,7 @@
             <input id="signature" type="text" name="signature" required>
           </form><a class="waves-effect btn left backButton">Back</a><a id="submitButton" class="waves-effect btn right">Submit</a>
         </div>
+        <!--During submission: Updates and occupies users while application is submitted-->
         <div id="duringSubmission" class="section">
           <h4>Submitting Your Application</h4>
           <p>Hold tight! We are currently processing and submitting your application. Wait to see the confirmation page before exiting the form.</p>
@@ -504,6 +547,7 @@
             <div class="indeterminate"></div>
           </div>
         </div>
+        <!--Post-submission: Updates users and provides downloadable PDF version of the application-->
         <div id="postSubmission" class="section">
           <h4>Thanks!</h4>
           <p>Your form has been submitted successfully. Your school district will notify you of your children's eligibility. If you'd like a copy of your application, you can download the file below for your records.</p>
@@ -511,11 +555,14 @@
           <p>For more information about the National School Lunch Program and the USDA, visit the links at the bottom of the page.</p>
         </div>
       </div>
+      <!--Defintion card that is dynamically modified-->
       <div id="status-card" class="card-panel teal lighten-1"><span class="white-text"></span></div>
     </main>
+    <!--Footer of webpage contains important contact and program information/links-->
     <footer class="page-footer">
       <div class="container">
         <div class="row">
+          <!--School district information (customizable by district)-->
           <div class="col m6 s12">
             <h5 class="white-text">California School District Name</h5>
             <ul class="grey-text text-lighten-4">
@@ -524,6 +571,7 @@
               <li style="margin-left: 30px;">Email: counselors@yourschooldistrict.edu</li>
             </ul>
           </div>
+          <!--Useful links to program information (customizable by district as well)-->
           <div class="col m4 offset-m2 s12">
             <h5 class="white-text">Links</h5>
             <ul>
@@ -536,7 +584,9 @@
         </div>
       </div>
       <div class="footer-copyright teal darken-2">
-        <div class="container">© 2016 Copyright Text<a href="https://www.facebook.com/USDA" class="grey-text text-lighten-4 right"><i style="font-size:25px; vertical-align:middle;" class="fa fa-facebook-square"></i></a><a href="https://twitter.com/USDANutrition" class="grey-text text-lighten-4 right"><i style="font-size:25px; margin-right:10px;vertical-align:middle;" class="fa fa-twitter-square"></i></a></div>
+        <div class="container">© 2016 Gavy & Abirami
+          <!--Links to USDA social media for news/updates/info--><a href="https://www.facebook.com/USDA" class="grey-text text-lighten-4 right"><i style="font-size:25px; vertical-align:middle;" class="fa fa-facebook-square"></i></a><a href="https://twitter.com/USDANutrition" class="grey-text text-lighten-4 right"><i style="font-size:25px; margin-right:10px;vertical-align:middle;" class="fa fa-twitter-square"></i></a>
+        </div>
       </div>
     </footer>
   </body>

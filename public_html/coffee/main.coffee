@@ -60,7 +60,7 @@ showPreviousPanel = ->
 # Helper function that animates panel sliding in from right
 forwardPanelTransition = (newPanel) ->
     # Push state onto history so we can detect back button clicks
-    history.pushState panel, "", "#"
+    history.pushState newPanel, "", "#"
     # Change state variables and get panels
     currPanel = do currentPanel
     panelStack.push panel
@@ -597,12 +597,16 @@ submitForm = ->
 
 # Set up window events to improve application functionality in the browser
 setUpWindow = ->
+    # Set history state to current panel
+    history.pushState 0, "", "#"
+
     # Detect back button presses so we can update content when the browser backButton
     # button is hit
     $(window).on 'popstate', (e) ->
         state = e.originalEvent.state
-        if state <= panel
+        if state != null and state < panel
             do showPreviousPanel
+
     # Display a confirmation prompt if the user tries to navigate away without
     # submitting the form
     $(window).on 'beforeunload', (e) ->
