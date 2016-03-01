@@ -5,7 +5,7 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+### Table of Contents
 
 - [Design](#design)
   - [Online Access](#online-access)
@@ -138,7 +138,7 @@ We also have two Jade files, which contain the markup of the page layout for our
 jade –wc -o public_html/ public_html/jade/*.jade
 ```
 
-Similarly, Jade compiles to HTML, so the code can also be edited by directly changing the HTML of [index.html](public_html/index.jade) and [login.html](public_html/login.jade).
+Similarly, Jade compiles to HTML, so the code can also be edited by directly changing the HTML of [index.html](public_html/index.html) and [login.html](public_html/login.html).
 
 If you encounter any issues getting the project to run, please do not hesitate to contact us.
 
@@ -230,7 +230,7 @@ So whether somebody uses their laptop, a public library computer, their smartpho
 
 #### Correctness Testing
 
-Building our application was the easy part. Testing for bugs after was much harder. We tackled this issue by creating several test cases for different form use case scenarios. In our [test_cases.coffee](public_html/coffee/test_case.coffee) file, we have defined the following test cases:
+Building our application was the easy part. Testing for bugs after was much harder. We tackled this issue by creating several test cases for different form use case scenarios. In our [test_cases.coffee](public_html/coffee/test_cases.coffee) file, we have defined the following test cases:
 
 * The parent fills out the form but leaves out the optional contact information.
 * All students fall under the foster/runaway/migrant category.
