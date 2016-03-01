@@ -482,7 +482,7 @@ formatPDF = function() {
     style: 'subheader'
   });
   arr.push({
-    text: 'Name: ' + memberName(data.parent),
+    text: 'Name: ' + memberName(data.parent, true),
     style: 'tabbed'
   });
   if (data.parent.email !== '') {
@@ -601,7 +601,7 @@ formatPDF = function() {
       });
     }
   }
-  if (data.identity.races !== void 0 || data.identity.hispanic !== void 0) {
+  if (data.identity.races.length !== 0 || data.identity.hispanic !== void 0) {
     arr.push({
       text: 'Children\'s Racial and Ethnic Identities',
       style: 'subheader'
@@ -637,7 +637,7 @@ formatPDF = function() {
   });
   d = new Date;
   arr.push({
-    text: 'Completed and Signed by: ' + memberName(data.parent) + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString(),
+    text: 'Completed and Signed by: ' + memberName(data.parent, true) + 'Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString(),
     style: 'normal'
   });
   return arr;

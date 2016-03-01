@@ -434,7 +434,7 @@ formatPDF = ->
         text: 'Parent Contact Information'
         style: 'subheader'
     arr.push
-        text: 'Name: ' + memberName(data.parent)
+        text: 'Name: ' + memberName(data.parent, true)
         style: 'tabbed'
     if data.parent.email != ''
         arr.push
@@ -526,7 +526,7 @@ formatPDF = ->
                 style: 'normal'
 
     # Demographical information (if available)
-    if data.identity.races != undefined or data.identity.hispanic != undefined
+    if data.identity.races.length != 0 or data.identity.hispanic != undefined
         arr.push
             text: 'Children\'s Racial and Ethnic Identities'
             style: 'subheader'
@@ -553,7 +553,7 @@ formatPDF = ->
         style: 'subheader'
     d = new Date
     arr.push
-        text: 'Completed and Signed by: ' + memberName(data.parent) + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString()
+        text: 'Completed and Signed by: ' + memberName(data.parent, true) + 'Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString()
         style: 'normal'
     arr
 
