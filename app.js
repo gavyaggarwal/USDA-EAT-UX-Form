@@ -67,9 +67,7 @@ webServer.use(bodyParser.urlencoded({
   extended: true
 }));
 
-webServer.use('/schools', bodyParser.urlencoded({
-  extended: false
-}), cookieParser(), schoolHandler);
+webServer.use('/schools', cookieParser(), schoolHandler);
 
 webServer.post('/form-submit.json', function(req, res) {
   var contents, count, countStr, data, error, filename;

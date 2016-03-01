@@ -324,13 +324,15 @@ changeHouseHoldMembers = (change) ->
 
 # Generates array that represents contents of a formatted PDF
 formatPDF = ->
+    # Creates a string with student name and category labels
     studentInfo = (student, i) ->
         studentType = ''
+        # Adds numbered list item and student name
         studentName = (i + 1) + '. ' + student.FirstName + ' '
         if student.MiddleName
             studentName += student.MiddleName + '. '
         studentName += student.LastName + ' '
-
+        # Adds category labels
         if student.foster or student.homeless or student.runaway or student.migrant or student.headStart
             studentType = '('
             if student.foster == true
@@ -345,26 +347,36 @@ formatPDF = ->
                 studentType += 'Head Start/'
             studentType = studentType.slice(0, -1)
             studentType += ')'
-
+        # Returns string with student info: e.g. '1. Student Name (Status 1/Status 2)'
         return studentName + ' ' + studentType
 
+    # Creates a string with name of adult
     memberName = (person, parent) ->
+        # Accounts for different data model structure for signing parent vs. other adults
         if parent
             personName = person.parentFirstName + ' ' + person.parentLastName + '\r\n'
         else
             personName = person.FirstName + ' ' + person.LastName + '\r\n'
         return personName
 
+    # Formats person income into list of type (if adult), amount, and frequency
     incomeInfo = (person, c) ->
         personIncome = ''
-        if (!c and !person.income) or (c and +person.income.amount == 0)
+        # If person earns no income, reports that
+        if (!c and person.income == []) or (c and +person.income.amount == 0)
             personIncome = 'No Income'
+        # Otherwise, formats income
         else
-            for i in person.income
-                personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n'
+            # Adult income includes type whereas child income does not
+            if !c
+                for i in person.income
+                    personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n'
+            else
+                personIncome = '$' + person.income.amount + ' (' + incomeFrequency(person.income.frequency) + ') \r\n'
 
         return personIncome
 
+    # Creates a string to indicate income type
     incomeType = (type) ->
         switch type
             when 'job'
@@ -378,6 +390,7 @@ formatPDF = ->
 
         return source
 
+    # Creates a string to indicate income frequency
     incomeFrequency = (frequency) ->
         switch frequency
             when 'weekly'
@@ -394,12 +407,18 @@ formatPDF = ->
                 sourceFreq = ''
 
         return sourceFreq
+
+    # Array that stores PDF elements
     arr = []
+
+    # Application header
     arr.push
         text: 'National School Lunch Program Application'
         style: 'header'
 
-    proposedEligibility = data.eligibility.type
+    # Proposed eligibility category (confirmed by examining data model)
+    if data.eligibility.type != null
+        proposedEligibility = data.eligibility.type
     if data.children[0].income != undefined
         proposedEligibility = 'Financial Need'
     else if data.program.participates == true
@@ -410,11 +429,12 @@ formatPDF = ->
         text: 'Proposed Categorical Eligibility: ' + proposedEligibility + '\r\n'
         style: 'normal'
 
+    # Parent contact information (name, phone/email/address if provided)
     arr.push
         text: 'Parent Contact Information'
         style: 'subheader'
     arr.push
-        text: 'Name: ' + data.parent.parentFirstName + ' ' + data.parent.parentLastName
+        text: 'Name: ' + memberName(data.parent)
         style: 'tabbed'
     if data.parent.email != ''
         arr.push
@@ -436,6 +456,7 @@ formatPDF = ->
             text: 'Address: ' + address + '\r\n'
             style: 'tabbed'
 
+    # List of students in household (name, category labels)
     arr.push
         text: 'Student Information'
         style: 'subheader'
@@ -445,6 +466,7 @@ formatPDF = ->
                 text: studentInfo(c, i) + '\r\n'
                 style: 'tabbed'
 
+    # Assistance program information (if available)
     if proposedEligibility == 'Assistance Program Participation'
         arr.push
             text: 'Assistance Program Information'
@@ -453,6 +475,7 @@ formatPDF = ->
             text: 'Case Number: ' + data.program.caseNumber + '\r\n'
             style: 'tabbed'
 
+    # Income information (if available)
     if proposedEligibility == 'Financial Need'
         arr.push
             text: 'Income Information'
@@ -460,16 +483,19 @@ formatPDF = ->
         numAdults = 0
         if data.adults != undefined
             numAdults = data.adults.length
+        # Household size
         householdSize = 1 + data.children.length + numAdults
         arr.push
             text: 'Total Number of Household Members: ' + householdSize
             style: 'normal'
+        # Parent income information
         arr.push
             text: memberName(data.parent, true)
             style: 'tabbed'
         arr.push
             text: incomeInfo(data.parent, false)
             style: 'tabbed2'
+        # Children income information
         for c in data.children
             arr.push
                 text: memberName(c, false)
@@ -477,6 +503,7 @@ formatPDF = ->
             arr.push
                 text: incomeInfo(c, true)
                 style: 'tabbed2'
+        # Adult income information
         if data.adults
             for a in data.adults
                 arr.push
@@ -485,6 +512,7 @@ formatPDF = ->
                 arr.push
                     text: incomeInfo(a, false)
                     style: 'tabbed2'
+        # SSN information (if available)
         if data.earner != null
             arr.push
                 text: 'SSN Information (last 4 digits) \r\n'
@@ -497,6 +525,7 @@ formatPDF = ->
                 text: 'No SSN Information Provided.'
                 style: 'normal'
 
+    # Demographical information (if available)
     if data.identity.races != undefined or data.identity.hispanic != undefined
         arr.push
             text: 'Children\'s Racial and Ethnic Identities'
@@ -518,12 +547,13 @@ formatPDF = ->
                 text: 'Racial Background:' + races
                 style: 'tabbed'
 
+    # Signature section (name and date)
     arr.push
         text: 'Electronic Signature'
         style: 'subheader'
     d = new Date
     arr.push
-        text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString()
+        text: 'Completed and Signed by: ' + memberName(data.parent) + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString()
         style: 'normal'
     arr
 

@@ -403,13 +403,17 @@ formatPDF = function() {
   incomeInfo = function(person, c) {
     var i, personIncome, _i, _len, _ref1;
     personIncome = '';
-    if ((!c && !person.income) || (c && +person.income.amount === 0)) {
+    if ((!c && person.income === []) || (c && +person.income.amount === 0)) {
       personIncome = 'No Income';
     } else {
-      _ref1 = person.income;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        i = _ref1[_i];
-        personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n';
+      if (!c) {
+        _ref1 = person.income;
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          i = _ref1[_i];
+          personIncome += incomeType(i.type) + ': $' + i.amount + ' (' + incomeFrequency(i.frequency) + ') \r\n';
+        }
+      } else {
+        personIncome = '$' + person.income.amount + ' (' + incomeFrequency(person.income.frequency) + ') \r\n';
       }
     }
     return personIncome;
@@ -459,7 +463,9 @@ formatPDF = function() {
     text: 'National School Lunch Program Application',
     style: 'header'
   });
-  proposedEligibility = data.eligibility.type;
+  if (data.eligibility.type !== null) {
+    proposedEligibility = data.eligibility.type;
+  }
   if (data.children[0].income !== void 0) {
     proposedEligibility = 'Financial Need';
   } else if (data.program.participates === true) {
@@ -476,7 +482,7 @@ formatPDF = function() {
     style: 'subheader'
   });
   arr.push({
-    text: 'Name: ' + data.parent.parentFirstName + ' ' + data.parent.parentLastName,
+    text: 'Name: ' + memberName(data.parent),
     style: 'tabbed'
   });
   if (data.parent.email !== '') {
@@ -631,7 +637,7 @@ formatPDF = function() {
   });
   d = new Date;
   arr.push({
-    text: 'Completed and Signed by: ' + data.signature + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString(),
+    text: 'Completed and Signed by: ' + memberName(data.parent) + '\r\n Submission Date: ' + (d.getMonth() + 1).toString() + '/' + d.getDate().toString() + '/' + d.getFullYear().toString(),
     style: 'normal'
   });
   return arr;

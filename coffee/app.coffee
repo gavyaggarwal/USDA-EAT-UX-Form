@@ -54,7 +54,7 @@ schoolHandler = (req, res, next) ->
 # Set up web server that servers static content and a private area for schools
 webServer.use express.static('./public_html/')
 webServer.use bodyParser.urlencoded(extended:true)
-webServer.use '/schools', bodyParser.urlencoded(extended:false), cookieParser(), schoolHandler
+webServer.use '/schools', cookieParser(), schoolHandler
 
 
 
