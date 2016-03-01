@@ -5,7 +5,7 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-** Table of Contents **
+**Table of Contents**
 
 - [Design](#design)
   - [Online Access](#online-access)
@@ -45,6 +45,8 @@
 ### Design
 
 Our design includes a public user-facing interface for parents and guardians to apply for reduced school lunches as well as a password protected school-facing interface for school administrators to view and download the submitted applications.
+
+![Screenshot](public_html/images/screenshot.png)
 
 #### Online Access
 

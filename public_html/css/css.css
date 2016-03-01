@@ -53,3 +53,9 @@ ul.list li {
 .max-height {
     height: 100%;
 }
+
+#logo {
+    width: 45px;
+    height: 45px;
+    vertical-align: middle;
+}
