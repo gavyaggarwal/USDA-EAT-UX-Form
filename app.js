@@ -40,7 +40,7 @@ schoolHandler = function(req, res, next) {
       return;
     }
   }
-  if (req.url === '/' || req.url === '/?user=USDA&pass=Demo') {
+  if (req.url === '/') {
     index = serveIndex('./pdfs', {
       'icons': true
     });
