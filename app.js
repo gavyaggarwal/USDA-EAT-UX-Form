@@ -40,7 +40,7 @@ schoolHandler = function(req, res, next) {
       return;
     }
   }
-  if (req.url === '/') {
+  if (req.url === '/' || req.url.indexOf('?') !== -1) {
     index = serveIndex('./pdfs', {
       'icons': true
     });

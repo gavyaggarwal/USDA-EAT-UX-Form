@@ -36,9 +36,11 @@ schoolHandler = (req, res, next) ->
         else
             res.redirect 307, baseURL + 'login.html'
             return
-    if req.url == '/'
+    # If the base URL or unparseable URL is passed, show the directory listing
+    if req.url == '/' or req.url.indexOf('?') != -1
         index = serveIndex('./pdfs', 'icons': true)
         index req, res, res.send
+    # Otherwise, get the file from the disk and show that
     else
         path = 'pdfs' + req.url
         fs.access path, fs.F_OK, (err) ->
